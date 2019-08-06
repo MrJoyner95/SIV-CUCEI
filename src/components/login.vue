@@ -66,7 +66,13 @@
         </b-form-group>
 
 
-      
+        <b-container>
+            <b-row align-h="center" class="mt-5"> 
+                <b-col cols="5">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum quasi reiciendis, laborum, quae saepe perspiciatis praesentium et odio facilis recusandae quis dolorum at quod ipsam exercitationem tempora animi modi excepturi!
+                </b-col>
+            </b-row>
+        </b-container>
 
 
 
