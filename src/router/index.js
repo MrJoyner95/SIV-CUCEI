@@ -9,10 +9,11 @@ Vue.use(VueRouter)
 
 export default new VueRouter({
     routes: [
+        {path: '/home/:usuario', name: 'homeRoute', component: home},
         {
             path: '/',
-            name: 'Home',
-            component: home
+            name: 'Login',
+            component: login
         },
         {
             path: '/login',

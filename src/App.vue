@@ -3,9 +3,10 @@
     
     <!-- Navbar -->
     <div>
-      <b-navbar type="dark" variant="dark">
+      <!-- <b-navbar type="dark" variant="dark"> -->
+      <b-navbar type="dark" class="nav-background">
 
-          <b-navbar-brand href="#">SIV CUCEI</b-navbar-brand>
+          <b-navbar-brand href="#/login">SIV CUCEI</b-navbar-brand>
           
           <!-- Elementos alineados a la izquierda -->
           <b-navbar-nav>
@@ -29,15 +30,13 @@
       <!-- use router-link component for navigation. -->
       <!-- specify the link by passing the `to` prop. -->
       <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
-      <router-link to="/login">Login</router-link>
-      <router-link to="/home">Home</router-link>
+      <!-- <router-link to="/login">Login</router-link>
+      <router-link to="/home">Home</router-link> -->
     </p>
     <!-- route outlet -->
 
     <!-- component matched by the route will render here -->
-    <router-view>
-      <div></div>
-    </router-view>
+    <router-view></router-view>
 
 
 
@@ -56,12 +55,19 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
+  .nav-background{
+    background: #20603C;
+  }
+
+  /* 
+   * Fuente:
+  */
+  @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
+
+  body{
+    /* background: #F8FAF0; */
+    font-family: 'Lato', sans-serif;
+  }
+
 </style>
