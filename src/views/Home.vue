@@ -4,22 +4,49 @@
     <!-- Barra de navegacion -->
     <NavBar/>
 
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- Home por usuario -->
+    <div v-if= "tipoUsuario === 'profesor' || tipoUsuario === 'profesor2'" >
+      <Profesor/>
+    </div>
+    <div v-else-if= "tipoUsuario === 'rectora'">
+      <Rectora/>
+    </div>
+    <div v-else>
+      <Null/>
+    </div>
     
   </div>
 </template>
 
+
+
+
+
 <script>
+// Propiedades:
+import { mapState } from 'vuex'
+
+// Vistas:
+import Profesor from '@/views/Profesor.vue'
+import Rectora from '@/views/Rectora.vue'
+
 // Componentes:
-import HelloWorld from '@/components/HelloWorld.vue'
 import NavBar from '@/components/NavBar.vue'
+import Null from '@/components/Null.vue'
 
 export default {
   name: 'home',
+  computed: {
+    ...mapState([
+      'tipoUsuario'
+    ]),
+    // otras propiedades
+  },
   components: {
-    HelloWorld,
-    NavBar
+    NavBar,
+    Null,
+    Profesor,
+    Rectora
   }
 }
 </script>

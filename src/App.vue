@@ -18,17 +18,12 @@ export default {
 
 
 <style>
-.nav-background{
-  background: #20603C;
-}
-
 /* 
   * Fuente:
 */
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 
 body{
-  /* background: #F8FAF0; */
   font-family: 'Lato', sans-serif;
 }
 </style>

@@ -6,7 +6,10 @@
       <!-- <b-navbar type="dark" variant="dark"> -->
       <b-navbar type="dark" class="nav-background">
 
-          <b-navbar-brand href="#/login">SIV CUCEI</b-navbar-brand>
+          <b-navbar-brand href="#/login">
+          <img src="@/assets/icons/siv-logo.png" alt="SIV CUCEI" height="30" width="30">
+          SIV CUCEI
+          </b-navbar-brand>
           
           <!-- Elementos alineados a la izquierda -->
           <b-navbar-nav>

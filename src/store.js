@@ -6,7 +6,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     tipoUsuario: 'null',
-    correo: 'null'
+    correo: 'null',
+    // Profesor:
+    
   },
   // Se usa para funciones con los atributos:
   getters:{
