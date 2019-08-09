@@ -8,18 +8,18 @@ export default new Vuex.Store({
     tipoUsuario: 'null',
     correo: 'null',
     // Profesor:
-    
+
   },
   // Se usa para funciones con los atributos:
-  getters:{
+  getters: {
 
   },
   // Se usa para modificar atributos del state:
   mutations: {
-    cambiarTipoUsuario(state, payload){
+    cambiarTipoUsuario(state, payload) {
       state.tipoUsuario = payload.tipoUsuario;
     },
-    actualizarCorreo(state, payload){
+    actualizarCorreo(state, payload) {
       state.correo = payload.correo;
     }
   },
