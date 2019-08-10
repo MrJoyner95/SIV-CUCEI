@@ -4,19 +4,17 @@
     <!-- Barra de navegacion -->
     <!-- <NavBar/> -->
 
-    <router-view></router-view>
+    <!-- <router-view></router-view> -->
 
-    <!-- Home por usuario -->
+    <!-- Homes de usuarios -->
     <div v-if= "tipoUsuario === 'profesor' || tipoUsuario === 'profesor2'" >
-      <Profesor/>
+      <HomeProfesor/>
     </div>
     <div v-else-if= "tipoUsuario === 'rectora'">
-      <Rectora/>
+      <HomeRectora/>
     </div>
     <div v-else>
-      <!-- Si no es un usuario valido, manda a la vista de login -->
       <Login/>
-      <!-- <Null/> -->
     </div>
     
   </div>
@@ -32,8 +30,8 @@ import { mapState } from 'vuex'
 
 // Vistas:
 import Login from '@/views/Login.vue'
-import Profesor from '@/views/Profesor.vue'
-import Rectora from '@/views/Rectora.vue'
+import HomeProfesor from '@/views/HomeProfesor.vue'
+import HomeRectora from '@/views/HomeRectora.vue'
 
 // Componentes:
 import NavBar from '@/components/NavBar.vue'
@@ -51,8 +49,8 @@ export default {
     NavBar,
     Login,
     Null,
-    Profesor,
-    Rectora
+    HomeProfesor,
+    HomeRectora
   }
 }
 </script>

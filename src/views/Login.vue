@@ -2,7 +2,7 @@
   <div>
 
     <!-- Barra de navegacion -->
-    <NavBar/>
+    <!-- <NavBar/> -->
 
     <!-- Card de Login -->
     <b-container>

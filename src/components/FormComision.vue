@@ -6,12 +6,12 @@
 
       <b-row class="mt-4">
         <b-col>
-          <h6 align="right"> Folio de comisión: {{ comision.folio }} </h6>
+          <h6 align="right"> Folio de comisión: {{ comision_prop.folio }} </h6>
         </b-col>
       </b-row>
-      <b-row align-h="end" class="mt-3">
-        <b-col cols="3">
-          <b-form-input id="fecha-input" :placeholder="comision.fecha" style="text-align:center;" :readonly="deshabilitado"></b-form-input>
+      <b-row align-h="end" class="mt-2">
+        <b-col>
+          <h6 align="right"> Fecha: {{ comision_prop.fecha }} </h6>
         </b-col>
       </b-row>
 
@@ -29,8 +29,9 @@
           >
             <b-form-input 
               id="codigoTrabajador-input" 
-              :placeholder="comision.codigoTrabajador" 
-              :readonly="deshabilitado"
+              v-model="comision.codigoTrabajador"
+              :placeholder="comision_prop.codigoTrabajador" 
+              :disabled="deshabilitado"
             >
             </b-form-input>
           </b-form-group>
@@ -46,8 +47,9 @@
           >
             <b-form-input 
               id="nombreSolicitante-input" 
-              :placeholder="comision.nombreSolicitante" 
-              :readonly="deshabilitado"
+              v-model="comision.nombreSolicitante"
+              :placeholder="comision_prop.nombreSolicitante" 
+              :disabled="deshabilitado"
             >
             </b-form-input>
           </b-form-group>
@@ -68,8 +70,9 @@
           >
             <b-form-input 
               id="areaAdscripcion-input" 
-              :placeholder="comision.areaAdscripcion" 
-              :readonly="deshabilitado"
+              v-model="comision.areaAdscripcion"
+              :placeholder="comision_prop.areaAdscripcion" 
+              :disabled="deshabilitado"
             >
             </b-form-input>
           </b-form-group>
@@ -84,7 +87,14 @@
             label-for="tipoComision-input"
           >
             <b-form-select v-model="comision.tipoComision" :options="tipoComision.opciones" :disabled="deshabilitado"></b-form-select>
-            <div class="mt-3">Selección: <strong>{{ comision.tipoComision }}</strong></div>
+
+            <div v-if="deshabilitado === true">
+              <div class="mt-2">Selección: <strong>{{ comision_prop.tipoComision }}</strong></div>
+            </div>
+            <div v-else>
+              <div class="mt-2">Selección: <strong>{{ comision.tipoComision }}</strong></div>
+            </div>
+
           </b-form-group>
         </b-col>
       </b-row>
@@ -111,7 +121,14 @@
                 <option value="china">China</option>
               </optgroup>
             </b-form-select>
-            <div class="mt-2">Selección: <strong>{{ comision.destinoComision }}</strong></div>
+
+            <div v-if="deshabilitado === true">
+              <div class="mt-2">Selección: <strong>{{ comision_prop.destinoComision }}</strong></div>
+            </div>
+            <div v-else>
+              <div class="mt-2">Selección: <strong>{{ comision.destinoComision }}</strong></div>
+            </div>
+
           </b-form-group>
         </b-col>
       </b-row>
@@ -124,7 +141,14 @@
             label-for="plazaLaboral-input"
           >
             <b-form-select v-model="comision.plazaLaboral" :options="tipoComision.opciones" :disabled="deshabilitado"></b-form-select>
-            <div class="mt-3">Selección: <strong>{{ comision.plazaLaboral }}</strong></div>
+            
+            <div v-if="deshabilitado === true">
+              <div class="mt-2">Selección: <strong>{{ comision_prop.plazaLaboral }}</strong></div>
+            </div>
+            <div v-else>
+              <div class="mt-2">Selección: <strong>{{ comision.plazaLaboral }}</strong></div>
+            </div>
+            
           </b-form-group>
         </b-col>
       </b-row>
@@ -138,8 +162,8 @@
           >
             <b-form-textarea
               id="justificacion-input"
-              :v-model="comision.justificacion"
-              :placeholder="comision.justificacion || 'Justificación de la comisión...'"
+              v-model="comision.justificacion"
+              :placeholder="comision_prop.justificacion || 'Justificación de la comisión...'"
               :disabled="deshabilitado"
               rows="4"
               max-rows="8"
@@ -162,8 +186,9 @@
           >
             <b-form-input 
               id="programaTrabajo-input" 
-              :placeholder="comision.programaTrabajo" 
-              :readonly="deshabilitado"
+              v-model="comision.programaTrabajo"
+              :placeholder="comision_prop.programaTrabajo" 
+              :disabled="deshabilitado"
             >
             </b-form-input>
           </b-form-group>
@@ -179,8 +204,9 @@
           >
             <b-form-input 
               id="objetivoTrabajo-input" 
-              :placeholder="comision.objetivoTrabajo" 
-              :readonly="deshabilitado"
+              v-model="comision.objetivoTrabajo"
+              :placeholder="comision_prop.objetivoTrabajo" 
+              :disabled="deshabilitado"
             >
             </b-form-input>
           </b-form-group>
@@ -196,8 +222,9 @@
           >
             <b-form-input 
               id="eventoComision-input" 
-              :placeholder="comision.eventoComision" 
-              :readonly="deshabilitado"
+              v-model="comision.eventoComision"
+              :placeholder="comision_prop.eventoComision" 
+              :disabled="deshabilitado"
             >
             </b-form-input>
           </b-form-group>
@@ -297,27 +324,34 @@ export default {
   props: {
     titulo: "",
     deshabilitado: false,
-    // comision: {
-    //   folio: "",
-    //   fecha: "",
-    //   codigoTrabajador: "",
-    //   nombreSolicitante: "",
-    //   areaAdscripcion: "",
-    //   tipoComision: "",
-    //   destinoComision: "",
-    //   plazaLaboral: "",
-    //   justificacion: "",
-    //   programaTrabajo: "",
-    //   objetivoTrabajo: "",
-    //   eventoComision: "",
-    //   programaComision: [
-    //     {
-    //       dia: "",
-    //       lugar: "",
-    //       tareas: ""
-    //     }
-    //   ]
-    // }
+    comision_prop: {
+      type: Object,
+      // Por ser un objeto, se debe regresar con una funcion:
+      default: function() {
+        return {
+          folio: "001302",
+          fecha: new Date().toLocaleDateString(),
+          codigoTrabajador: "",
+          nombreSolicitante: "",
+          areaAdscripcion: "",
+          tipoComision: "",
+          destinoComision: "",
+          plazaLaboral: "",
+          justificacion: "",
+          programaTrabajo: "",
+          objetivoTrabajo: "",
+          eventoComision: "",
+          programaComision: [
+            {
+              dia: "",
+              lugar: "",
+              tareas: ""
+            }
+          ]
+        }
+      }
+    }
+
   },
 
   data() {
