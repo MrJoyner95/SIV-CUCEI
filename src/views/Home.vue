@@ -7,7 +7,7 @@
     <!-- <router-view></router-view> -->
 
     <!-- Homes de usuarios -->
-    <div v-if= "tipoUsuario === 'profesor' || tipoUsuario === 'profesor2'" >
+    <div v-if= "tipoUsuario === 'profesor' || tipoUsuario === 'profesor2' || tipoUsuario === 'profesor3'" >
       <HomeProfesor/>
     </div>
     <div v-else-if= "tipoUsuario === 'rectora'">
