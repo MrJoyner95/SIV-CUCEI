@@ -1,39 +1,72 @@
 <template>
-  <div id="homeRectora">
+  <div id="homeJefeDep">
     <b-container>
 
-        <b-row align-h="center" class="mt-5">
+
+
+      <!-- Vista general -->
+      <b-row align-h="center" class="mt-5">
         <b-col cols="10">
           <b-card>
             
-            <h3 align="center" class="titleColor">Vista General</h3>
+            <!-- <h3 align="center" class="titleColor">Jefe de departamento</h3> -->
 
             <b-row>
 
               <b-col lg="12">
-                <hr>
-                <h4 class="mt-3 titleColor">Comisiones pendientes de aprobación</h4>
-                <b-card-text>Las siguientes solicitudes requieren de su aprobación para que el solicitante pueda continuar con el proceso. 
+                <!-- <hr> -->
+                <h4 class="titleColor">Comisiones pendientes de autorización</h4>
+                <b-card-text class="mb-2">Las siguientes solicitudes requieren de su autorización. Una vez autorizada, la solicitud se enviará a la rectora para continuar con el proceso del solicitante. 
                 <br><br>Consulte y apruebe las solicitudes a continuación:
-                <b-list-group>
+                </b-card-text>
+                <!-- <b-list-group>
                   <b-list-group-item href="#" @click="mostrarSolicitudPorAprobar()">Comisión 000698 (Alemania) <span class="titleColor"> <strong><i>Recibida el: 04/08/2019</i></strong> </span> </b-list-group-item>
                   <b-list-group-item href="#" @click="mostrarSolicitudPorAprobar()">Comisión 000662 (Rusia) <span class="titleColor"> <strong><i>Recibida el: 06/08/2019</i></strong> </span></b-list-group-item>
                   <b-list-group-item href="#" @click="mostrarSolicitudPorAprobar()">Comisión 000614 (Polonia) <span class="titleColor"> <strong><i>Recibida el: 10/08/2019</i></strong> </span></b-list-group-item>
                 </b-list-group>
-                <br>
-                </b-card-text>
+                <br> -->
 
-                <hr>
-                <h4 class="mt-5 titleColor">Comisiones en espera de autorización</h4>
-                <b-card-text>En esta sección se muestran las solicitudes que aún no han sido autorizadas por el jefe inmediato del solicitante. Usted no puede autorizar las solicitudes todavía, no obstante puede consultar sus detalles.
-                <br><br>Consulte los detalles de las solicitudes a continuación:
+
+
                 <b-list-group>
-                  <b-list-group-item href="#" @click="mostrarSolicitud()">Comisión 000736 (Chile) <b-badge variant="danger">14 días en espera</b-badge> </b-list-group-item>
-                  <b-list-group-item href="#" @click="mostrarSolicitud()">Comisión 000744 (España) <b-badge variant="warning">7 días en espera</b-badge> </b-list-group-item>
-                  <b-list-group-item href="#" @click="mostrarSolicitud()">Comisión 000782 (Italia) <b-badge variant="primary">2 días en espera</b-badge> </b-list-group-item>
-                </b-list-group>
-                </b-card-text>
+                  <b-list-group-item href="#" @click="mostrarSolicitudPorAprobar()" class="flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-2 titleColor">Comisión 000614</h5>
+                      <small>Hace 8 día(s)</small>
+                    </div>
+                    <p class="mb-0">
+                      Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                    </p>
+                    <small class="titleColor">Destino: <strong>Polonia</strong></small>
+                  </b-list-group-item>
 
+                  <b-list-group-item href="#" @click="mostrarSolicitudPorAprobar()" class="flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-2 titleColor">Comisión 000662</h5>
+                      <small>Hace 3 día(s)</small>
+                    </div>
+                    <p class="mb-0">
+                      Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                    </p>
+                    <small class="titleColor">Destino: <strong>Alemania</strong></small>
+                  </b-list-group-item>
+
+                  <b-list-group-item href="#" @click="mostrarSolicitudPorAprobar()" class="flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mb-2 titleColor">Comisión 000698</h5>
+                      <small>Ayer</small>
+                    </div>
+                    <p class="mb-0">
+                      Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                    </p>
+                    <small class="titleColor">Destino: <strong>Rusia</strong></small>
+                  </b-list-group-item>
+                  
+                </b-list-group>
+
+
+
+                
               </b-col>
             </b-row>
 
@@ -62,16 +95,16 @@
             <b-button 
               block 
               variant="primary" 
-              v-b-tooltip.hover title="Permitir al solicitante continuar con el proceso"
+              v-b-tooltip.hover title="Autorizar y enviar solicitud a la rectora."
             >
-              Aprobar solicitud
+              Autorizar solicitud
             </b-button>
           </b-col>
           <b-col cols="5">
             <b-button 
               block 
               variant="danger"
-              v-b-tooltip.hover title="Denegar la comisión del solicitante"
+              v-b-tooltip.hover title="Denegar la comisión solicitada."
               v-on:click="solicitudRechazada = !solicitudRechazada"
             >
               Rechazar solicitud
@@ -169,7 +202,7 @@
 import FormComision from "@/components/FormComision.vue";
 
 export default {
-name: "homeRectora",
+name: "homeJefe",
   computed: {
   },
   components: {

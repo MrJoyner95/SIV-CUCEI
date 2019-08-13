@@ -54,7 +54,7 @@
 
       <b-row class="mt-2">
         <b-col cols="7">
-          <p align="left">Dependencia</p>
+          <p align="left">Dependencia:</p>
           <b-form-input 
             id="dependencia-input" 
             placeholder="dependencia..." 
@@ -83,7 +83,7 @@
         <div v-if="esInvitado === true">
           <b-row class="mt-1">
             <b-col cols="7">
-              <p align="left">Nombre del invitado</p>
+              <p align="left">Nombre del invitado:</p>
               <b-form-input 
                 id="dependencia-input" 
                 placeholder="nombre..." 
@@ -131,32 +131,30 @@
       <hr>
 
       <b-row no-gutters class="mt-2">
-        <b-col cols="5">
-          <p align="center">No. de proyectos</p>
-          <b-form-input 
-            id="dependencia-input" 
-            placeholder="no. de proyectos..." 
-          >
-          </b-form-input>
-        </b-col>
-        
-        <b-col cols="7">
-          <p align="center">Nombre del invitado</p>
-          <b-form-input 
-            id="dependencia-input" 
-            placeholder="nombre del invitado..." 
-          >
-          </b-form-input>
+        <b-col cols="12">
+          <p align="left">Proyectos:</p>
+          <b-card>
+            <h1>Tabla modificable de gastos</h1>
+          </b-card>
         </b-col>
       </b-row>
 
+      <p align="left">Comentarios:</p>
+      <b-form-textarea
+        id="comentarios-input"
+        :placeholder="'comentarios...'"
+        rows="3"
+        max-rows="8"
+      ></b-form-textarea>
+
+
       
       
       
 
 
 
-      <h5 class="mt-5"> Datos del proyecto </h5>
+      <!-- <h5 class="mt-5"> Datos del proyecto </h5>
       <hr>
 
       <b-row no-gutters class="mt-2">
@@ -177,7 +175,7 @@
           >
           </b-form-input>
         </b-col>
-      </b-row>
+      </b-row> -->
 
 
 
@@ -216,39 +214,27 @@
 
 
 
-      <template v-if="deshabilitado === false">
+      <template v-if="1 == 1">
 
         <hr class="mt-5">
 
         <b-row class="mt-4" align-h="center">
-          <b-col cols="3">
+          <b-col cols="6">
             <b-button 
               block 
               variant="primary" 
-              v-b-tooltip.hover title="Una vez enviada, no podrá editarse."
+              v-b-tooltip.hover title="Guarda el estado actual de la solicitud. Puede editarse después"
             >
-              Enviar solicitud
+              Guardar estado actual
             </b-button>
           </b-col>
-          <b-col cols="3">
-            <b-button 
-              block 
-              variant="secondary"
-              v-b-tooltip.hover title="Se guarda la solicitud sin enviarla. Puede terminarla después."
-            >
-              Guardar solicitud
-            </b-button>
-          </b-col>
-          <b-col cols="3">
-            <!-- Espacio en blanco -->
-          </b-col>
-          <b-col cols="3">
+          <b-col cols="6">
             <b-button 
               block 
               variant="danger"
-              v-b-tooltip.hover title="Elimina la solicitud por completo."
+              v-b-tooltip.hover title="Reinicia los valores de la solicitud"
             >
-              Cancelar solicitud
+              Reiniciar solicitud
             </b-button>
           </b-col>
         </b-row>

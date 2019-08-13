@@ -1,41 +1,20 @@
 <template>
-  <div class="homeProfesor">
+  <div class="viaticos">
 
     <b-container>
-      <!-- Barra de navegacion -->
-      <!-- <NavBar /> -->
+      
+      
 
       <!-- Vista general -->
-      <!-- <b-row align-h="center" class="mt-5">
-        <b-col cols="8">
-          <b-card>
-            <h4 class="mb-3 titleColor">Comisiones</h4>
-            <template v-if="tipoUsuario === 'profesor'">
-              <b-card-text>Usted cuenta con una comisión abierta, puede consultar los detalles de la misma a continuación:</b-card-text>
-              <a
-                href="#"
-                v-on:click="mostrarFormComisionAbierta = true"
-                class="card-link"
-              >Comisión {{ comisionPrueba.folio }} </a>
-            </template>
-            <template v-else>
-              <b-card-text>Actualmente usted no cuenta con una comisión. Puede abrir una comisión haciendo clic en el botón a continuación:</b-card-text>
-
-              <b-button v-on:click="mostrarFormComision = true" variant="light">Crear comisión</b-button>
-            </template>
-          </b-card>
-        </b-col>
-      </b-row> -->
-      
       <b-row align-h="center" class="mt-5">
         <b-col cols="10">
           <b-card>
             <b-row>
 
               <b-col md="7">
-                <h4 class="mb-3 titleColor">Comisiones</h4>
+                <h4 class="mb-3 titleColor">Viáticos</h4>
 
-                <template v-if="tipoUsuario === 'profesor'">
+                <template v-if="tipoUsuario === 'jefe'">
                   <b-card-text>Usted cuenta con una comisión abierta, por lo que no podrá solicitar una nueva comisón hasta que la finalice.
                     <br><br>Puede consultar los detalles de la misma a continuación:
                   </b-card-text>
@@ -48,33 +27,18 @@
                   </a>
                 </template>
 
-                <template v-else-if="tipoUsuario === 'profesor2'">
-                  <b-card-text>Actualmente usted no cuenta con una comisión. Puede abrir una comisión haciendo clic en el botón a continuación:</b-card-text>
-
-                  <b-button v-on:click="mostrarFormComision = true; formComisionVisible = true" variant="outline-primary">Crear comisión</b-button>
-                </template>
-
                 <template v-else>
-                  <b-card-text>Su solicitud de comisión ha sido autorizada. Continúe con la solicitud de viáticos haciendo clic en el botón inferior.
-                    <br><br>Puede consultar los detalles de la misma a continuación:
-                  </b-card-text>
-                  <a
-                    href="#"
-                    v-on:click="mostrarFormComisionAbierta = true; formComisionVisible = true"
-                    class="card-link"
-                  >Comisión {{ comisionPrueba.folio }} 
-                    <b-badge variant="success">Autorizada</b-badge>
-                  </a>
+                  <b-card-text>Actualmente usted no cuenta con una comisión. Puede abrir una comisión haciendo clic en el botón a continuación:</b-card-text>
+                  <b-button v-on:click="mostrarFormComision = true; formComisionVisible = true" variant="outline-primary">Crear comisión</b-button>
                 </template>
 
               </b-col>
 
               <b-col md="5">
-                <h5 align="left"> Historial de comisiones: </h5>
+                <h5 align="left" class="titleColor"> Historial de comisiones: </h5>
                 <b-list-group>
-                  <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true" >Comisión 000698 (Alemania)</b-list-group-item>
-                  <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000662 (Rusia)</b-list-group-item>
-                  <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000614 (Polonia)</b-list-group-item>
+                  <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000831 (Italia)</b-list-group-item>
+                  <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000795 (España)</b-list-group-item>
                 </b-list-group>
               </b-col>
 

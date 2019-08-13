@@ -13,6 +13,9 @@
     <div v-else-if= "tipoUsuario === 'rectora'">
       <HomeRectora/>
     </div>
+    <div v-else-if= "tipoUsuario === 'jefe'">
+      <HomeJefeDep/>
+    </div>
     <div v-else>
       <Login/>
     </div>
@@ -32,6 +35,7 @@ import { mapState } from 'vuex'
 import Login from '@/views/Login.vue'
 import HomeProfesor from '@/views/HomeProfesor.vue'
 import HomeRectora from '@/views/HomeRectora.vue'
+import HomeJefeDep from '@/views/HomeJefeDep.vue'
 
 // Componentes:
 import NavBar from '@/components/NavBar.vue'
@@ -50,7 +54,8 @@ export default {
     Login,
     Null,
     HomeProfesor,
-    HomeRectora
+    HomeRectora,
+    HomeJefeDep
   }
 }
 </script>
