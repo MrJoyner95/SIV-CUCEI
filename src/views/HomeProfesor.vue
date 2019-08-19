@@ -1,170 +1,142 @@
 <template>
-  <div class="homeProfesor">
+  <div>
+    <div class="div_fondo_udg">
 
-    <b-container>
-      <!-- Barra de navegacion -->
-      <!-- <NavBar /> -->
-
-      <!-- Vista general -->
-      <!-- <b-row align-h="center" class="mt-5">
-        <b-col cols="8">
-          <b-card>
-            <h4 class="mb-3 titleColor">Comisiones</h4>
-            <template v-if="tipoUsuario === 'profesor'">
-              <b-card-text>Usted cuenta con una comisión abierta, puede consultar los detalles de la misma a continuación:</b-card-text>
-              <a
-                href="#"
-                v-on:click="mostrarFormComisionAbierta = true"
-                class="card-link"
-              >Comisión {{ comisionPrueba.folio }} </a>
-            </template>
-            <template v-else>
-              <b-card-text>Actualmente usted no cuenta con una comisión. Puede abrir una comisión haciendo clic en el botón a continuación:</b-card-text>
-
-              <b-button v-on:click="mostrarFormComision = true" variant="light">Crear comisión</b-button>
-            </template>
-          </b-card>
-        </b-col>
-      </b-row> -->
-      
-      <b-row align-h="center" class="mt-5">
-        <b-col cols="10">
-          <b-card>
-            <b-row>
-
-              <b-col md="7">
-                <h4 class="mb-3 titleColor">Comisiones</h4>
-
-                <template v-if="tipoUsuario === 'profesor'">
-                  <b-card-text>Usted cuenta con una comisión abierta, por lo que no podrá solicitar una nueva comisón hasta que la finalice.
-                    <br><br>Puede consultar los detalles de la misma a continuación:
-                  </b-card-text>
-                  <a
-                    href="#"
-                    v-on:click="mostrarFormComisionAbierta = true; formComisionVisible = true"
-                    class="card-link"
-                  >Comisión {{ comisionPrueba.folio }} 
-                    <b-badge variant="primary">Pendiente</b-badge>
-                  </a>
-                </template>
-
-                <template v-else-if="tipoUsuario === 'profesor2'">
-                  <b-card-text>Actualmente usted no cuenta con una comisión. Puede abrir una comisión haciendo clic en el botón a continuación:</b-card-text>
-
-                  <b-button v-on:click="mostrarFormComision = true; formComisionVisible = true" variant="outline-primary">Crear comisión</b-button>
-                </template>
-
-                <template v-else>
-                  <b-card-text>Su solicitud de comisión ha sido autorizada. Continúe con la solicitud de viáticos haciendo clic en el botón inferior.
-                    <br><br>Puede consultar los detalles de la misma a continuación:
-                  </b-card-text>
-                  <a
-                    href="#"
-                    v-on:click="mostrarFormComisionAbierta = true; formComisionVisible = true"
-                    class="card-link"
-                  >Comisión {{ comisionPrueba.folio }} 
-                    <b-badge variant="success">Autorizada</b-badge>
-                  </a>
-                </template>
-
-              </b-col>
-
-              <b-col md="5">
-                <h5 align="left"> Historial de comisiones: </h5>
-                <b-list-group>
-                  <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true" >Comisión 000698 (Alemania)</b-list-group-item>
-                  <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000662 (Rusia)</b-list-group-item>
-                  <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000614 (Polonia)</b-list-group-item>
-                </b-list-group>
-              </b-col>
-
-            </b-row>
-          </b-card>
-        </b-col>
-      </b-row>
-        
-
-
-      <!-- Form comision vacia -->
-      <transition enter-active-class="animated desliceInferior" leave-active-class="animated fade-out-top">
-        <div v-if="mostrarFormComision == true">
-          <b-row align-h="center" class="mt-5">
-            <b-col cols="10">
-              <FormComision titulo="Crear comision" :deshabilitado="false" />
-            </b-col>
-          </b-row>
-        </div>
-      </transition>
-
-      <!-- Form comision abierta -->
-      <transition enter-active-class="animation fade-in-top" leave-active-class="animated fade-out-top">
-        <div v-if="mostrarFormComisionAbierta == true">
-          <b-row align-h="center" class="mt-5">
-            <b-col cols="10">
-              <FormComision titulo="Detalles de la comisión" :deshabilitado="true" :comision_prop="comisionPrueba" />
-            </b-col>
-          </b-row>
-        </div>
-      </transition>
-
-
-
-      <!-- Boton esconder comision -->
-      <template v-if="formComisionVisible === true">
-        <br>
-        <b-row class="mt-2" align-h="center">
-          <b-col cols="4">
-            <b-button 
-              block 
-              variant="secondary" 
-              v-on:click="mostrarFormComision = false; mostrarFormComisionAbierta = false; formComisionVisible = false"
-            >
-              Esconder formulario
-            </b-button>
-          </b-col>
-        </b-row>
-      </template>
-
-
-
-      <!-- Comision autorizada (continuar a viaticos) -->
-      <template v-if="tipoUsuario === 'profesor3' && formViaticosVisible === false">
-
-        <hr class="mt-5">
-
-        <b-row class="mt-4" align-h="center">
-          <b-col cols="4">
-            <b-button 
-              block 
-              variant="outline-primary" 
-              v-on:click="formViaticosVisible = true"
-            >
-              Comenzar la solicitud de viáticos
-            </b-button>
-          </b-col>
-        </b-row>
-
-      </template>
-
-
-
-      <!-- Form para viaticos -->
-      <template v-if="formViaticosVisible === true">
-        <hr class="mt-4">
+      <!-- Vista General -->
+      <b-container>
         <b-row align-h="center" class="mt-5">
           <b-col cols="10">
-            <FormViaticos/>
+            <b-card>
+              <b-row>
+
+                <b-col md="7">
+                  <h4 class="mb-3 titulo">Comisiones</h4>
+
+                  <template v-if="tipoUsuario === 'profesor'">
+                    <b-card-text>Usted cuenta con una comisión abierta, por lo que no podrá solicitar una nueva comisón hasta que la finalice.
+                      <br><br>Puede consultar los detalles de la misma a continuación:
+                    </b-card-text>
+                    <a
+                      href="#"
+                      v-on:click="mostrarFormComisionAbierta = true; formComisionVisible = true"
+                      class="card-link"
+                    >Comisión {{ comisionPrueba.folio }} 
+                      <b-badge variant="primary">Pendiente</b-badge>
+                    </a>
+                  </template>
+
+                  <template v-else-if="tipoUsuario === 'profesor2'">
+                    <b-card-text>Actualmente usted no cuenta con una comisión. Puede abrir una comisión haciendo clic en el botón a continuación:</b-card-text>
+
+                    <b-button v-on:click="mostrarFormComision = true; formComisionVisible = true" variant="outline-primary">Crear comisión</b-button>
+                  </template>
+
+                  <template v-else>
+                    <b-card-text>Su solicitud de comisión ha sido autorizada. Continúe con la solicitud de viáticos haciendo clic en el botón inferior.
+                      <br><br>Puede consultar los detalles de la misma a continuación:
+                    </b-card-text>
+                    <a
+                      href="#"
+                      v-on:click="mostrarFormComisionAbierta = true; formComisionVisible = true"
+                      class="card-link"
+                    >Comisión {{ comisionPrueba.folio }} 
+                      <b-badge variant="success">Autorizada</b-badge>
+                    </a>
+                  </template>
+
+                </b-col>
+
+                <b-col md="5">
+                  <h5 class="titulo" align="left"> Historial de comisiones: </h5>
+                  <b-list-group>
+                    <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true" >Comisión 000698 (Alemania)</b-list-group-item>
+                    <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000662 (Rusia)</b-list-group-item>
+                    <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000614 (Polonia)</b-list-group-item>
+                  </b-list-group>
+                </b-col>
+
+              </b-row>
+            </b-card>
           </b-col>
         </b-row>
-      </template>
 
 
 
-      <br>
-      <br>
+        <!-- Form comision vacia -->
+        <transition enter-active-class="animated desliceInferior" leave-active-class="animated fade-out-top">
+          <div v-if="mostrarFormComision == true">
+            <b-row align-h="center" class="mt-5">
+              <b-col cols="10">
+                <FormComision titulo="Crear comision" :deshabilitado="false" />
+              </b-col>
+            </b-row>
+          </div>
+        </transition>
 
-    </b-container>
-    
+        <!-- Form comision abierta -->
+        <transition enter-active-class="animation fade-in-top" leave-active-class="animated fade-out-top">
+          <div v-if="mostrarFormComisionAbierta == true">
+            <b-row align-h="center" class="mt-5">
+              <b-col cols="10">
+                <FormComision titulo="Detalles de la comisión" :deshabilitado="true" :comision_prop="comisionPrueba" />
+              </b-col>
+            </b-row>
+          </div>
+        </transition>
+
+
+
+        <!-- Boton esconder comision -->
+        <template v-if="formComisionVisible === true">
+          <br>
+          <b-row class="mt-2" align-h="center">
+            <b-col cols="4">
+              <b-button 
+                block 
+                variant="secondary" 
+                v-on:click="mostrarFormComision = false; mostrarFormComisionAbierta = false; formComisionVisible = false"
+              >
+                Esconder formulario
+              </b-button>
+            </b-col>
+          </b-row>
+        </template>
+
+
+
+        <!-- Comision autorizada (continuar a viaticos) -->
+        <template v-if="tipoUsuario === 'profesor3' && formViaticosVisible === false">
+
+          <hr class="mt-5">
+
+          <b-row class="mt-4" align-h="center">
+            <b-col cols="4">
+              <b-button 
+                block 
+                variant="primary" 
+                v-on:click="formViaticosVisible = true"
+              >
+                Comenzar la solicitud de viáticos
+              </b-button>
+            </b-col>
+          </b-row>
+
+        </template>
+
+
+
+        <!-- Form para viaticos -->
+        <template v-if="formViaticosVisible === true">
+          <hr class="mt-4">
+          <b-row align-h="center" class="mt-5">
+            <b-col cols="10">
+              <FormViaticos/>
+            </b-col>
+          </b-row>
+        </template>
+      </b-container>
+
+    </div>
   </div>
 </template>
 
@@ -246,143 +218,6 @@ export default {
 
 
 <style>
-.titleColor {
-  color: #20603c;
-}
-
-
-
-
-/*
-  ++++++++++++++++++++++++++++++++++++++++ Animaciones ++++++++++++++++++++++++++++++++++++++++
-*/
-
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.desliceInferior{
-  animation: desliceInferior 0.8s forwards 0s ease;
-}
-
-@keyframes desliceInferior{
-  0%{
-      transform: rotate(0) scale(1) translateY(10%);
-      opacity: 0;
-      }
-  100%{
-      transform: rotate(0) scale(1) translateY(0);
-      opacity: 1;
-      }
-}
-
-
-
-
-
-.fade-in-top {
-	animation: fade-in-top 0.6s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
-}
-
-/* ----------------------------------------------
- * Generated by Animista on 2019-8-9 23:14:22
- * w: http://animista.net, t: @cssanimista
- * ---------------------------------------------- */
-
-/**
- * ----------------------------------------
- * animation fade-in-top
- * ----------------------------------------
- */
-@keyframes fade-in-top {
-  0% {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-
-
-.fade-out-top {
-	animation: fade-out-top 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-}
-
-/* ----------------------------------------------
- * Generated by Animista on 2019-8-10 3:34:20
- * w: http://animista.net, t: @cssanimista
- * ---------------------------------------------- */
-
-/**
- * ----------------------------------------
- * animation fade-out-top
- * ----------------------------------------
- */
-@keyframes fade-out-top {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-}
-
-
-
-
-
-.fade-out-bck {
-	animation: fade-out-bck 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
-}
-
-/* ----------------------------------------------
- * Generated by Animista on 2019-8-10 2:0:1
- * w: http://animista.net, t: @cssanimista
- * ---------------------------------------------- */
-
-/**
- * ----------------------------------------
- * animation fade-out-bck
- * ----------------------------------------
- */
-@keyframes fade-out-bck {
-  0% {
-    transform: translateZ(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateZ(-80px);
-    opacity: 0;
-  }
-}
-
-
-
-
-
 
 </style>
 

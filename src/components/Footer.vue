@@ -1,32 +1,51 @@
 <template>
-  <div id="footer">
+  <div>
 
-    <!-- footer -->
-    <!-- <div>
-      <b-container style="background: #D9F2E7">
 
-        <hr class="mt-5">
+    <footer id="footer" class="py-4 bg-dark text-white-50">
+      <div class="container text-center">
 
-        <b-row class="mt-4" align-h="center">
+        <!-- <hr class="mt-5"> -->
 
-          <b-col cols="4">
+        <b-row no-gutters>
+          <b-col>
+            <img src="@/assets/footer/udg.png" align="left" alt="UDG" height="120">
+            <img src="@/assets/footer/cucei.png" align="left" alt="CUCEI" height="120">            
+            <br>
+            <p align="start" style="line-height: 2px;">Universidad de Guadalajara</p>
+            <p align="start" style="line-height: 2px;">CUCEI</p>
+            <p align="start" style="line-height: 2px;">Derechos reservados 2019 &copy;</p>
+          </b-col>
+
+          <b-col col lg="3">
             <h5 class="titleColor">Recursos</h5>
-            <a href="#">Tutoriales</a> <br>
-            <a href="#">Consultas</a> <br>
-            <a href="#">Asesoría</a> <br>
+            <ul class="lista">
+              <li>
+                <a href="#" class="footer_link">Preguntas frecuentes</a>
+              </li>
+              <li>
+                <a href="#" class="footer_link">Tutoriales</a>
+              </li>
+              <li>
+                <a href="#" class="footer_link">Ayuda</a>
+              </li>
+            </ul>
           </b-col>
 
-          <b-col cols="4">
-            <h5 class="titleColor">Contacto</h5>
-            <a href="#">Servicio técnico</a> <br>
-            <a href="#">Reporte de errores</a> <br>
-            <a href="#">Sugerencias</a> <br>
+          <b-col col lg="3">
+            <h5 class="titleColor">Referencia</h5>
+            <ul class="lista">
+              <li>
+                <a href="#" class="footer_link">Créditos</a>
+              </li>
+              <li>
+                <a href="#" class="footer_link">Sugerencias</a>
+              </li>
+              <li>
+                <a href="#" class="footer_link">Reporte de errores</a>
+              </li>
+            </ul>
           </b-col>
-
-          <b-col cols="4">
-            <img src="@/assets/images/logo.png" align="right" alt="SIV CUCEI" height="120" width="120">
-          </b-col>
-
         </b-row>
 
         <b-row class="mt-4" align-h="center">
@@ -36,8 +55,8 @@
           </b-col>
         </b-row>
 
-      </b-container>
-    </div> -->
+      </div>
+    </footer>
 
 
 
@@ -55,10 +74,21 @@ export default {
 
 
 
-<style>
-.nav-background{
-  background: #20603C;
+<style scoped>
+
+#footer {
+  flex-shrink: none;
 }
+
+.lista{
+  list-style-type:none;
+  padding: 0%;
+}
+
+.footer_link, .footer_link:hover{
+  color: #ffffff;
+}
+
 
 /* 
   * Fuente:

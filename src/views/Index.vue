@@ -65,10 +65,6 @@ export default {
 
 
 <style>
-/**
- * Animaciones:
-**/
-
 
 </style>
 

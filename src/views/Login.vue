@@ -1,99 +1,129 @@
 <template>
   <div>
 
-    <!-- Barra de navegacion -->
-    <!-- <NavBar/> -->
+    <div id="div_fondo">
 
-    <!-- Card de Login -->
-    <b-container>
-        <b-row align-h="center" class="mt-5"> 
-            <b-col cols="8">
-                <b-card border-variant="success">
-                    <h3 class="mb-4">Iniciar Sesión</h3>
+      <!-- Login y Novedades -->
+      <b-row align-h="center" class="mt-5">
+        <b-col cols="10">
+          
+          <!-- <b-card bg-variant="transparent" no-body class="overflow-hidden" border-variant="primary" > -->
 
-                    <!-- Form -->
-                    <b-form @submit="iniciarSesion">
+          <div id="div_login">
 
+            <b-row no-gutters>
+              <b-col md="5">
 
-                        <!-- +++++++++++++++++++++++++++++++ Iniciar Sesion ++++++++++++++++++++++++++++++++ -->
-                        
-                        <!-- <b-form-group id="input-group-1" label="Correo electrónico:" label-for="input-correo">
+                <!-- +++++++++++++++++++++++++++++++ Iniciar Sesion ++++++++++++++++++++++++++++++++ -->
+                <div id="form_login">
+                  <h4 class="mb-4 titulo">Iniciar Sesión</h4>
+
+                  <!-- Form Login -->
+                  <b-form @submit="iniciarSesion">
+                    <b-form-group label="Correo electrónico:">
+                      <b-form-input
+                        id="input-correo"
+                        v-model="correo"
+                        required
+                        placeholder="correo..."
+                      ></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group label="Contraseña:">
+                      <b-form-input
+                        id="input-contrasena"
+                        v-model="contrasena"
+                        type="password"
+                        required
+                        placeholder="contraseña..."
+                      ></b-form-input>
+                    </b-form-group>
+
+                    <b-form-group>
+                      <b-row align-h="center" class="mt-2">
+                        <b-col cols="4">
+                          <b-button type="submit" block variant="outline-primary">Ingresar</b-button>
+                        </b-col>
+                        <b-col cols="4">
+                          <b-button type="reset" block variant="outline-danger">Limpiar</b-button>
+                        </b-col>
+                      </b-row>
+                    </b-form-group>
+
+                    <!-- Recuperar contrasena -->
+                    <div>
+                      <b-row no-gutters align-h="center" class="mt-4">
+                        <b-col cols="8" align="center">
+                          <b-link v-b-modal.modal-recuperarContrasena>Recuperar contraseña</b-link>
+                        </b-col>
+                      </b-row>
+
+                      <b-modal
+                        id="modal-recuperarContrasena"
+                        ref="modal"
+                        title="Recuperación de contraseña"
+                        @show="modalReset"
+                        @hidden="modalReset"
+                        @ok="modalOk"
+                      >
+                        <form ref="form" @submit.stop.prevent="handleSubmit">
+                          <b-form-group
+                            label="Ingrese su correo:"
+                            description="Enviaremos un enlace a su correo para restablecer su contrseña."
+                            invalid-feedback="Ingrese un correo válido"
+                            :state="modalState"
+                          >
                             <b-form-input
-                            id="input-correo"
-                            v-model="formIniciarSesion.correo"
-                            type="email"
-                            required
-                            placeholder="correo..."
+                              id="input-correoRecuperacion"
+                              v-model="correoRecuperacion"
+                              type="email"
+                              :state="modalState"
+                              required
                             ></b-form-input>
-                        </b-form-group> -->
-                        <b-form-group id="input-group-1" label="Correo electrónico:" label-for="input-correo">
-                            <b-form-input
-                            id="input-correo"
-                            v-model="formIniciarSesion.correo"
-                            required
-                            placeholder="correo..."
-                            ></b-form-input>
-                        </b-form-group>
+                          </b-form-group>
+                        </form>
+                      </b-modal>
+                    </div>
+                    
+                  </b-form>
+                </div>
 
-                        <b-form-group id="input-group-2" label="Contraseña:" label-for="input-contrasena">
-                            <b-form-input
-                            id="input-contrasena"
-                            v-model="formIniciarSesion.contrasena"
-                            type="password"
-                            required
-                            placeholder="contraseña..."
-                            ></b-form-input>
-                        </b-form-group>
+              </b-col>
 
-                        <b-form-group >
-                            <div class="d-flex justify-content-between">
 
-                                <div>
-                                    <b-button type="submit" variant="outline-primary">Ingresar</b-button>&nbsp;
-                                    <b-button type="reset" variant="outline-danger">Limpiar</b-button>
-                                </div>
+              <b-col md="7">
+                
+                <!-- Avisos -->
+                <div id="div_avisos">
+                  <ul id="lista_avisos">
+                    <li>
+                      <img src="../assets/icons/avisos/tutorial.png" alt="intro" height="70px">
+                      <span> <b-link style="color: #ffffff;"> Conoce el sistema SIV CUCEI y los servicios que te ofrece. </b-link> </span>
+                    </li>
+                    <li>
+                      <img src="../assets/icons/avisos/video.png" alt="tutorial" height="70px">
+                      <span> <b-link style="color: #ffffff;"> ¿Necesitas ayuda?, mira los video-tutoriales que hemos preparado para ti. </b-link> </span>
+                    </li>
+                    <li>
+                      <img src="../assets/icons/avisos/notificacion.png" alt="tutorial" height="70px">
+                      <span> <b-link style="color: #ffffff;"> Novedades del sistema. </b-link> </span>
+                    </li>
+                    <li>
+                      <img src="../assets/icons/avisos/terminos_condiciones.png" alt="tutorial" height="70px">
+                      <span> <b-link style="color: #ffffff;"> Términos y condiciones del sistema SIV CUCEI. </b-link> </span>
+                    </li>
+                  </ul>
+                </div>
 
-                                <div>
-                                    <!-- +++++++++++++++++++++++++++++++ Recuperar Contrasena (modal) ++++++++++++++++++++++++++++++++ -->
-                                    <b-button v-b-modal.modal-prevent-closing variant="outline-secondary">Recuperar contraseña</b-button>
+              </b-col>
 
-                                    <b-modal
-                                        id="modal-prevent-closing"
-                                        ref="modal"
-                                        title="Recuperación de contraseña"
-                                        @show="resetModal"
-                                        @hidden="resetModal"
-                                        @ok="handleOk"
-                                    >
-                                        <form ref="form" @submit.stop.prevent="handleSubmit">
-                                            <b-form-group
-                                            :state="nameState"
-                                            label="Correo:"
-                                            label-for="modal-input-correo"
-                                            invalid-feedback="Por favor, ingrese su correo."
-                                            >
-                                            <b-form-input
-                                                id="modal-input-correo"
-                                                v-model="name"
-                                                :state="nameState"
-                                                required
-                                            ></b-form-input>
-                                            </b-form-group>
-                                        </form>
-                                    </b-modal>
-                                </div>
+            </b-row>
+          </div>
 
-                            </div>
+        </b-col>
+      </b-row>
+    </div>
 
-                        </b-form-group>
-
-                    </b-form>
-
-                </b-card>
-            </b-col>
-        </b-row>
-    </b-container>
-    
   </div>
 </template>
 
@@ -103,101 +133,128 @@
 
 <script>
 // Componentes:
-import HelloWorld from '@/components/HelloWorld.vue'
-import NavBar from '@/components/NavBar.vue'
 
-
-
+// Propiedades:
 export default {
-  name: 'login',
-  components: {
-    NavBar
-  },
+  name: "login",
+  components: {},
   data() {
     return {
-        
       // Iniciar Sesion:
-      formIniciarSesion: {
-        correo: '',
-        contrasena: ''
-      },
-      
+      correo: "",
+      contrasena: "",
+
       // Recuperar contrasena:
-      name: '',
-      nameState: null,
-      submittedNames: []
-    }
+      correoRecuperacion: "",
+      modalState: null
+
+
+    };
   },
   methods: {
+    // ++++++++++++++++++++++++++++++++ Iniciar sesion ++++++++++++++++++++++++++++++++
+    iniciarSesion(correo) {
+      // Cambia state:
+      this.$store.commit("cambiarTipoUsuario", {
+        tipoUsuario: this.correo
+      });
+      // Manda a home:
+      this.$router.push("/");
+    },
 
-      // ++++++++++++++++++++++++++++++++ Iniciar sesion ++++++++++++++++++++++++++++++++
-      iniciarSesion(correo) {
-          correo.preventDefault()
-          // Muestra datos del form:
-          // alert(JSON.stringify(this.formIniciarSesion))
+    // ++++++++++++++++++++++++++++++++ Recuperar contrasena ++++++++++++++++++++++++++++++++
+    modalCheck() {
+      const valid = this.$refs.form.checkValidity();
+      this.modalState = valid ? "valid" : "invalid";
+      return valid;
+    },
+    modalReset() {
+      this.correoRecuperacion = "";
+      this.modalState = null;
+    },
+    modalOk(bvModalEvt) {
+      // Cambia state:
+      this.$store.commit("actualizarCorreo", {
+        correo: this.name
+      });
+      // Prevent modal from closing
+      bvModalEvt.preventDefault();
 
-          // Cambia state:
-          this.$store.commit('cambiarTipoUsuario', {
-            tipoUsuario: this.formIniciarSesion.correo
-          })
-          // Manda a home:
-          this.$router.push('/');
-      },
-      onReset(evt) {
-          evt.preventDefault()
-          // Reinicia valores:
-          this.formIniciarSesion.correo = ''
-          this.formIniciarSesion.contrasena = ''
-          // Trick to reset/clear native browser form validation state
-          this.show = false
-          this.$nextTick(() => {
-          this.show = true
-          })
-      },
-
-
-
-      // ++++++++++++++++++++++++++++++++ Recuperar contrasena ++++++++++++++++++++++++++++++++
-      checkFormValidity() {
-          const valid = this.$refs.form.checkValidity()
-          this.nameState = valid ? 'valid' : 'invalid'
-          return valid
-      },
-      resetModal() {
-          this.name = ''
-          this.nameState = null
-      },
-      handleOk(bvModalEvt) {
-        // Cambia state:
-        this.$store.commit('actualizarCorreo', {
-          correo: this.name
-        })
-        // Prevent modal from closing
-        bvModalEvt.preventDefault()
-        // Trigger submit handler
-        this.handleSubmit()
-      },
-      handleSubmit() {
-          // Exit when the form isn't valid
-          if (!this.checkFormValidity()) {
-          return
-          }
-          // Push the name to submitted names
-          this.submittedNames.push(this.name)
-          // Hide the modal manually
-          this.$nextTick(() => {
-          this.$refs.modal.hide()
-          })
+      // Ejecuta recuperar contrasena:
+      this.recuperarContrasena();
+    },
+    recuperarContrasena() {
+      // Sale si el form no es valido:
+      if (!this.modalCheck()) {
+        return;
       }
-  
+
+      // Ejecuta funcion para enviar correo de recuperacion:
+
+      // Esconde modal:
+      this.$nextTick(() => {
+        this.$refs.modal.hide();
+      });
+    }
+
   }
-}
+};
 </script>
 
 
 
 
 
-<style>
+<style scoped>
+
+#div_fondo {
+  /* border: 2px solid black; */
+  padding: 25px;
+  background: url("../assets/images/fondo_login.jpg") no-repeat center center fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  /* opacity: .95; */
+  min-height: 94vh;
+  /* height: 100%; */
+}
+
+#div_login{
+  border: 1px solid green;
+  /* border-radius:10px; regular */
+  /* -moz-border-radius:10px;  for Firefox */
+  /* -webkit-border-radius:10px; for Webkit-Browsers */
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  /* max-height: 450px; */
+  box-shadow: 5px 5px 10px;
+}
+
+#form_login{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background: #ffffff;
+  opacity: .95;
+  padding: 5%;
+  height: 100%;
+}
+
+#div_avisos{
+  /* background: darkgrey; */
+  background: url("../assets/images/fondo_oscuro.png");
+  background-size: cover;
+  /* opacity: .95; */
+  padding: 4%;
+  height: 100%;
+  max-height: 450px;
+}
+
+#lista_avisos{
+  list-style-type:none;
+  padding: 0%;
+}
 
 </style>
+
+
