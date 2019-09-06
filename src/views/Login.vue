@@ -62,6 +62,7 @@
                         id="modal-recuperarContrasena"
                         ref="modal"
                         title="Recuperación de contraseña"
+                        centered
                         @show="modalReset"
                         @hidden="modalReset"
                         @ok="modalOk"

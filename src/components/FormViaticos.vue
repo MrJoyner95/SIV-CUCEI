@@ -137,23 +137,11 @@
           <b-card>
             <b-row align-h="between">
               <h4 class="titulo"> Importe por concepto de gasto </h4>
-              <b-button v-b-modal.modal_dia @click="AgregarDia()" variant="outline-primary" align="end">
+              <b-button v-b-modal.modal_agregar_dia variant="outline-primary" align="end">
                 Agregar día
               </b-button>
             </b-row>
             <hr>
-
-
-
-
-
-    
-
-
-            
-
-
-
 
             <b-row>
               <b-table
@@ -162,6 +150,7 @@
                 bordered
                 hover
                 responsive
+                small
                 selectable
                 select-mode="single"
                 @row-selected="SeleccionarDia"
@@ -171,145 +160,40 @@
               </b-table>
             </b-row>
             
-
-            <!-- Obtejo seleccionado -->
-            <!-- <b-card class="mt-4">
-              <b-row class="mt-2">
-                <b-col md="4">
-                  <p align="left">Alimentación:</p>
-                  <b-input-group prepend="$">
-                    <b-form-input 
-                      id="alimentacion-input"
-                      :placeholder="diaSeleccionado.alimentacion"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-col>
-
-                <b-col md="4">
-                  <p align="left">Hospedaje:</p>
-                  <b-input-group prepend="$">
-                    <b-form-input 
-                      id="hospedaje-input"
-                      :placeholder="diaSeleccionado.hospedaje"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-col>
-
-                <b-col md="4">
-                  <p align="left">Transporte foráneo:</p>
-                  <b-input-group prepend="$">
-                    <b-form-input 
-                      id="transporte_foraneo-input"
-                      :placeholder="diaSeleccionado.transporte_foraneo"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-col>
-              </b-row>
-
-
-              <b-row class="mt-2">
-                <b-col md="4">
-                  <p align="left">Transporte local:</p>
-                  <b-input-group prepend="$">
-                    <b-form-input 
-                      id="transporte_local-input"
-                      :placeholder="diaSeleccionado.transporte_local"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-col>
-
-                <b-col md="4">
-                  <p align="left">Combustible:</p>
-                  <b-input-group prepend="$">
-                    <b-form-input 
-                      id="combustible-input"
-                      :placeholder="diaSeleccionado.combustible"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-col>
-
-                <b-col md="4">
-                  <p align="left">Otros conceptos:</p>
-                  <b-input-group prepend="$">
-                    <b-form-input 
-                      id="otros_conceptos-input"
-                      :placeholder="diaSeleccionado.otros_conceptos"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-col>
-              </b-row>
-
-
-              <b-row align-h="center" class="mt-2">
-                <b-col md="4">
-                  <p align="center"><strong>Suma:</strong></p>
-                  <b-input-group prepend="$">
-                    <b-form-input 
-                      id="suma-input"
-                      :placeholder="diaSeleccionado.suma"
-                    >
-                    </b-form-input>
-                  </b-input-group>
-                </b-col>
-              </b-row>
-            </b-card> -->
-
-
             <!-- Acciones -->
             <b-row align-h="center">
               <b-col md="3">
-                <b-button block variant="outline-secondary">Editar</b-button>
+                <template v-if="this.diaSeleccionado.dia != 'null'">
+                  <b-button v-b-modal.modal_editar_dia block variant="outline-secondary">Editar</b-button>
+                </template>
+                <template v-else>
+                  <b-button disabled block variant="outline-secondary">Editar</b-button>
+                </template>
               </b-col>
               <b-col md="3">
-                <b-button block variant="outline-danger">Eliminar</b-button>
+                <template v-if="this.diaSeleccionado.dia != 'null'">
+                  <b-button v-b-modal.modal_eliminar_dia block variant="outline-danger">Eliminar</b-button>
+                </template>
+                <template v-else>
+                  <b-button disabled block variant="outline-danger">Eliminar</b-button>
+                </template>
               </b-col>
             </b-row>
 
-
-
-            <b-row>
+            <!-- <b-row>
               <b-col>
                 <p>{{ this.dias.length }}</p>
               </b-col>
 
               <b-col>
-                <p> {{ diaSeleccionado }} </p>
+                <p> {{ this.diaSeleccionado }} </p>
               </b-col>
-            </b-row>
+            </b-row> -->
 
           </b-card>
         </b-col>
       </b-row>
 
-      <!-- <ul id="example-1">
-        <li v-for="item in items">
-          {{ item.message }}
-        </li>
-      </ul> -->
-
-
-      <b-row no-gutters class="mt-2">
-        <b-col cols="12">
-          <p align="left">Proyectos:</p>
-          <b-card>
-            <h1>Tabla modificable de gastos</h1>
-          </b-card>
-        </b-col>
-      </b-row>
-
-      <p align="left">Comentarios:</p>
-      <b-form-textarea
-        id="comentarios-input"
-        :placeholder="'comentarios...'"
-        rows="3"
-        max-rows="8"
-      ></b-form-textarea>
 
 
       
@@ -318,28 +202,6 @@
 
 
 
-      <!-- <h5 class="mt-5"> Datos del proyecto </h5>
-      <hr>
-
-      <b-row no-gutters class="mt-2">
-        <b-col cols="5">
-          <p align="center">No. de proyectos</p>
-          <b-form-input 
-            id="dependencia-input" 
-            placeholder="no. de proyectos..." 
-          >
-          </b-form-input>
-        </b-col>
-        
-        <b-col cols="7">
-          <p align="center">Nombre del invitado</p>
-          <b-form-input 
-            id="dependencia-input" 
-            placeholder="nombre del invitado..." 
-          >
-          </b-form-input>
-        </b-col>
-      </b-row> -->
 
 
 
@@ -405,12 +267,6 @@
 
       </template>
 
-
-
-      
-
-
-
       <!-- Espacio al final del formulario -->
       <p class="mt-3"></p>
       
@@ -418,28 +274,25 @@
 
 
 
-
-
-    <!-- Modal Agregar/Editar dia -->
-    <b-modal
-      id="modal_dia"
-      ref="modal"
+    <!-- Modal Agregar Dia -->
+    <!-- <b-modal
+      id="modal_agregar_dia"
+      ref="modal_agregar_dia"
       title="Información de gastos del día"
       size="lg"
       ok-title="Guardar"
       cancel-title="Cancelar"
       centered
+      @show="reiniciarModalDia()"
+      @hidden="reiniciarModalDia()"
+      @ok="AgregarDia($data.diaNuevo)"
     >
-
       <b-card>
         <b-row class="mt-2">
           <b-col md="4">
             <p align="left">Alimentación:</p>
             <b-input-group prepend="$">
-              <b-form-input 
-                id="alimentacion-input"
-                :placeholder="diaSeleccionado.alimentacion"
-              >
+              <b-form-input id="alimentacion-input" v-model="diaNuevo.alimentacion">
               </b-form-input>
             </b-input-group>
           </b-col>
@@ -447,10 +300,7 @@
           <b-col md="4">
             <p align="left">Hospedaje:</p>
             <b-input-group prepend="$">
-              <b-form-input 
-                id="hospedaje-input"
-                :placeholder="diaSeleccionado.hospedaje"
-              >
+              <b-form-input id="hospedaje-input" v-model="diaNuevo.hospedaje">
               </b-form-input>
             </b-input-group>
           </b-col>
@@ -458,24 +308,17 @@
           <b-col md="4">
             <p align="left">Transporte foráneo:</p>
             <b-input-group prepend="$">
-              <b-form-input 
-                id="transporte_foraneo-input"
-                :placeholder="diaSeleccionado.transporte_foraneo"
-              >
+              <b-form-input id="transporte_foraneo-input" v-model="diaNuevo.transporte_foraneo">
               </b-form-input>
             </b-input-group>
           </b-col>
         </b-row>
 
-
         <b-row class="mt-2">
           <b-col md="4">
             <p align="left">Transporte local:</p>
             <b-input-group prepend="$">
-              <b-form-input 
-                id="transporte_local-input"
-                :placeholder="diaSeleccionado.transporte_local"
-              >
+              <b-form-input id="transporte_local-input" v-model="diaNuevo.transporte_local">
               </b-form-input>
             </b-input-group>
           </b-col>
@@ -483,10 +326,7 @@
           <b-col md="4">
             <p align="left">Combustible:</p>
             <b-input-group prepend="$">
-              <b-form-input 
-                id="combustible-input"
-                :placeholder="diaSeleccionado.combustible"
-              >
+              <b-form-input id="combustible-input" v-model="diaNuevo.combustible">
               </b-form-input>
             </b-input-group>
           </b-col>
@@ -494,35 +334,253 @@
           <b-col md="4">
             <p align="left">Otros conceptos:</p>
             <b-input-group prepend="$">
-              <b-form-input 
-                id="otros_conceptos-input"
-                :placeholder="diaSeleccionado.otros_conceptos"
-              >
-              </b-form-input>
-            </b-input-group>
-          </b-col>
-        </b-row>
-
-
-        <b-row align-h="center" class="mt-2">
-          <b-col md="4">
-            <p align="center"><strong>Suma:</strong></p>
-            <b-input-group prepend="$">
-              <b-form-input 
-                id="suma-input"
-                :placeholder="diaSeleccionado.suma"
-              >
+              <b-form-input id="otros_conceptos-input" v-model="diaNuevo.otros_conceptos">
               </b-form-input>
             </b-input-group>
           </b-col>
         </b-row>
       </b-card>
+    </b-modal> -->
 
+    <b-modal
+      id="modal_agregar_dia"
+      ref="modal_agregar_dia"
+      title="Información de gastos del día"
+      size="lg"
+      ok-title="Guardar"
+      cancel-title="Cancelar"
+      centered
+      @show="ReiniciarModalAgregarDia"
+      @hidden="ReiniciarModalAgregarDia"
+      @ok="OkModalAgregarDia"
+    >
+      <b-card>
+        <form ref="modal_agregar_dia_form">
+          <b-form-group
+            label=""
+            description="Ingrese la cantidad que estima gastar para cada rubro durante el día."
+            invalid-feedback="Los datos ingresados no son válidos. Por favor, ingrese números positivos."
+            :state="estadoModalAgregarDia"
+          >
+            <b-row class="mt-2">
+              <b-col md="4">
+                <p align="left">Alimentación:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="alimentacion-input" type="number" required v-model="diaNuevo.alimentacion">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+
+              <b-col md="4">
+                <p align="left">Hospedaje:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="hospedaje-input" type="number" required v-model="diaNuevo.hospedaje">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+
+              <b-col md="4">
+                <p align="left">Transporte foráneo:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="transporte_foraneo-input" type="number" required v-model="diaNuevo.transporte_foraneo">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+            </b-row>
+
+            <b-row class="mt-2">
+              <b-col md="4">
+                <p align="left">Transporte local:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="transporte_local-input" type="number" required v-model="diaNuevo.transporte_local">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+
+              <b-col md="4">
+                <p align="left">Combustible:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="combustible-input" type="number" required v-model="diaNuevo.combustible">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+
+              <b-col md="4">
+                <p align="left">Otros conceptos:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="otros_conceptos-input" type="number" required v-model="diaNuevo.otros_conceptos">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+            </b-row>
+          </b-form-group>
+        </form>
+      </b-card>
     </b-modal>
 
 
 
-    
+    <!-- Modal Editar Dia -->
+    <!-- <b-modal
+      id="modal_editar_dia"
+      ref="modal_editar_dia"
+      title="Información de gastos del día"
+      size="lg"
+      ok-title="Guardar"
+      cancel-title="Cancelar"
+      centered
+      @ok="EditarDia($data.diaSeleccionado)"
+    >
+      <b-card>
+        <b-row class="mt-2">
+          <b-col md="4">
+            <p align="left">Alimentación:</p>
+            <b-input-group prepend="$">
+              <b-form-input id="alimentacion-input" v-model="diaSeleccionado.alimentacion">
+              </b-form-input>
+            </b-input-group>
+          </b-col>
+
+          <b-col md="4">
+            <p align="left">Hospedaje:</p>
+            <b-input-group prepend="$">
+              <b-form-input id="hospedaje-input" v-model="diaSeleccionado.hospedaje">
+              </b-form-input>
+            </b-input-group>
+          </b-col>
+
+          <b-col md="4">
+            <p align="left">Transporte foráneo:</p>
+            <b-input-group prepend="$">
+              <b-form-input id="transporte_foraneo-input" v-model="diaSeleccionado.transporte_foraneo">
+              </b-form-input>
+            </b-input-group>
+          </b-col>
+        </b-row>
+
+        <b-row class="mt-2">
+          <b-col md="4">
+            <p align="left">Transporte local:</p>
+            <b-input-group prepend="$">
+              <b-form-input id="transporte_local-input" v-model="diaSeleccionado.transporte_local">
+              </b-form-input>
+            </b-input-group>
+          </b-col>
+
+          <b-col md="4">
+            <p align="left">Combustible:</p>
+            <b-input-group prepend="$">
+              <b-form-input id="combustible-input" v-model="diaSeleccionado.combustible">
+              </b-form-input>
+            </b-input-group>
+          </b-col>
+
+          <b-col md="4">
+            <p align="left">Otros conceptos:</p>
+            <b-input-group prepend="$">
+              <b-form-input id="otros_conceptos-input" v-model="diaSeleccionado.otros_conceptos">
+              </b-form-input>
+            </b-input-group>
+          </b-col>
+        </b-row>
+      </b-card>
+    </b-modal> -->
+
+
+    <b-modal
+      id="modal_editar_dia"
+      ref="modal_editar_dia"
+      title="Información de gastos del día"
+      size="lg"
+      ok-title="Guardar"
+      cancel-title="Cancelar"
+      centered
+      @show="ReiniciarModalEditarDia"
+      @hidden="ReiniciarModalEditarDia"
+      @ok="OkModalEditarDia"
+    >
+      <b-card>
+        <form ref="modal_editar_dia_form">
+          <b-form-group
+            label=""
+            description="Ingrese la cantidad que estima gastar para cada rubro durante el día."
+            invalid-feedback="Los datos ingresados no son válidos. Por favor, ingrese números positivos."
+            :state="estadoModalEditarDia"
+          >
+            <b-row class="mt-2">
+              <b-col md="4">
+                <p align="left">Alimentación:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="alimentacion-input" type="number" required v-model="diaSeleccionado.alimentacion">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+
+              <b-col md="4">
+                <p align="left">Hospedaje:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="hospedaje-input" type="number" required v-model="diaSeleccionado.hospedaje">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+
+              <b-col md="4">
+                <p align="left">Transporte foráneo:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="transporte_foraneo-input" type="number" required v-model="diaSeleccionado.transporte_foraneo">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+            </b-row>
+
+            <b-row class="mt-2">
+              <b-col md="4">
+                <p align="left">Transporte local:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="transporte_local-input" type="number" required v-model="diaSeleccionado.transporte_local">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+
+              <b-col md="4">
+                <p align="left">Combustible:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="combustible-input" type="number" required v-model="diaSeleccionado.combustible">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+
+              <b-col md="4">
+                <p align="left">Otros conceptos:</p>
+                <b-input-group prepend="$">
+                  <b-form-input id="otros_conceptos-input" type="number" required v-model="diaSeleccionado.otros_conceptos">
+                  </b-form-input>
+                </b-input-group>
+              </b-col>
+            </b-row>
+          </b-form-group>
+        </form>
+      </b-card>
+    </b-modal>
+
+
+
+    <!-- Modal Eliminar Dia -->
+    <b-modal
+      id="modal_eliminar_dia"
+      title="Confirmar eliminación"
+      size= "sm"
+      buttonSize="sm"
+      okVariant="danger"
+      okTitle="Eliminar"
+      cancelTitle="Cancelar"
+      footerClass="p-2"
+      centered
+      @ok="EliminarDia($data.diaSeleccionado)"
+    >
+      ¿Está seguro de eliminar el día seleccionado?
+    </b-modal>
+
 
   </div>
 </template>
@@ -583,7 +641,7 @@ export default {
     // }
 
   },
-
+  
   data() {
     return {
 
@@ -631,14 +689,14 @@ export default {
 
       // Tabla editable:
       headersTabla: [
-        { key: "dia", label: "Día", sortable: false },
+        { key: "dia", label: "Día", sortable: false, variant: "secondary" },
         { key: "alimentacion", label: "Alimentación", sortable: false },
         { key: "hospedaje", label: "Hospedaje", sortable: false },
         { key: "transporte_foraneo", label: "Transporte foráneo", sortable: false },
         { key: "transporte_local", label: "Transporte local", sortable: false },
         { key: "combustible", label: "Combustible", sortable: false },
         { key: "otros_conceptos", label: "Otros conceptos", sortable: false },
-        { key: "suma", label: "Suma", sortable: false }
+        { key: "suma", label: "Suma", sortable: false, variant: "secondary" }
       ],
       // Dias:
       dias: [],
@@ -654,50 +712,71 @@ export default {
         suma: "null"
       },
 
+      // Dia base:
+      // Al inicializar la aplicacion se deben asignar los valores maximos del tabulador al dia, en lugar de null.
+      diaBase: {
+        alimentacion: "0",
+        hospedaje: "0",
+        transporte_foraneo: "0",
+        transporte_local: "0",
+        combustible: "0",
+        otros_conceptos: "0"
+      },
       // Dia nuevo:
+      // Se usa como modelo para manejar los datos de un dia nuevo:
       diaNuevo: {
-        dia: "null",
         alimentacion: "null",
         hospedaje: "null",
         transporte_foraneo: "null",
         transporte_local: "null",
         combustible: "null",
-        otros_conceptos: "null",
-        suma: "null"
+        otros_conceptos: "null"
       },
+
+      // diaSeleccionado: null,
+
+      // Modals Dia:
+      estadoModalAgregarDia: null,
+      estadoModalEditarDia: null,
+
 
     }
   },
   methods:{
 
     // ++++++++++++++++++++++++++++++++ Tabla editable ++++++++++++++++++++++++++++++++
-    AgregarDia(){
-      // Crea un nuevo dia inicializado:
-      var diaNuevo = {
-        dia: "0",
-        alimentacion: "0",
-        hospedaje: "0",
-        transporte_foraneo: "0",
-        transporte_local: "0",
-        combustible: "0",
-        otros_conceptos: "0",
-        suma: "0"
-      };
+    AgregarDia(diaNuevo){
+      // NOTAS:
+      // se agregan las propiedades "dia" y "suma" en este metodo.
+
+      // Copia diaNuevo:
+      var dia = JSON.parse(JSON.stringify(diaNuevo));
+
+      // Calcula la suma del dia:
+      var suma = 0;
+      for( var rubro in dia ) {
+        if( dia.hasOwnProperty( rubro ) && rubro != "dia" && rubro != "suma" ) {
+          suma += parseFloat( dia[rubro] );
+        }
+      }
+      dia.suma = suma;
+
       // Calcula el numero de dia:
       var contDia = this.dias.length + 1;
-      diaNuevo.dia = contDia.toString();
-      // Agrega objeto nuevo a la lista:
-      this.dias.push(diaNuevo);
+      dia.dia = contDia.toString();
+
+      // Agrega dia al arreglo:
+      this.dias.push(dia);
     },
 
     SeleccionarDia(item){
       // Verifica si se selecciono un objeto de la tabla o se quito la seleccion:
       if(item[0]){
-        // Asigna valor a dia seleccionado:
-        this.diaSeleccionado = item[0];
+        // Copia valor del item a diaSeleccionado:
+        this.diaSeleccionado = JSON.parse(JSON.stringify(item[0]));
       }
       else{
-        // Asigna valor inicial:
+        // Regresa al valor inicial:
         this.diaSeleccionado = {
           dia: "null",
           alimentacion: "null",
@@ -711,10 +790,140 @@ export default {
       }
     },
 
-    EditarDia(){
-      // Reemplaza objeto en el index seleccionado:
-      
-    }
+    EditarDia(diaSel){
+      // Comprueba que haya un dia seleccionado:
+      if(diaSel.dia != "null"){
+        // Copia diaSel:
+        var dia = JSON.parse(JSON.stringify(diaSel));
+
+        // Calcula la suma del dia:
+        var suma = 0;
+        for( var rubro in dia ) {
+          if( dia.hasOwnProperty( rubro ) && rubro != "dia" && rubro != "suma" ) {
+            suma += parseFloat( dia[rubro] );
+          }
+        }
+        dia.suma = suma;
+
+        // Copia valor de diaSeleccionado al arreglo (toma el indice de diaSeleccionado):
+        this.dias[ parseInt(dia.dia) - 1 ] = dia;
+
+        // Refresca tabla:
+        this.$refs.tablaDias.refresh();
+      }
+    },
+
+    EliminarDia(diaSel){
+      // Comprueba que haya un dia seleccionado:
+      if(diaSel.dia != "null"){
+        // Obtiene indice del objeto:
+        var indiceDia = JSON.parse(JSON.stringify(diaSel.dia));
+        indiceDia = parseInt(indiceDia - 1);
+
+        // Elimina objeto del arreglo:
+        this.dias.splice(indiceDia, 1);
+
+        // Recalcula los valores de dia:
+        for (let i = 0; i < this.dias.length; i++) {
+          this.dias[i].dia = i + 1;
+        }
+
+        // Refresca tabla:
+        this.$refs.tablaDias.refresh();
+      }
+    },
+
+
+    // ++++++++++++++++++++++++++++++++ Modal Agregar Dia ++++++++++++++++++++++++++++++++
+    ComprobarModalAgregarDia() {
+      // Si algun rubro de diaNuevo es negativo o no es numero, regresa null:
+      var dia = JSON.parse(JSON.stringify(this.diaNuevo));
+      for( var rubro in dia ) {
+        try {
+          var cantidad = parseFloat(dia[rubro]);
+          if( cantidad < 0 ){
+            this.estadoModalAgregarDia = false;
+            return false;
+          }
+        } catch (error) {
+          this.estadoModalAgregarDia = false;
+          return false;
+        }
+      }
+
+      // Comprueba el estado del form:
+      const valid = this.$refs.modal_agregar_dia_form.checkValidity();
+      this.estadoModalAgregarDia = valid ? "valid" : "invalid";
+      return valid;
+    },
+    ReiniciarModalAgregarDia() {
+      this.estadoModalAgregarDia = null;
+      // Copia valor de diaBase en diaNuevo:
+      this.diaNuevo = JSON.parse(JSON.stringify(this.diaBase));
+    },
+    OkModalAgregarDia(bvModalEvt) {
+      // Previene default:
+      bvModalEvt.preventDefault();
+
+      // Sale si el form no es valido:
+      if (!this.ComprobarModalAgregarDia()) {
+        return;
+      }
+
+      // Agrega dia:
+      this.AgregarDia(this.diaNuevo);
+
+      // Esconde modal:
+      this.$nextTick(() => {
+        this.$refs.modal_agregar_dia.hide();
+      });
+    },
+
+
+    // ++++++++++++++++++++++++++++++++ Modal Editar Dia ++++++++++++++++++++++++++++++++
+    ComprobarModalEditarDia() {
+      // Si algun rubro de diaNuevo es negativo o no es numero, regresa null:
+      var dia = JSON.parse(JSON.stringify(this.diaSeleccionado));
+      for( var rubro in dia ) {
+        try {
+          var cantidad = parseFloat(dia[rubro]);
+          if( cantidad < 0 ){
+            this.estadoModalEditarDia = false;
+            return false;
+          }
+        } catch (error) {
+          this.estadoModalEditarDia = false;
+          return false;
+        }
+      }
+
+      // Comprueba el estado del form:
+      const valid = this.$refs.modal_editar_dia_form.checkValidity();
+      this.estadoModalEditarDia = valid ? "valid" : "invalid";
+      return valid;
+    },
+    ReiniciarModalEditarDia() {
+      this.estadoModalEditarDia = null;
+    },
+    OkModalEditarDia(bvModalEvt) {
+      // Previene default:
+      bvModalEvt.preventDefault();
+
+      // Sale si el form no es valido:
+      if (!this.ComprobarModalEditarDia()) {
+        return;
+      }
+
+      // Agrega dia:
+      this.EditarDia(this.diaSeleccionado);
+
+      // Esconde modal:
+      this.$nextTick(() => {
+        this.$refs.modal_editar_dia.hide();
+      });
+    },
+
+    
 
   }
 
