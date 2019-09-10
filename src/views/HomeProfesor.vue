@@ -63,7 +63,7 @@
 
 
         <!-- Form comision vacia -->
-        <transition enter-active-class="animated desliceInferior" leave-active-class="animated fade-out-top">
+        <transition enter-active-class="animated fade-in-top" leave-active-class="animated fade-out-top">
           <div v-if="mostrarFormComision == true">
             <b-row align-h="center" class="mt-5">
               <b-col cols="10">
@@ -126,14 +126,17 @@
 
 
         <!-- Form para viaticos -->
-        <template v-if="formViaticosVisible === true">
-          <hr class="mt-4">
-          <b-row align-h="center" class="mt-5">
-            <b-col cols="10">
-              <FormViaticos/>
-            </b-col>
-          </b-row>
-        </template>
+        <transition enter-active-class="animation fade-in-top" leave-active-class="animated fade-out-top">
+          <div v-if="formViaticosVisible === true">
+            <hr class="mt-4">
+            <b-row align-h="center" class="mt-5">
+              <b-col cols="10">
+                <FormViaticos/>
+              </b-col>
+            </b-row>
+          </div>
+        </transition>
+        
       </b-container>
 
     </div>
