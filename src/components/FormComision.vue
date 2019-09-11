@@ -237,7 +237,7 @@
           <b-card>
             <b-row align-h="between">
               <h5>Programa de la comisión:</h5>
-              <b-button @click="ReiniciarDiaTemplate" v-b-modal.modal_agregar_dia variant="outline-primary" align="end">
+              <b-button size="sm" @click="ReiniciarDiaTemplate" v-b-modal.modal_agregar_dia variant="outline-primary" align="end">
                 Agregar día
               </b-button>
             </b-row>
@@ -246,7 +246,7 @@
             <b-row>
               <b-table
                 ref="tablaPrograma"
-                head-variant="light"
+                head-variant="dark"
                 bordered
                 hover
                 responsive
@@ -264,18 +264,18 @@
             <b-row align-h="center">
               <b-col md="3">
                 <template v-if="this.diaTemplate.dia != null">
-                  <b-button v-b-modal.modal_editar_dia block variant="outline-secondary">Editar</b-button>
+                  <b-button size="sm" v-b-modal.modal_editar_dia block variant="outline-secondary">Editar</b-button>
                 </template>
                 <template v-else>
-                  <b-button disabled block variant="outline-secondary">Editar</b-button>
+                  <b-button size="sm" disabled block variant="outline-secondary">Editar</b-button>
                 </template>
               </b-col>
               <b-col md="3">
                 <template v-if="this.diaTemplate.dia != null">
-                  <b-button v-b-modal.modal_eliminar_dia block variant="outline-danger">Eliminar</b-button>
+                  <b-button size="sm" v-b-modal.modal_eliminar_dia block variant="outline-danger">Eliminar</b-button>
                 </template>
                 <template v-else>
-                  <b-button disabled block variant="outline-danger">Eliminar</b-button>
+                  <b-button size="sm" disabled block variant="outline-danger">Eliminar</b-button>
                 </template>
               </b-col>
             </b-row>
@@ -329,11 +329,14 @@
           <b-col cols="3">
             <b-button 
               block 
-              variant="primary" 
-              v-b-tooltip.hover title="Una vez enviada, no podrá editarse."
+              variant="danger"
+              v-b-tooltip.hover title="Elimina la solicitud por completo."
             >
-              Enviar solicitud
+              Cancelar solicitud
             </b-button>
+          </b-col>
+          <b-col cols="3">
+            <!-- Espacio en blanco -->
           </b-col>
           <b-col cols="3">
             <b-button 
@@ -345,15 +348,12 @@
             </b-button>
           </b-col>
           <b-col cols="3">
-            <!-- Espacio en blanco -->
-          </b-col>
-          <b-col cols="3">
             <b-button 
               block 
-              variant="danger"
-              v-b-tooltip.hover title="Elimina la solicitud por completo."
+              variant="primary" 
+              v-b-tooltip.hover title="Una vez enviada, no podrá editarse."
             >
-              Cancelar solicitud
+              Enviar solicitud
             </b-button>
           </b-col>
         </b-row>
@@ -452,6 +452,7 @@
       size="md"
       ok-title="Guardar"
       cancel-title="Cancelar"
+      buttonSize="sm"
       centered
       @show="ReiniciarModalEditarDia"
       @hidden="ReiniciarModalEditarDia"
@@ -696,21 +697,6 @@ export default {
     ComprobarModalAgregarDia() {
       //  Comprobaciones de valides del dia:
 
-      // Si algun rubro de diaNuevo es negativo o no es numero, regresa null:
-      // var dia = JSON.parse(JSON.stringify(this.diaNuevo));
-      // for( var rubro in dia ) {
-      //   try {
-      //     var cantidad = parseFloat(dia[rubro]);
-      //     if( cantidad < 0 ){
-      //       this.estadoModalAgregarDia = false;
-      //       return false;
-      //     }
-      //   } catch (error) {
-      //     this.estadoModalAgregarDia = false;
-      //     return false;
-      //   }
-      // }
-
       // Comprueba el estado del form:
       const valid = this.$refs.modal_agregar_dia_form.checkValidity();
       this.estadoModalAgregarDia = valid ? "valid" : "invalid";
@@ -723,15 +709,12 @@ export default {
     OkModalAgregarDia(bvModalEvt) {
       // Previene default:
       bvModalEvt.preventDefault();
-
       // Se sale si el form no es valido:
       if (!this.ComprobarModalAgregarDia()) {
         return;
       }
-
       // Agrega dia:
       this.AgregarDia(this.diaTemplate);
-
       // Esconde modal:
       this.$nextTick(() => {
         this.$refs.modal_agregar_dia.hide();
@@ -741,20 +724,7 @@ export default {
 
     // ++++++++++++++++++++++++++++++++ Modal Editar Dia ++++++++++++++++++++++++++++++++
     ComprobarModalEditarDia() {
-      // Si algun rubro de diaNuevo es negativo o no es numero, regresa null:
-      var dia = JSON.parse(JSON.stringify(this.diaTemplate));
-      for( var rubro in dia ) {
-        try {
-          var cantidad = parseFloat(dia[rubro]);
-          if( cantidad < 0 ){
-            this.estadoModalEditarDia = false;
-            return false;
-          }
-        } catch (error) {
-          this.estadoModalEditarDia = false;
-          return false;
-        }
-      }
+      //  Comprobaciones de valides del dia:
 
       // Comprueba el estado del form:
       const valid = this.$refs.modal_editar_dia_form.checkValidity();
@@ -767,15 +737,12 @@ export default {
     OkModalEditarDia(bvModalEvt) {
       // Previene default:
       bvModalEvt.preventDefault();
-
       // Sale si el form no es valido:
       if (!this.ComprobarModalEditarDia()) {
         return;
       }
-
       // Agrega dia:
       this.EditarDia(this.diaTemplate);
-
       // Esconde modal:
       this.$nextTick(() => {
         this.$refs.modal_editar_dia.hide();

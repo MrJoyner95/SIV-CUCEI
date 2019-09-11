@@ -17,37 +17,7 @@
 
 
 
-      <!-- <h5> Datos del proyecto </h5>
-      <hr> -->
 
-      <!-- <b-row no-gutters class="mt-2">
-        <b-col cols="5">
-          <p align="center">Dependencia</p>
-          <b-form-input 
-            id="dependencia-input" 
-            placeholder="dependencia..." 
-          >
-          </b-form-input>
-        </b-col>
-
-        <b-col cols="4">
-          <p align="center" style="white-space: nowrap; overflow:hidden">Empleado o funcionario universitario</p>
-          <b-form-input 
-            id="dependencia-input" 
-            placeholder="empleado..." 
-          >
-          </b-form-input>
-        </b-col>
-
-        <b-col cols="3">
-          <p align="center">Invitado</p>
-          <b-form-input 
-            id="dependencia-input" 
-            placeholder="invitado..." 
-          >
-          </b-form-input>
-        </b-col>
-      </b-row> -->
 
       <h5> Beneficiario </h5>
       <hr>
@@ -98,28 +68,48 @@
 
 
 
-      <h5 class="mt-5"> Proyecto </h5>
+      <h5 class="mt-5"> Proyectos </h5>
       <hr>
 
-      <b-row no-gutters class="mt-2">
-        <b-col cols="4">
-          <p align="left">No. de proyectos: {{ noProyectos }} </p>
-          <b-button 
-            variant="outline-primary"
-            v-on:click="noProyectos++"
-          >
-            Agregar proyecto
-          </b-button>
-        </b-col>
-        
-        <b-col cols="8">
-          <p align="left">Proyectos:</p>
-          <b-input-group prepend="1">
-            <b-form-input></b-form-input>
-            <b-input-group-append>
-              <b-button v-on:click="noProyectos--" variant="outline-danger">Borrar</b-button>
-            </b-input-group-append>
-          </b-input-group>
+      <!-- Tabla de Proyectos -->
+      <b-row class="mt-2">
+        <b-col md="12">
+          <b-card>
+            <b-row>
+              <b-col md="3">
+                <p>No de proyectos: {{ viaticos.proyectos.length }}</p>
+                <b-button v-b-modal.modal_agregar_proyecto size="sm" block variant="outline-primary">Agregar proyecto</b-button>
+                <!-- <hr> -->
+                <!-- Acciones -->
+                <template v-if="this.proyectoTemplate.indice != null">
+                  <b-button v-b-modal.modal_editar_proyecto block size="sm" variant="outline-secondary" align="end">Editar</b-button>
+                  <b-button v-b-modal.modal_eliminar_proyecto block size="sm" variant="outline-danger" align="end">Eliminar</b-button>
+                </template>
+                <template v-else>
+                  <b-button disabled size="sm" block variant="outline-secondary">Editar</b-button>
+                  <b-button disabled size="sm" block variant="outline-danger">Eliminar</b-button>
+                </template>
+              </b-col>
+
+              <b-col md="9">
+                <hr>
+                <b-table
+                  ref="tablaProyectos"
+                  head-variant="dark"
+                  bordered
+                  hover
+                  responsive
+                  small
+                  selectable
+                  select-mode="single"
+                  @row-selected="SeleccionarProyecto"
+                  :fields="headersTablaProyectos"
+                  :items="viaticos.proyectos"
+                >
+                </b-table>
+              </b-col>
+            </b-row>
+          </b-card>
         </b-col>
       </b-row>
 
@@ -136,7 +126,7 @@
         <b-col md="12">
           <b-card>
             <b-row align-h="between">
-              <h4 class="titulo"> Importe por concepto de gasto </h4>
+              <h5> Importe por concepto del gasto: </h5>
               <b-button v-b-modal.modal_agregar_dia variant="outline-primary" align="end">
                 Agregar día
               </b-button>
@@ -582,6 +572,110 @@
     </b-modal>
 
 
+
+
+
+    <!-- Modal Agregar Proyecto -->
+    <b-modal
+      id="modal_agregar_proyecto"
+      ref="modal_agregar_proyecto"
+      title="Proyecto"
+      size="md"
+      ok-title="Guardar"
+      cancel-title="Cancelar"
+      centered
+      @show="ReiniciarModalAgregarProyecto"
+      @hidden="ReiniciarModalAgregarProyecto"
+      @ok="OkModalAgregarProyecto"
+    >
+      <b-card>
+        <form ref="modal_agregar_proyecto_form">
+          <b-form-group
+            description="Seleccione el proyecto al que aplica la comisión."
+            invalid-feedback="Por favor, seleccione un proyecto."
+            :state="estadoModalAgregarProyecto"
+          >
+            <b-row>
+              <b-col md="12">
+                <p align="left">Proyecto:</p>
+                <b-form-select 
+                  v-model="proyectoSeleccionado"
+                  :options="opcionesProyectos"
+                >
+                  <template v-slot:first>
+                    <option :value="null" disabled>Seleccione una opción</option>
+                  </template>
+                </b-form-select>
+              </b-col>
+            </b-row>
+          </b-form-group>
+        </form>
+      </b-card>
+    </b-modal>
+
+
+
+    <!-- Modal Editar Proyecto -->
+    <b-modal
+      id="modal_editar_proyecto"
+      ref="modal_editar_proyecto"
+      title="Proyecto"
+      size="md"
+      ok-title="Guardar"
+      cancel-title="Cancelar"
+      buttonSize="sm"
+      centered
+      @show="ReiniciarModalEditarProyecto"
+      @hidden="ReiniciarModalEditarProyecto"
+      @ok="OkModalEditarProyecto"
+    >
+      <b-card>
+        <form ref="modal_editar_proyecto_form">
+          <b-form-group
+            description="Seleccione el proyecto al que aplica la comisión."
+            invalid-feedback="Por favor, seleccione un proyecto."
+            :state="estadoModalEditarProyecto"
+          >
+            <b-row>
+              <b-col md="12">
+                <p align="left">Proyecto seleccionado: <strong>{{ $data.proyectoTemplate.nombre }}</strong></p>
+                <b-form-select 
+                  v-model="proyectoSeleccionado"
+                  :options="opcionesProyectos"
+                >
+                  <!-- <template v-slot:first>
+                    <option :value="proyectoSeleccionado">{{$data.proyectoTemplate.nombre}}</option>
+                  </template> -->
+                </b-form-select>
+              </b-col>
+            </b-row>
+          </b-form-group>
+        </form>
+      </b-card>
+    </b-modal>
+
+
+
+    <!-- Modal Eliminar Proyecto -->
+    <b-modal
+      id="modal_eliminar_proyecto"
+      title="Confirmar eliminación"
+      size= "sm"
+      buttonSize="sm"
+      okVariant="danger"
+      okTitle="Eliminar"
+      cancelTitle="Cancelar"
+      footerClass="p-2"
+      centered
+      @ok="EliminarProyecto()"
+    >
+      ¿Está seguro de eliminar el proyecto seleccionado?
+    </b-modal>
+
+
+
+
+
   </div>
 </template>
 
@@ -686,6 +780,17 @@ export default {
       archivoPrograma: null,
 
 
+      // Viaticos:
+      viaticos: {
+        dependencia: null,
+        esEmpleado: null,
+        nombreInvitado: null,
+        proyectos: [],
+        dias: [],
+        comentarios: null
+      },
+
+
 
       // Tabla editable:
       headersTabla: [
@@ -740,11 +845,170 @@ export default {
       estadoModalEditarDia: null,
 
 
+
+      // Tabla Proyectos:
+      headersTablaProyectos: [
+        { key: "nombre", label: "Proyecto", sortable: false }
+      ],
+      
+      proyectoTemplate: {
+        indice: null,
+        nombre: null,
+      },
+
+      // Proyecto seleccionado en los modals:
+      proyectoSeleccionado: null,
+      opcionesProyectos: [
+        { value: 'a', text: 'proyecto A' },
+        { value: 'b', text: 'proyecto B' },
+        { value: 'c', text: 'proyecto C' }
+      ],
+      // Modals Proyecto:
+      estadoModalAgregarProyecto: null,
+      estadoModalEditarProyecto: null,
+
+
     }
   },
   methods:{
 
-    // ++++++++++++++++++++++++++++++++ Tabla editable ++++++++++++++++++++++++++++++++
+    // ++++++++++++++++++++++++++++++++ Tabla Proyectos ++++++++++++++++++++++++++++++++
+    SeleccionarProyecto(item){
+      // Verifica si se selecciono un objeto de la tabla o se quito la seleccion:
+      if(item[0]){
+        // Copia valor del item a proyectoTemplate:
+        this.proyectoTemplate = JSON.parse(JSON.stringify(item[0]));
+      }
+      else{
+        // Regresa al valor inicial:
+        this.ReiniciarProyectoTemplate();
+      }
+    },
+
+    AgregarProyecto(proyectoNuevo){
+      // Copia template de proyecto:
+      var proyecto = JSON.parse(JSON.stringify(this.proyectoTemplate));
+      // Copia proyecto seleccionado:
+      proyecto.nombre = JSON.parse(JSON.stringify(proyectoNuevo));
+      // Comprobaciones de fecha:
+
+      // Agrega el indice de proyecto:
+      var contProy = this.viaticos.proyectos.length;
+      proyecto.indice = contProy.toString();
+      // Agrega dia al arreglo de la comision:
+      this.viaticos.proyectos.push(proyecto);
+    },    
+
+    EditarProyecto(proySel){
+      // Comprueba que haya un proyecto seleccionado:
+      if(this.proyectoTemplate.indice != null){
+        // Copia template de proyecto:
+        var proyecto = JSON.parse(JSON.stringify(this.proyectoTemplate));
+        // Copia proySel (opcion seleccionada en modal):
+        proyecto.nombre = JSON.parse(JSON.stringify(proySel));
+        // Copia indice de proyectoTemplate:
+        proyecto.indice = JSON.parse(JSON.stringify(this.proyectoTemplate.indice)); 
+        // Comprobaciones de fecha:
+
+        // Copia valor de proyecto al arreglo:
+        this.viaticos.proyectos[ parseInt(proyecto.indice) ] = proyecto;
+        // Refresca tabla del programa:
+        this.$refs.tablaProyectos.refresh();
+      }
+    },
+
+    EliminarProyecto(){
+      // Comprueba que haya un proyecto seleccionado:
+      if(this.proyectoTemplate.indice != null){
+        // Obtiene indice del objeto:
+        var indiceProyecto = JSON.parse(JSON.stringify(this.proyectoTemplate.indice));
+        indiceProyecto = parseInt(indiceProyecto);
+        // Elimina objeto del arreglo:
+        this.viaticos.proyectos.splice(indiceProyecto, 1);
+        // Recalcula los valores de indice:
+        for (let i = 0; i < this.viaticos.proyectos.length; i++) {
+          this.viaticos.proyectos[i].indice = i;
+        }
+        // Refresca tabla del programa:
+        this.$refs.tablaProyectos.refresh();
+      }
+    },
+
+    ReiniciarProyectoTemplate(){
+      this.proyectoTemplate = {
+        indice: null,
+        nombre: null
+      }
+    },
+
+
+    // ++++++++++++++++++++++++++++++++ Modal Agregar Proyecto ++++++++++++++++++++++++++++++++
+    ComprobarModalAgregarProyecto() {
+      // Comprueba que haya seleccionado una opcion de proyecto:
+      if(this.proyectoSeleccionado === null){
+        this.estadoModalAgregarProyecto = false;
+        return false;
+      }
+      // Comprueba el estado del form:
+      const valid = this.$refs.modal_agregar_proyecto_form.checkValidity();
+      this.estadoModalAgregarProyecto = valid ? "valid" : "invalid";
+      return valid;
+    },
+    ReiniciarModalAgregarProyecto() {
+      this.estadoModalAgregarProyecto = null;
+      this.ReiniciarProyectoTemplate();
+    },
+    OkModalAgregarProyecto(bvModalEvt) {
+      // Previene default:
+      bvModalEvt.preventDefault();
+      // Se sale si el form no es valido:
+      if (!this.ComprobarModalAgregarProyecto()) {
+        return;
+      }
+      // Agrega proyecto:
+      this.AgregarProyecto(this.proyectoSeleccionado);
+      // Esconde modal:
+      this.$nextTick(() => {
+        this.$refs.modal_agregar_proyecto.hide();
+      });
+    },
+
+
+    // ++++++++++++++++++++++++++++++++ Modal Editar Proyecto ++++++++++++++++++++++++++++++++
+    ComprobarModalEditarProyecto() {
+      // Comprueba que haya seleccionado una opcion de proyecto:
+      if(this.proyectoSeleccionado === null){
+        this.estadoModalEditarProyecto = false;
+        return false;
+      }
+      // Comprueba el estado del form:
+      const valid = this.$refs.modal_editar_proyecto_form.checkValidity();
+      this.estadoModalEditarProyecto = valid ? "valid" : "invalid";
+      return valid;
+    },
+    ReiniciarModalEditarProyecto() {
+      this.estadoModalEditarProyecto = null;
+    },
+    OkModalEditarProyecto(bvModalEvt) {
+      // Previene default:
+      bvModalEvt.preventDefault();
+      // Sale si el form no es valido:
+      if (!this.ComprobarModalEditarProyecto()) {
+        return;
+      }
+      // Agrega dia:
+      this.EditarProyecto(this.proyectoSeleccionado);
+      // Esconde modal:
+      this.$nextTick(() => {
+        this.$refs.modal_editar_proyecto.hide();
+      });
+    },
+
+
+
+
+
+    // ++++++++++++++++++++++++++++++++ Tabla Gastos ++++++++++++++++++++++++++++++++
     AgregarDia(diaNuevo){
       // NOTAS:
       // se agregan las propiedades "dia" y "suma" en este metodo.
@@ -761,7 +1025,7 @@ export default {
       }
       dia.suma = suma;
 
-      // Calcula el numero de dia:
+      // Calcula el indice de dia:
       var contDia = this.dias.length + 1;
       dia.dia = contDia.toString();
 
@@ -836,7 +1100,7 @@ export default {
 
     // ++++++++++++++++++++++++++++++++ Modal Agregar Dia ++++++++++++++++++++++++++++++++
     ComprobarModalAgregarDia() {
-      // Si algun rubro de diaNuevo es negativo o no es numero, regresa null:
+      // Si algun rubro de diaNuevo es negativo o no es indice, regresa null:
       var dia = JSON.parse(JSON.stringify(this.diaNuevo));
       for( var rubro in dia ) {
         try {
@@ -882,7 +1146,7 @@ export default {
 
     // ++++++++++++++++++++++++++++++++ Modal Editar Dia ++++++++++++++++++++++++++++++++
     ComprobarModalEditarDia() {
-      // Si algun rubro de diaNuevo es negativo o no es numero, regresa null:
+      // Si algun rubro de diaNuevo es negativo o no es indice, regresa null:
       var dia = JSON.parse(JSON.stringify(this.diaSeleccionado));
       for( var rubro in dia ) {
         try {
