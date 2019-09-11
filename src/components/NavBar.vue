@@ -45,7 +45,7 @@
           <b-nav-item href="#/historicos">Históricos</b-nav-item>
           <b-nav-item href="#/viaticos">Viáticos</b-nav-item>
           <b-nav-item href="#/aportaciones">Aportaciones</b-nav-item>
-          <b-nav-item href="#/">Estadísticas</b-nav-item>
+          <b-nav-item href="#/estadisticas">Estadísticas</b-nav-item>
         </b-navbar-nav>
 
         <!-- Elementos alineados a la derecha -->
