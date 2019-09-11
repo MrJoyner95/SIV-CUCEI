@@ -5,6 +5,7 @@ import Login from './views/Login.vue'
 import Historicos from './views/Historicos.vue'
 import Viaticos from './views/Viaticos.vue'
 import Aportaciones from './views/Aportaciones.vue'
+import Estadisticas from './views/Estadisticas.vue'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/aportaciones',
       name: 'aportaciones',
       component: Aportaciones
+    },
+    {
+      path: '/estadisticas',
+      name: 'estadisticas',
+      component: Estadisticas
     }
   ]
 })
