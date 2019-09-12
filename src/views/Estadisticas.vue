@@ -28,9 +28,21 @@
 
     <apexchart 
       type=pie 
-      width=380 
+      width=500 
       :options="chartOptionsPie" 
       :series="seriesPie"
+    >
+    </apexchart>
+
+
+    <apexchart 
+      height="350"
+      width="100%"
+      type="line"
+      
+      :series="seriesLine"
+      :options="chartOptionsLine" 
+      
     >
     </apexchart>
     
@@ -78,6 +90,10 @@
           {
             name: "series-1",
             data: [30, 40, 45, 30, 49]
+          },
+          {
+            name: "presupuesto",
+            data: [60, 50, 15, 10, 70]
           }
         ],
 
@@ -96,10 +112,112 @@
                 position: 'bottom'
               }
             }
-          }]
+          }],
+          
+          chart: {
+            events: {
+              // selection: function(chartContext, { xaxis, yaxis }) {
+              //   console.log("X: " + xaxis);
+              //   console.log("Y: " + yaxis);
+              // }
+              dataPointSelection: function(event, chart, opts) {
+                // console.log(event);
+                // console.log(event);
+                // console.log(config);
+                if(opts.selectedDataPoints[0].length === 1){
+                  var indSel = JSON.parse(JSON.stringify(opts.selectedDataPoints[0][0]));
+                  this.methods.MostrarDatos(indSel);
+                  // console.log(indSel);
+                  // console.log(this.seriesPie[indSel]);
+                  // console.log(this.chartOptionsPie.labels[indSel]);
+                }
+                
+                // console.log(this.seriesPie[opts.selectedDataPoints[0]]);
+                // console.log(this.chartOptionsPie.labels[opts.selectedDataPoints[0]]);
+              }
+            }
+          }
+          
         },
 
-        seleccionPie: null
+        seleccionPie: null,
+
+
+
+        seriesLine: [
+          {
+            name: "High - 2013",
+            data: [28, 29, 33, 36, 32, 32, 33]
+          },
+          {
+            name: "Low - 2013",
+            data: [12, 11, 14, 18, 17, 13, 13]
+          }
+        ],
+        chartOptionsLine: {
+          chart: {
+            shadow: {
+              enabled: true,
+              color: '#000',
+              top: 18,
+              left: 7,
+              blur: 10,
+              opacity: 1
+            },
+            toolbar: {
+              show: false
+            }
+          },
+          colors: ['#77B6EA', '#545454'],
+          dataLabels: {
+            enabled: true,
+          },
+          stroke: {
+            curve: 'smooth'
+          },
+          title: {
+            text: 'Average High & Low Temperature',
+            align: 'left'
+          },
+          grid: {
+            borderColor: '#e7e7e7',
+            row: {
+              colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+              opacity: 0.5
+            },
+          },
+          markers: {
+            
+            size: 6
+          },
+          xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            title: {
+              text: 'Month'
+            }
+          },
+          yaxis: {
+            title: {
+              text: 'Temperature'
+            },
+            min: 5,
+            max: 40
+          },
+          legend: {
+            position: 'top',
+            horizontalAlign: 'right',
+            floating: true,
+            offsetY: -25,
+            offsetX: -5
+          }
+          ,
+          plotOptions: {
+            bar: {
+              distributed: true
+            }
+          }
+        }
+
 
 
       };
@@ -111,6 +229,12 @@
             palette: e.target.value
           }
         };
+      },
+
+      MostrarDatos(indSel){
+        console.log(indSel);
+        console.log(this.seriesPie[indSel]);
+        console.log(this.chartOptionsPie.labels[indSel]);
       }
     }
   };
