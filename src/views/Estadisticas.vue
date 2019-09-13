@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="div_fondo_udg">
     <h1>Estadisticas</h1>
 
@@ -49,6 +50,10 @@
     <p> {{ $data.seleccionPie }} </p>
 
 
+=======
+  <div>
+    <h1>Estadisticas</h1>
+>>>>>>> e27a9d57ba9a2bc2d4bad317f4886565d03292ef
   </div>
 </template>
 
@@ -58,6 +63,7 @@
 
 <script>
 
+<<<<<<< HEAD
   import VueApexCharts from "vue-apexcharts";
 
   export default {
@@ -265,6 +271,8 @@
 
   //   });
 
+=======
+>>>>>>> e27a9d57ba9a2bc2d4bad317f4886565d03292ef
 </script>
 
 
