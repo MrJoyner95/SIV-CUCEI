@@ -1,6 +1,6 @@
 <template>
   <div class="div_fondo_udg">
-    <h1>Estadisticas</h1>
+    <h1>Estadisticas NUEVO</h1>
 
     <p>
       <label><b>Select Theme Palette</b> </label> &nbsp;
