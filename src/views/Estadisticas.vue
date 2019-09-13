@@ -91,6 +91,78 @@
     },
     data: function() {
       return {
+
+        /**
+          Objetos JSON recibidos desde el servidor
+        */
+        comisiones: {
+          anio: null, // string | default: anio actual | * = todos los anios
+          totalSolicitudes: null, // number
+          totalAprobadas: null, // number
+          totalRechazadas: null, // number
+          destinosMasPopulares: null, // [string] | max: 5
+          promedioViaticosPorComision: null, // string
+          solicitantesMasRecurrentes: [
+            {
+              codigo: null, // string
+              nombre: null, // string
+              departamento: null, // string
+              rango: null, // string
+              totalComisionesSolicitadas: null, // string
+              totalComisionesConcluidas: null, // string
+            }
+          ], // max: 5
+          departamentosMasRecurrentes:[
+            {
+              nombre: null, // string
+              director: null, // string
+              totalComisionesSolicitadas: null, // string
+              totalComisionesConcluidas: null, // string
+            }
+          ], // max: 5
+          meses: [
+            {
+              fechaInicio: null, // string
+              totalSolicitudes: null, // string
+              totalAprobadas: null, // string
+              totalRechazadas: null, // string
+              destinosMasPopulares: null, // [string] | max: 3
+              promedioViaticosPorComision: null, // string
+              solicitantesMasRecurrentes: [
+                {
+                  codigo: null, // string
+                  nombre: null, // string
+                  departamento: null, // string
+                  rango: null, // string
+                  totalComisionesSolicitadas: null, // string
+                  totalComisionesConcluidas: null, // string
+                }
+              ], // max: 3
+              departamentosMasRecurrentes:[
+                {
+                  nombre: null, // string
+                  director: null, // string
+                  totalComisionesSolicitadas: null, // string
+                  totalComisionesConcluidas: null, // string
+                }
+              ], // max: 3
+            }
+          ], // todos los meses transcurridos
+        },
+
+
+
+
+
+        
+
+        
+
+
+        
+
+
+
         chartOptions: {
           chart: {
             id: "basic-bar",

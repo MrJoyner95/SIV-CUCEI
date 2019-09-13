@@ -1,0 +1,122 @@
+{
+  "comisiones": {
+    "anio": "string | default: anio actual (2019) | * = todos los anios",
+    "totalSolicitudes": "number",
+    "totalAprobadas": "number",
+    "totalRechazadas": "number",
+    "destinosMasPopulares": "[string] | max: 5",
+    "eventosMasPopulares": "[string] | max: 5",
+    "viaticosPromedio": "string",
+    "duracionPromedio": "string",
+    "solicitantesMasRecurrentes": [
+      {
+        "codigo": "string",
+        "nombre": "string",
+        "departamento": "string",
+        "rango": "string",
+        "totalComisionesSolicitadas": "string",
+        "totalComisionesConcluidas": "string"
+      }
+    ],
+    "departamentosMasRecurrentes":[
+      {
+        "nombre": "string",
+        "director": "string",
+        "totalComisionesSolicitadas": "string",
+        "totalComisionesConcluidas": "string"
+      }
+    ], 
+    "meses": [
+      {
+        "mes": "string",
+        "totalSolicitudes": "string",
+        "totalAprobadas": "string",
+        "totalRechazadas": "string",
+        "destinosMasPopulares": "[string] | max: 3",
+        "eventosMasPopulares": "[string] | max: 3",
+        "viaticosPromedio": "string",
+        "duracionPromedio": "string",
+        "solicitantesMasRecurrentes": [
+          {
+            "codigo": "string",
+            "nombre": "string",
+            "departamento": "string",
+            "rango": "string",
+            "totalComisionesSolicitadas": "string",
+            "totalComisionesConcluidas": "string"
+          }
+        ], 
+        "departamentosMasRecurrentes":[
+          {
+            "nombre": "string",
+            "director": "string",
+            "totalComisionesSolicitadas": "string",
+            "totalComisionesConcluidas": "string"
+          }
+        ] 
+      }
+    ]
+  },
+  "departamentos":{
+    "anio": "string | default: anio actual (2019) | * = todos los anios",
+    "totalSolicitudes": "number",
+    "totalAprobadas": "number",
+    "totalRechazadas": "number",
+    "destinosMasPopulares": "[string] | max: 5",
+    "eventosMasPopulares": "[string] | max: 5",
+    "viaticosPromedio": "string",
+    "duracionPromedio": "string",
+    "totalPresupuestos": "number",
+    "totalPresupuestosRestantes": "number",
+    "solicitantesMasRecurrentes": [
+      {
+        "codigo": "string",
+        "nombre": "string",
+        "departamento": "string",
+        "rango": "string",
+        "totalComisionesSolicitadas": "string",
+        "totalComisionesConcluidas": "string"
+      }
+    ],
+    "meses": [
+      {
+        "mes": "string",
+        "totalSolicitudes": "string",
+        "totalAprobadas": "string",
+        "totalRechazadas": "string",
+        "destinosMasPopulares": "[string] | max: 3",
+        "eventosMasPopulares": "[string] | max: 3",
+        "viaticosPromedio": "string",
+        "duracionPromedio": "string",
+        "presupuesto": "number",
+        "presupuestoRestante": "number",
+        "solicitantesMasRecurrentes": [
+          {
+            "codigo": "string",
+            "nombre": "string",
+            "departamento": "string",
+            "rango": "string",
+            "totalComisionesSolicitadas": "string",
+            "totalComisionesConcluidas": "string"
+          }
+        ]
+      }
+    ]
+  },
+  "presupuestos":{
+    "destinosMayorGasto": "[string] | max: 5",
+    "departamentos": [
+      {
+        "presupuesto": "number",
+        "presupuestoRestante": "number",
+        "totalAportaciones": "number"
+      }
+    ],
+    "totalRubrosViaticos": [
+      {
+        "nombre": "string",
+        "cantidadSolicitada": "number"
+      }
+    ]
+  }
+}
