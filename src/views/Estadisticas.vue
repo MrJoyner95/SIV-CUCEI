@@ -1,5 +1,29 @@
 <template>
   <div class="div_fondo_udg">
+
+    <b-tabs content-class="mt-3" align="center">
+      
+      <b-tab title="Comisiones" active>
+        <b-card>
+          <p>Comisiones</p>
+        </b-card>
+        
+      </b-tab>
+
+
+
+      <b-tab title="Departamentos">
+        <p>Departamentos</p>
+      </b-tab>
+
+
+
+      <b-tab title="Presupuestos">
+        <p>Presupuestos</p>
+      </b-tab>
+
+    </b-tabs>
+
     <h1>Estadisticas NOVO IN PORTUGUES</h1>
 
     <p>
