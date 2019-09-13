@@ -126,7 +126,8 @@
                 // console.log(config);
                 if(opts.selectedDataPoints[0].length === 1){
                   var indSel = JSON.parse(JSON.stringify(opts.selectedDataPoints[0][0]));
-                  this.methods.MostrarDatos(indSel);
+                  console.log(indSel);
+                  this.MostrarDatos(indSel);
                   // console.log(indSel);
                   // console.log(this.seriesPie[indSel]);
                   // console.log(this.chartOptionsPie.labels[indSel]);
