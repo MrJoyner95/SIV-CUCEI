@@ -183,16 +183,174 @@
                   </b-card>
                 </b-col>
               </b-row>
-
-              
               
             </b-card>
           </b-tab>
 
 
 
+
+
+
           <b-tab title="Departamentos">
-            <p>Departamentos</p>
+            <b-card no-body class="card_shadow_md">
+
+              <div style="display: inline-block;">
+                <h5>Departamento: </h5>
+                <div style="display: inline-block;">
+                  <b-form-select v-model="depSeleccionado" :options="depOpciones">
+                  </b-form-select>
+                </div>
+              </div>
+              
+
+
+              <!-- Vista General -->
+              <hr>
+              <p class="seccion_titulo">{{depSeleccionado}}</p>
+
+              <!-- Resumen Departamento -->
+              
+              <b-row class="mt-2">
+                <b-col lg="3">
+                  <b-card no-body class="card_summary">
+                    <h3 class="card_summary_text">Solicitudes</h3>
+                    <hr>
+                    <h5 class="card_summary_text">Solicitudes recibidas:</h5>
+                    <h3 class="card_summary_text">86</h3>
+                    <p></p>
+                    <h5 class="card_summary_text">Solicitudes aceptadas:</h5>
+                    <h3 class="card_summary_text">64 <span style="font-size: 75%;">(72%)</span></h3>
+                    <p></p>
+                    <h5 class="card_summary_text">Solicitudes rechazadas:</h5>
+                    <h3 class="card_summary_text">22 <span style="font-size: 75%;">(28%)</span></h3>
+                  </b-card>
+                </b-col>
+
+                <b-col lg="3">
+                  <b-card no-body class="card_summary">
+                    <h3 class="card_summary_text">Comisiones</h3>
+                    <hr>
+                    <h5 class="card_summary_text">Duración promedio:</h5>
+                    <h3 class="card_summary_text">7 días</h3>
+                    <p></p>
+                    <h5 class="card_summary_text">Gasto promedio (viáticos):</h5>
+                    <h3 class="card_summary_text">$18,534 MXN</h3>
+                  </b-card>
+                </b-col>
+
+                <b-col lg="3">
+                  <b-card no-body class="card_summary">
+                    <h3 class="card_summary_text">Destinos</h3>
+                    <hr>
+                    <h5 class="card_summary_text">Destinos más populares:</h5>
+                    <h3 class="card_summary_text">España</h3>
+                    <h3 class="card_summary_text">Alemania</h3>
+                    <h3 class="card_summary_text">Francia</h3>
+                    <h3 class="card_summary_text">Colombia</h3>
+                    <h3 class="card_summary_text">Estados Unidos</h3>
+                  </b-card>
+                </b-col>
+
+                <b-col lg="3">
+                  <b-card no-body class="card_summary">
+                    <h3 class="card_summary_text">Eventos</h3>
+                    <hr>
+                    <h5 class="card_summary_text">Eventos más populares:</h5>
+                    <h3 class="card_summary_text">DeveloperWeek</h3>
+                    <h3 class="card_summary_text">DockerCon</h3>
+                    <h3 class="card_summary_text">DevOps Con</h3>
+                    <h3 class="card_summary_text">OSCON</h3>
+                    <h3 class="card_summary_text">Microsoft Ignite</h3>
+                  </b-card>
+                </b-col>
+              </b-row>
+
+
+
+              <b-row class="mt-4">
+
+                <b-col md="3">
+                  <b-card no-body class="card_summary">
+                    <h3 class="card_summary_text">Presupuesto</h3>
+                    <hr>
+                    <h5 class="card_summary_text">Total:</h5>
+                    <h3 class="card_summary_text">$124,732.00 MXN</h3>
+                    <p></p>
+                    <h5 class="card_summary_text">Restante</h5>
+                    <h3 class="card_summary_text">$48,142.00 MXN <span style="font-size: 75%;">(38%)</span></h3>
+                    <apexchart 
+                      type=radialBar
+                      height=300
+                      :options="radialOptions" 
+                      :series="radialSeries"
+                    />
+                  </b-card>
+                </b-col>
+
+                <b-col md="9">
+                  <b-card 
+                    no-body 
+                    class="card_chart"
+                    header-class="card_chart_header"
+                    header="Solicitudes de comisión"
+                    header-tag="header"
+                  >
+                    <apexchart 
+                      height="350"
+                      width="100%"
+                      type="area"
+                      :series="seriesSolicitudesRecibidas"
+                      :options="chartSolicitudesRecibidas" 
+                    >
+                    </apexchart>
+                  </b-card>
+                </b-col>
+              </b-row>
+
+
+
+              <!-- Rangos y Solicitantes -->
+              <hr class="mt-5">
+              <p class="seccion_titulo">Rangos y Solicitantes</p>
+
+              <b-row class="mt-2">
+                <b-col lg="5">
+                  <b-card 
+                    no-body 
+                    class="card_chart"
+                    header-class="card_chart_header"
+                    header="Rangos más recurrentes"
+                    header-tag="header"
+                    style="height: 100%;"
+                  >
+                    <apexchart 
+                      height="350"
+                      type="pie"
+                      :series="seriesRangos"
+                      :options="chartRangos" 
+                    >
+                    </apexchart>
+                  </b-card>
+                </b-col>
+
+                <b-col lg="7">
+                  <b-card 
+                    no-body 
+                    class="card_chart"
+                    header-class="card_chart_header"
+                    header="Solicitantes más recurrentes"
+                    header-tag="header"
+                    style="height: 100%;"
+                  >
+                    <b-table responsive striped hover :items="topSolicitantes"></b-table>
+                  </b-card>
+                </b-col>
+              </b-row>
+
+              
+              
+            </b-card>
           </b-tab>
 
 
@@ -409,7 +567,7 @@
 
 
 
-        // ++++++++++++++++++++++++++++++++++++++++ Prueba visual ++++++++++++++++++++++++++++++++++++++++
+        // ++++++++++++++++++++++++++++++++++++++++ Prueba visual (Solicitudes) ++++++++++++++++++++++++++++++++++++++++
 
         // ++++++++++++++++++++++++ Solicitudes recibidas ++++++++++++++++++++++++
         seriesSolicitudesRecibidas: [
@@ -566,6 +724,66 @@
           { codigo: 445566, nombre: 'George V', departamento: 'Ingeniería Industrial', rango: 'DD', solicitudes: '2', concluidas: '2' },
           { codigo: 334455, nombre: 'Jozef Pilsudski', departamento: 'Electrónica', rango: 'AA', solicitudes: '2', concluidas: '2' },
         ],
+
+
+
+
+
+
+        // ++++++++++++++++++++++++++++++++++++++++ Prueba visual (Departamentos) ++++++++++++++++++++++++++++++++++++++++
+
+        depSeleccionado: "Ciencias Computacionales",
+        depOpciones: ["Ciencias Computacionales", "Electrónica", "Ingeniería Industrial"],
+
+
+
+        radialSeries: [38],
+        radialOptions: {
+          chart: {
+            offsetY: -20
+          },
+          plotOptions: {
+            radialBar: {
+              startAngle: -90,
+              endAngle: 90,
+              track: {
+                background: "#ffffff",
+                strokeWidth: '97%',
+                margin: 5, // margin is in pixels
+                shadow: {
+                  enabled: true,
+                  top: 2,
+                  left: 0,
+                  color: '#ffffff',
+                  opacity: 1,
+                  blur: 2
+                }
+              },
+              dataLabels: {
+                name: {
+                  show: false
+                },
+                value: {
+                  offsetY: -2,
+                  fontSize: '22px',
+                  color: '#ffffff'
+                }
+              }
+            }
+          },
+          fill: {
+            type: 'gradient',
+            gradient: {
+              shade: 'light',
+              shadeIntensity: 0.4,
+              inverseColors: false,
+              opacityFrom: 1,
+              opacityTo: 1,
+              stops: [0, 50, 53, 91]
+            },
+          },
+          labels: ['Average Results'],
+        },
 
 
 
