@@ -8,7 +8,6 @@
         <b-col cols="10">
           
           <!-- <b-card bg-variant="transparent" no-body class="overflow-hidden" border-variant="primary" > -->
-
           <div id="div_login">
 
             <b-row no-gutters>
@@ -22,10 +21,10 @@
                   <b-form @submit="iniciarSesion">
                     <b-form-group label="Correo electrónico:">
                       <b-form-input
-                        id="input-correo"
-                        v-model="correo"
+                        id="input-codigo"
+                        v-model="codigo"
                         required
-                        placeholder="correo..."
+                        placeholder="codigo..."
                       ></b-form-input>
                     </b-form-group>
 
@@ -49,6 +48,18 @@
                         </b-col>
                       </b-row>
                     </b-form-group>
+
+                    <b-alert
+                      variant="danger"
+                      dismissible
+                      fade
+                      :show="mostrarAlertaServidor"
+                      @dismissed="mostrarAlertaServidor=false"
+                    >
+                      Error: no se obtuvo respuesta del servidor.
+                    </b-alert>
+
+
 
                     <!-- Recuperar contrasena -->
                     <div>
@@ -85,6 +96,15 @@
                         </form>
                       </b-modal>
                     </div>
+
+                    <!-- <div>
+                      <loading 
+                        :active.sync="cargando" 
+                        :can-cancel="false" 
+                        :is-full-page="true" 
+                      >
+                      </loading>
+                    </div> -->
                     
                   </b-form>
                 </div>
@@ -125,6 +145,22 @@
       </b-row>
     </div>
 
+
+
+    <!-- Pantalla de carga -->
+    <loading 
+      :active.sync="cargando" 
+      :can-cancel="false"
+      :is-full-page="true"
+      loader="dots"
+      :height=100
+      :width=100
+      color="#1db255"
+      background-color="#3e3e3e"
+      :opacity=0.5
+    >
+    </loading>
+
   </div>
 </template>
 
@@ -133,34 +169,159 @@
 
 
 <script>
-// Componentes:
+// State y Router:
+import estado from "@/store.js";
+import enrutador from "@/router.js";
+
+// vue-loading-overlay:
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 // Propiedades:
 export default {
   name: "login",
-  components: {},
+  components: {
+    Loading,
+  },
   data() {
     return {
       // Iniciar Sesion:
-      correo: "",
-      contrasena: "",
+      codigo: null,
+      contrasena: null,
 
       // Recuperar contrasena:
-      correoRecuperacion: "",
-      modalState: null
+      correoRecuperacion: null,
+      modalState: null,
 
+      // Pantalla de carga:
+      cargando: false,
 
+      // Estado de la peticion:
+      mostrarAlertaServidor: false,
     };
   },
   methods: {
-    // ++++++++++++++++++++++++++++++++ Iniciar sesion ++++++++++++++++++++++++++++++++
-    iniciarSesion(correo) {
-      // Cambia state:
-      this.$store.commit("cambiarTipoUsuario", {
-        tipoUsuario: this.correo
-      });
-      // Manda a home:
-      this.$router.push("/");
+
+    iniciarSesion(codigo) {
+
+      // Muestra pantalla de carga:
+      this.cargando = true;
+
+      // Duplica el objeto raiz (this) para poder usarlo en una funcion interna dentro de "setInterval":
+      var data = this; // Dentro de una funcion interna se llama a "data" en lugar de "this".
+
+      // ++++++++++++++++++++++++ Enviando JSON al servidor y esperando respuesta: ++++++++++++++++++++++++
+      var timeleft = 3;
+      var downloadTimer = setInterval(function(){
+
+        // ++++++++++++++++ Peticion HTTP al servidor ++++++++++++++++
+        // Define la peticion:
+        var requestGetUser = new XMLHttpRequest();
+        var url = "http://localhost:3000/trabajador";
+        // Abre la peticion:
+        requestGetUser.open('GET', url, true);
+        // Envia la peticion:
+        requestGetUser.send();
+        // Agrega eventos:
+        requestGetUser.addEventListener("readystatechange", processRequest, false);
+        // Evento de la peticion:
+        function processRequest(e) {
+          // Comprueba que la peticion este en el estado "DONE" y estatus 200 del servidor:
+          if(requestGetUser.readyState == 4 && requestGetUser.status == 200 || requestGetUser.readyState == 4 && requestGetUser.status == 304){
+
+            var response = JSON.parse(requestGetUser.responseText);
+            console.log(response);
+
+            estado.commit("establecerTrabajador", {
+              codigo: response.codigo,
+              tipo: response.tipo,
+              nombre: response.nombre,
+              plazaLaboral: response.plazaLaboral,
+              areaAdscripcion: response.areaAdscripcion,
+              token: response.token,
+            });
+
+            // Esconde pantalla de carga:
+            data.cargando = false;
+
+            console.log("RESPUESTA DEL SERVIDOR");
+            enrutador.push("/");
+
+            // Detiene el contador:
+            clearInterval(downloadTimer);
+          }
+        }
+
+        // ++++++++++++++++ No hubo respuesta del servidor ++++++++++++++++
+        timeleft -= 1;
+        if(timeleft <= 0){
+
+          // Cambia estado de mostrarAlertaServidor:
+          data.mostrarAlertaServidor = true;
+          // Esconde pantalla de carga:
+          data.cargando = false;
+
+          // Error al obtener datos desde el servidor:
+          console.log("ERROR EN EL SERVIDOR");
+          // enrutador.push("/error");
+
+          // Detiene el contador:
+          clearInterval(downloadTimer);
+        }
+
+      }, 1000);
+
+
+      // // Define la peticion:
+      // var requestGetUser = new XMLHttpRequest();
+      // var url = "http://localhost:3000/usuario";
+      // // Abre la peticion:
+      // requestGetUser.open('GET', url, true);
+      // // Envia la peticion:
+      // requestGetUser.send();
+      // // Agrega eventos:
+      // requestGetUser.addEventListener("readystatechange", processRequest, false);
+      // // Evento de la peticion:
+      // function processRequest(e) {
+      //   // Comprueba que la peticion este en el estado "DONE" y estatus 200 del servidor:
+      //   if(requestGetUser.readyState == 4 && requestGetUser.status == 200 || requestGetUser.readyState == 4 && requestGetUser.status == 304){
+
+      //     var response = JSON.parse(requestGetUser.responseText);
+      //     console.log(response);
+
+      //     estado.commit("establecerUsuario", {
+      //       codigo: response.codigo,
+      //       tipo: response.tipo,
+      //       token: response.token
+      //     });
+
+      //     console.log("RESPUESTA DEL SERVIDOR");
+      //     enrutador.push("/");
+
+      //   }
+      // }
+
+
+
+      // setTimeout(Home, 5000);
+
+      // this.$store.commit("establecerUsuario", {
+      //   codigo: this.codigo,
+      //   tipo: this.codigo,
+      //   token: this.codigo
+      // });
+
+      // function Home() {
+      //   console.log("Yendo a home...");
+      //   enrutador.push("/");
+      // }
+
+
+
+      
+
+
+
     },
 
     // ++++++++++++++++++++++++++++++++ Recuperar contrasena ++++++++++++++++++++++++++++++++

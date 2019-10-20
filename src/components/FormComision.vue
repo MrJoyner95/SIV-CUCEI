@@ -590,10 +590,8 @@ export default {
       tipoComision: {
         opciones: [
           { value: null, text: 'Seleccione un tipo' },
-          { value: 'a', text: 'Tipo a' },
-          { value: 'b', text: 'Tipo b' },
-          { value: 'c', text: 'Tipo c' },
-          { value: 'd', text: 'Tipo d (no disponible)', disabled: true }
+          { value: 'nacional', text: 'Nacional' },
+          { value: 'extranjero', text: 'Extranjero' }
         ]
       },
       destinoComision: {
