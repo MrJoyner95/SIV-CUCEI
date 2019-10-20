@@ -5,36 +5,33 @@
 
       <!-- Login y Novedades -->
       <b-row align-h="center" class="mt-5">
-        <b-col cols="10">
+        <b-col lg="10">
           
-          <!-- <b-card bg-variant="transparent" no-body class="overflow-hidden" border-variant="primary" > -->
           <div id="div_login">
-
             <b-row no-gutters>
+              <!-- ++++++++++++++++++++++++++++++++ Iniciar Sesion ++++++++++++++++++++++++++++++++ -->
               <b-col md="5">
-
-                <!-- +++++++++++++++++++++++++++++++ Iniciar Sesion ++++++++++++++++++++++++++++++++ -->
                 <div id="form_login">
                   <h4 class="mb-4 titulo">Iniciar Sesión</h4>
 
                   <!-- Form Login -->
                   <b-form @submit="iniciarSesion">
-                    <b-form-group label="Correo electrónico:">
+                    <b-form-group label="Código:">
                       <b-form-input
                         id="input-codigo"
                         v-model="codigo"
                         required
-                        placeholder="codigo..."
+                        placeholder="..."
                       ></b-form-input>
                     </b-form-group>
 
-                    <b-form-group label="Contraseña:">
+                    <b-form-group label="NIP:">
                       <b-form-input
                         id="input-contrasena"
                         v-model="contrasena"
                         type="password"
                         required
-                        placeholder="contraseña..."
+                        placeholder="..."
                       ></b-form-input>
                     </b-form-group>
 
@@ -44,76 +41,39 @@
                           <b-button type="submit" block variant="outline-primary">Ingresar</b-button>
                         </b-col>
                         <b-col cols="4">
-                          <b-button type="reset" block variant="outline-danger">Limpiar</b-button>
+                          <b-button type="reset" block variant="outline-danger">Cancelar</b-button>
                         </b-col>
                       </b-row>
                     </b-form-group>
-
-                    <b-alert
-                      variant="danger"
-                      dismissible
-                      fade
-                      :show="mostrarAlertaServidor"
-                      @dismissed="mostrarAlertaServidor=false"
-                    >
-                      Error: no se obtuvo respuesta del servidor.
-                    </b-alert>
-
-
-
-                    <!-- Recuperar contrasena -->
-                    <div>
-                      <b-row no-gutters align-h="center" class="mt-4">
-                        <b-col cols="8" align="center">
-                          <b-link v-b-modal.modal-recuperarContrasena>Recuperar contraseña</b-link>
-                        </b-col>
-                      </b-row>
-
-                      <b-modal
-                        id="modal-recuperarContrasena"
-                        ref="modal"
-                        title="Recuperación de contraseña"
-                        centered
-                        @show="modalReset"
-                        @hidden="modalReset"
-                        @ok="modalOk"
-                      >
-                        <form ref="form" @submit.stop.prevent="handleSubmit">
-                          <b-form-group
-                            label="Ingrese su correo:"
-                            description="Enviaremos un enlace a su correo para restablecer su contrseña."
-                            invalid-feedback="Ingrese un correo válido"
-                            :state="modalState"
-                          >
-                            <b-form-input
-                              id="input-correoRecuperacion"
-                              v-model="correoRecuperacion"
-                              type="email"
-                              :state="modalState"
-                              required
-                            ></b-form-input>
-                          </b-form-group>
-                        </form>
-                      </b-modal>
-                    </div>
-
-                    <!-- <div>
-                      <loading 
-                        :active.sync="cargando" 
-                        :can-cancel="false" 
-                        :is-full-page="true" 
-                      >
-                      </loading>
-                    </div> -->
-                    
                   </b-form>
-                </div>
 
+
+                  <!-- Alerta -->
+                  <b-alert
+                    variant="danger"
+                    dismissible
+                    fade
+                    :show="mostrarAlertaServidor"
+                    @dismissed="mostrarAlertaServidor=false"
+                  >
+                    Error: no se obtuvo respuesta del servidor.
+                  </b-alert>
+
+
+                  <!-- Recuperar contrasena -->
+                  <b-row no-gutters align-h="center" class="mt-4">
+                    <b-col cols="8" align="center">
+                      <b-link v-b-modal.modal_recuperar_contrasena>Recuperar contraseña</b-link>
+                    </b-col>
+                  </b-row>
+
+                </div>
               </b-col>
 
 
+
               <b-col md="7">
-                
+
                 <!-- Avisos -->
                 <div id="div_avisos">
                   <ul id="lista_avisos">
@@ -137,7 +97,6 @@
                 </div>
 
               </b-col>
-
             </b-row>
           </div>
 
@@ -149,7 +108,7 @@
 
     <!-- Pantalla de carga -->
     <loading 
-      :active.sync="cargando" 
+      :active.sync="mostrarPantallaCarga" 
       :can-cancel="false"
       :is-full-page="true"
       loader="dots"
@@ -160,6 +119,41 @@
       :opacity=0.5
     >
     </loading>
+
+
+
+    <!-- Modal Recuperar contrasena-->
+    <b-modal
+      id="modal_recuperar_contrasena"
+      ref="modal_recuperar_contrasena"
+      title="Recuperación de contraseña"
+      centered
+      buttonSize="md"
+      okTitle="Enviar"
+      cancelTitle="Cancelar"
+      
+      @show="ReiniciarModalRecuperarContrasena"
+      @hidden="ReiniciarModalRecuperarContrasena"
+      @ok="OkModalRecuperarContrasena"
+    >
+      <form ref="form_recuperar_contrasena" @submit.stop.prevent="handleSubmit">
+        <b-form-group
+          label="Ingrese su correo:"
+          description="Enviaremos un enlace a su correo para restablecer su contrseña."
+          invalid-feedback="Ingrese un correo válido"
+          :state="stateModalRecuperarContrasena"
+        >
+          <b-form-input
+            id="input-correoRecuperacion"
+            v-model="correoRecuperacion"
+            type="email"
+            :state="stateModalRecuperarContrasena"
+            required
+          ></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
+
 
   </div>
 </template>
@@ -188,15 +182,11 @@ export default {
       // Iniciar Sesion:
       codigo: null,
       contrasena: null,
-
       // Recuperar contrasena:
       correoRecuperacion: null,
-      modalState: null,
-
-      // Pantalla de carga:
-      cargando: false,
-
-      // Estado de la peticion:
+      stateModalRecuperarContrasena: null,
+      // Recursos visuales:
+      mostrarPantallaCarga: false,
       mostrarAlertaServidor: false,
     };
   },
@@ -205,66 +195,138 @@ export default {
     iniciarSesion(codigo) {
 
       // Muestra pantalla de carga:
-      this.cargando = true;
+      this.mostrarPantallaCarga = true;
 
       // Duplica el objeto raiz (this) para poder usarlo en una funcion interna dentro de "setInterval":
       var data = this; // Dentro de una funcion interna se llama a "data" en lugar de "this".
 
+      // // ++++++++++++++++++++++++ Enviando JSON al servidor y esperando respuesta: ++++++++++++++++++++++++
+      // var timeleft = 3;
+      // var downloadTimer = setInterval(function(){
+
+      //   // ++++++++++++++++ Peticion HTTP al servidor ++++++++++++++++
+      //   // Define la peticion:
+      //   var requestGetUser = new XMLHttpRequest();
+      //   var url = "http://localhost:3000/trabajador";
+      //   // Abre la peticion:
+      //   requestGetUser.open('GET', url, true);
+      //   // Envia la peticion:
+      //   requestGetUser.send();
+      //   // Agrega eventos:
+      //   requestGetUser.addEventListener("readystatechange", processRequest, false);
+      //   // Evento de la peticion:
+      //   function processRequest(e) {
+      //     // Comprueba que la peticion este en el estado "DONE" y estatus 200 del servidor:
+      //     if(requestGetUser.readyState == 4 && requestGetUser.status == 200 || requestGetUser.readyState == 4 && requestGetUser.status == 304){
+
+      //       var response = JSON.parse(requestGetUser.responseText);
+      //       console.log(response);
+
+      //       estado.commit("establecerTrabajador", {
+      //         codigo: response.codigo,
+      //         tipo: response.tipo,
+      //         nombre: response.nombre,
+      //         plazaLaboral: response.plazaLaboral,
+      //         areaAdscripcion: response.areaAdscripcion,
+      //         token: response.token,
+      //       });
+
+      //       // Esconde pantalla de carga:
+      //       data.mostrarPantallaCarga = false;
+
+      //       console.log("RESPUESTA DEL SERVIDOR");
+      //       enrutador.push("/");
+
+      //       // Detiene el contador:
+      //       clearInterval(downloadTimer);
+      //     }
+      //   }
+
+      //   // ++++++++++++++++ No hubo respuesta del servidor ++++++++++++++++
+      //   timeleft -= 1;
+      //   if(timeleft <= 0){
+
+      //     // Cambia estado de mostrarAlertaServidor:
+      //     data.mostrarAlertaServidor = true;
+      //     // Esconde pantalla de carga:
+      //     data.mostrarPantallaCarga = false;
+
+      //     // Error al obtener datos desde el servidor:
+      //     console.log("ERROR EN EL SERVIDOR");
+      //     // enrutador.push("/error");
+
+      //     // Detiene el contador:
+      //     clearInterval(downloadTimer);
+      //   }
+
+      // }, 1000);
+
+
+
       // ++++++++++++++++++++++++ Enviando JSON al servidor y esperando respuesta: ++++++++++++++++++++++++
+      const request = require('request');
       var timeleft = 3;
       var downloadTimer = setInterval(function(){
 
         // ++++++++++++++++ Peticion HTTP al servidor ++++++++++++++++
-        // Define la peticion:
-        var requestGetUser = new XMLHttpRequest();
-        var url = "http://localhost:3000/trabajador";
-        // Abre la peticion:
-        requestGetUser.open('GET', url, true);
-        // Envia la peticion:
-        requestGetUser.send();
-        // Agrega eventos:
-        requestGetUser.addEventListener("readystatechange", processRequest, false);
-        // Evento de la peticion:
-        function processRequest(e) {
-          // Comprueba que la peticion este en el estado "DONE" y estatus 200 del servidor:
-          if(requestGetUser.readyState == 4 && requestGetUser.status == 200 || requestGetUser.readyState == 4 && requestGetUser.status == 304){
+        request(
+          {
+            method: "GET",
+            uri: "http://localhost:3000/iniciarSesion"
+          },
+          function (error, response) {
 
-            var response = JSON.parse(requestGetUser.responseText);
-            console.log(response);
+            if(error){
+              // Muestra error:
+              data.mostrarAlertaServidor = true;
+              data.mostrarPantallaCarga = false;
+              // Detiene el contador:
+              clearInterval(downloadTimer);
+            }
+            else{
+              if(response.statusCode == 200){
 
-            estado.commit("establecerTrabajador", {
-              codigo: response.codigo,
-              tipo: response.tipo,
-              nombre: response.nombre,
-              plazaLaboral: response.plazaLaboral,
-              areaAdscripcion: response.areaAdscripcion,
-              token: response.token,
-            });
+                console.log(response);
 
-            // Esconde pantalla de carga:
-            data.cargando = false;
+                // Obtiene el objeto JSON de response:
+                var body = JSON.parse(response.body);
+                console.log("Objeto JSON obtenido: ", body);
 
-            console.log("RESPUESTA DEL SERVIDOR");
-            enrutador.push("/");
+                // Asigna objeto trabajador:
+                var trabajador = body.trabajador;
+                // Asigna objeto comision:
+                var comision = body.comisionActiva;
 
-            // Detiene el contador:
-            clearInterval(downloadTimer);
+                estado.commit("establecerTrabajador", {
+                  codigo: trabajador.codigo,
+                  tipo: trabajador.tipo,
+                  nombre: trabajador.nombre,
+                  plazaLaboral: trabajador.plazaLaboral,
+                  areaAdscripcion: trabajador.areaAdscripcion,
+                  token: trabajador.token,
+                });
+
+                estado.commit("establecerComisionActiva", {
+                  comisionActiva: comision
+                });
+
+                // Esconde pantalla de carga:
+                data.mostrarPantallaCarga = false;
+                // Detiene el contador:
+                clearInterval(downloadTimer);
+                // Continua la ruta:
+                enrutador.push("/");
+              }
+            }
           }
-        }
+        )
 
         // ++++++++++++++++ No hubo respuesta del servidor ++++++++++++++++
         timeleft -= 1;
         if(timeleft <= 0){
-
-          // Cambia estado de mostrarAlertaServidor:
+          // Muestra error:
           data.mostrarAlertaServidor = true;
-          // Esconde pantalla de carga:
-          data.cargando = false;
-
-          // Error al obtener datos desde el servidor:
-          console.log("ERROR EN EL SERVIDOR");
-          // enrutador.push("/error");
-
+          data.mostrarPantallaCarga = false;
           // Detiene el contador:
           clearInterval(downloadTimer);
         }
@@ -272,92 +334,35 @@ export default {
       }, 1000);
 
 
-      // // Define la peticion:
-      // var requestGetUser = new XMLHttpRequest();
-      // var url = "http://localhost:3000/usuario";
-      // // Abre la peticion:
-      // requestGetUser.open('GET', url, true);
-      // // Envia la peticion:
-      // requestGetUser.send();
-      // // Agrega eventos:
-      // requestGetUser.addEventListener("readystatechange", processRequest, false);
-      // // Evento de la peticion:
-      // function processRequest(e) {
-      //   // Comprueba que la peticion este en el estado "DONE" y estatus 200 del servidor:
-      //   if(requestGetUser.readyState == 4 && requestGetUser.status == 200 || requestGetUser.readyState == 4 && requestGetUser.status == 304){
-
-      //     var response = JSON.parse(requestGetUser.responseText);
-      //     console.log(response);
-
-      //     estado.commit("establecerUsuario", {
-      //       codigo: response.codigo,
-      //       tipo: response.tipo,
-      //       token: response.token
-      //     });
-
-      //     console.log("RESPUESTA DEL SERVIDOR");
-      //     enrutador.push("/");
-
-      //   }
-      // }
-
-
-
-      // setTimeout(Home, 5000);
-
-      // this.$store.commit("establecerUsuario", {
-      //   codigo: this.codigo,
-      //   tipo: this.codigo,
-      //   token: this.codigo
-      // });
-
-      // function Home() {
-      //   console.log("Yendo a home...");
-      //   enrutador.push("/");
-      // }
-
-
-
-      
-
-
 
     },
 
     // ++++++++++++++++++++++++++++++++ Recuperar contrasena ++++++++++++++++++++++++++++++++
-    modalCheck() {
-      const valid = this.$refs.form.checkValidity();
-      this.modalState = valid ? "valid" : "invalid";
-      return valid;
-    },
-    modalReset() {
+    ReiniciarModalRecuperarContrasena() {
       this.correoRecuperacion = "";
-      this.modalState = null;
+      this.stateModalRecuperarContrasena = null;
     },
-    modalOk(bvModalEvt) {
-      // Cambia state:
-      this.$store.commit("actualizarCorreo", {
-        correo: this.name
-      });
-      // Prevent modal from closing
+    OkModalRecuperarContrasena(bvModalEvt) {
+      // Previene campos vacios:
       bvModalEvt.preventDefault();
-
-      // Ejecuta recuperar contrasena:
-      this.recuperarContrasena();
+      // Comprueba que el correo ingresado sea valido:
+      const correoValido = this.$refs.form_recuperar_contrasena.checkValidity();
+      // Asigna el estado del modal:
+      this.stateModalRecuperarContrasena = correoValido;
+      
+      if(correoValido){
+        // Ejecuta recuperar contrasena:
+        this.recuperarContrasena();
+      }
     },
     recuperarContrasena() {
-      // Sale si el form no es valido:
-      if (!this.modalCheck()) {
-        return;
-      }
-
       // Ejecuta funcion para enviar correo de recuperacion:
 
       // Esconde modal:
       this.$nextTick(() => {
-        this.$refs.modal.hide();
+        this.$refs.modal_recuperar_contrasena.hide();
       });
-    }
+    },
 
   }
 };

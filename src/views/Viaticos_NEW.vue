@@ -1,27 +1,8 @@
 <template>
-  <div>
-    <div class="div_fondo_udg">
+  <div class="viaticos">
 
-      <!-- Academicos -->
-      <div v-if="trabajador.tipo === 'AA'">
-        <Viaticos/>
-      </div>
-
-      <!-- Rangos Medios -->
-      <div v-else-if="trabajador.tipo === 'RM'">
-        <h1>RANGOS MEDIOS</h1>
-      </div>
-
-      <!-- Directivos -->
-      <div v-else-if="trabajador.tipo === 'DD'">
-        <h1>RANGOS MEDIOS</h1>
-      </div>
-
-      
-
-      <h4>{{trabajador}}</h4>
-
-    </div>
+    <h1>VIATICOS</h1>
+    
   </div>
 </template>
 
@@ -33,26 +14,22 @@
 // Propiedades:
 import { mapState } from "vuex";
 
-// Vistas:
-import Viaticos from "@/views/Viaticos.vue";
-
 // Componentes:
+import NavBar from "@/components/NavBar.vue";
 import FormComision from "@/components/FormComision.vue";
 import FormViaticos from "@/components/FormViaticos.vue";
-
 
 // Atributos:
 export default {
   name: "home",
-  computed:{
-    ...mapState({
-      trabajador: "trabajador",
-    })
+  computed: {
+    ...mapState(["tipoUsuario"])
+    // otras propiedades
   },
   components: {
-    Viaticos,
+    NavBar,
     FormComision,
-    FormViaticos,
+    FormViaticos
   },
   data() {
     return {

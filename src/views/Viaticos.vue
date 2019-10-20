@@ -3,49 +3,98 @@
 
     <b-container>
       
-      
-
       <!-- Vista general -->
       <b-row align-h="center" class="mt-5">
-        <b-col cols="10">
+        <b-col md="10">
+
           <b-card>
             <b-row>
-
               <b-col md="7">
                 <h4 class="mb-3 titleColor">Viáticos</h4>
 
-                <template v-if="tipoUsuario === 'jefe'">
-                  <b-card-text>Usted cuenta con una comisión abierta, por lo que no podrá solicitar una nueva comisón hasta que la finalice.
+                <!-- Sin comision activa -->
+                <div v-if="comisionActiva == null || comisionActiva == undefined">
+                  <b-card-text>
+                    Usted no cuenta con una comisión activa. Para solicitar viáticos es necesario crear una comisión.
+                    <br>
+                    <br>
+                    Puede crear una comisión haciendo clic en el botón a continuación:
+                  </b-card-text>
+                  <b-button v-on:click="mostrarFormComision = true; formComisionVisible = true" variant="outline-primary">Crear comisión</b-button>
+                </div>
+
+                <!-- Comision No Enviada -->
+                <div v-else-if="comisionActiva.estatus == 'NE'">
+                  <b-card-text>
+                    Usted cuenta con una comisión sin enviar, para continuar con el proceso de solicitud de viáticos debe completar la solicitud de la comisión y enviarla a revisión o cancelar la solicitud actual.
+                    <br>
+                    <br>
+                    Por favor, complete su solicitud a continuación:
+                  </b-card-text>
+                </div>
+
+                <!-- Comision Pendiente -->
+                <div v-else-if="comisionActiva.estatus == 'PE'">
+                  <b-card-text>
+                    Usted cuenta con una comisión en proceso de autorización. Por favor, espere a que se resuelva la comisión actual para continuar con el proceso de solicitud de viáticos.
+                    <br><br>
+                    Puede consultar los detalles de la comisión a continuación:
+                  </b-card-text>
+                  <a
+                    href="#"
+                    v-on:click="mostrarFormComisionAbierta = true; formComisionVisible = true"
+                    class="card-link"
+                  >
+                    Comisión {{ comisionActiva.folio }} <b-badge variant="primary">Pendiente</b-badge>
+                  </a>
+                </div>
+
+                <!-- Comision Autorizada -->
+                <div v-else-if="comisionActiva.estatus == 'AU'">
+                  <b-card-text>Su solicitud de comisión ha sido autorizada. Continúe con la solicitud de viáticos haciendo clic en el botón inferior.
                     <br><br>Puede consultar los detalles de la misma a continuación:
                   </b-card-text>
                   <a
                     href="#"
                     v-on:click="mostrarFormComisionAbierta = true; formComisionVisible = true"
                     class="card-link"
-                  >Comisión {{ comisionPrueba.folio }} 
-                    <b-badge variant="primary">Pendiente</b-badge>
+                  >
+                    Comisión {{ comisionActiva.folio }} <b-badge variant="success">Autorizada</b-badge>
                   </a>
-                </template>
-
-                <template v-else>
-                  <b-card-text>Actualmente usted no cuenta con una comisión. Puede abrir una comisión haciendo clic en el botón a continuación:</b-card-text>
-                  <b-button v-on:click="mostrarFormComision = true; formComisionVisible = true" variant="outline-primary">Crear comisión</b-button>
-                </template>
+                </div>
 
               </b-col>
-
               <b-col md="5">
+
                 <h5 align="left" class="titleColor"> Historial de comisiones: </h5>
                 <b-list-group>
                   <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000831 (Italia)</b-list-group-item>
                   <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000795 (España)</b-list-group-item>
                 </b-list-group>
+
               </b-col>
 
             </b-row>
           </b-card>
+
         </b-col>
       </b-row>
+
+
+
+
+
+      <!-- Form Comision -->
+      <transition enter-active-class="animated desliceInferior" leave-active-class="animated fade-out-top">
+        <div v-if="mostrarFormComision == true">
+          <b-row align-h="center" class="mt-5">
+            <b-col cols="10">
+              <FormComision titulo="Crear comision" :deshabilitado="false" />
+            </b-col>
+          </b-row>
+        </div>
+      </transition>
+
         
 
 
@@ -141,21 +190,20 @@
 import { mapState } from "vuex";
 
 // Componentes:
-import NavBar from "@/components/NavBar.vue";
 import FormComision from "@/components/FormComision.vue";
 import FormViaticos from "@/components/FormViaticos.vue";
 
 // Atributos:
 export default {
-  name: "home",
+  name: "viaticos",
   computed: {
-    ...mapState(["tipoUsuario"])
-    // otras propiedades
+    ...mapState({
+      comisionActiva: "comisionActiva",
+    })
   },
   components: {
-    NavBar,
     FormComision,
-    FormViaticos
+    FormViaticos,
   },
   data() {
     return {
@@ -201,7 +249,16 @@ export default {
 
     };
   },
+
+  created: function () {
+    // Verifica el estatus de la comision:
+    if(this.comisionActiva.estatus == 'NE'){
+      this.mostrarFormComision = true;
+    }
+  },
+
   methods: {}
+
 };
 </script>
 

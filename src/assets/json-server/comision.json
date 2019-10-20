@@ -1,53 +1,51 @@
 {
-  "usuario": {
-    "codigo": "211693760",
-    "tipo": "AA",
-    "token": "AAJJsasfg-1243-df-asda"
-  },
+  "iniciarSesion": {
+    "trabajador": {
+      "codigo": "211693760",
+      "tipo": "AA",
+      "nombre": "Octavio Romo",
+      "plazaLaboral": "Investigador",
+      "areaAdscripcion": "N/A",
+      "token": "AAJJsasfg-1243-df-asda"
+    },
 
-  "trabajador": {
-    "codigo": "211693760",
-    "tipo": "AA",
-    "nombre": "Octavio Romo",
-    "plazaLaboral": "Investigador",
-    "areaAdscripcion": "N/A",
-    "token": "AAJJsasfg-1243-df-asda"
-  },
-
-  "comision": {
-    "folio": "000001",
-    "fechaCreacion": "31/12/2020",
-    "fechaEnvio": "31/12/2020",
-    "fechaAprobacion": null,
-    "estatus": "PE",
-    "codigoTrabajador": "211693760",
-    "nombreSolicitante": "Octavio Romo",
-    "areaAdscripcion": "N/A",
-    "tipo": "Extranjero",
-    "destino": "Turquia",
-    "plazaLaboral": "Investigador",
-    "justificacion": "Quiero ir a una conferencia.",
-    "programaTrabajo": "N/A",
-    "objetivoTrabajo": "Aprender cosas y traer regalos.",
-    "evento": "Comic-Con Estambul 2019",
-    "programa": [
-      {
-        "fecha": "30/12/2019",
-        "lugar": "Estambul, Turquia.",
-        "tareas": "Pensar"
-      },
-      {
-        "fecha": "31/12/2019",
-        "lugar": "Estambul, Turquia.",
-        "tareas": "Y trabajar"
-      },
-      {
-        "fecha": "01/01/2020",
-        "lugar": "Roma, Italia.",
-        "tareas": "Y comer"
-      }
-    ],
-    "invitacionEvento": "link del archivo adjunto",
-    "programaEvento": "link del archivo adjunto"
+    "comisionActiva_Z": null,
+  
+    "comisionActiva": {
+      "folio": "000001",
+      "fechaCreacion": "31/12/2020",
+      "fechaEnvio": "31/12/2020",
+      "fechaAprobacion": null,
+      "estatus": "NE",
+      "codigoTrabajador": "211693760",
+      "nombreSolicitante": "Octavio Romo",
+      "areaAdscripcion": "N/A",
+      "tipo": "Extranjero",
+      "destino": "Turquia",
+      "plazaLaboral": "Investigador",
+      "justificacion": "Quiero ir a una conferencia.",
+      "programaTrabajo": "N/A",
+      "objetivoTrabajo": "Aprender cosas y traer regalos.",
+      "evento": "Comic-Con Estambul 2019",
+      "programa": [
+        {
+          "fecha": "30/12/2019",
+          "lugar": "Estambul, Turquia.",
+          "tareas": "Pensar"
+        },
+        {
+          "fecha": "31/12/2019",
+          "lugar": "Estambul, Turquia.",
+          "tareas": "Y trabajar"
+        },
+        {
+          "fecha": "01/01/2020",
+          "lugar": "Roma, Italia.",
+          "tareas": "Y comer"
+        }
+      ],
+      "invitacionEvento": "link del archivo adjunto",
+      "programaEvento": "link del archivo adjunto"
+    }
   }
 }
