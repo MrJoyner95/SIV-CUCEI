@@ -19,7 +19,16 @@
 
       
 
-      <h4>{{trabajador}}</h4>
+      <!-- <h4>{{trabajador}}</h4>
+      <br>
+      <br>
+      <div v-if="comisionActiva != null">
+        <h4>{{comisionActiva}}</h4>
+      </div>
+      <div v-else>
+        <h4> SIN COMISION ACTIVA </h4>
+      </div> -->
+      
 
     </div>
   </div>
@@ -47,6 +56,9 @@ export default {
   computed:{
     ...mapState({
       trabajador: "trabajador",
+
+      comisionActiva: "comisionActiva",
+      
     })
   },
   components: {

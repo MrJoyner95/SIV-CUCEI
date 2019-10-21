@@ -16,12 +16,12 @@
       "fechaCreacion": "31/12/2020",
       "fechaEnvio": "31/12/2020",
       "fechaAprobacion": null,
-      "estatus": "NE",
+      "estatus": "PE",
       "codigoTrabajador": "211693760",
       "nombreSolicitante": "Octavio Romo",
       "areaAdscripcion": "N/A",
-      "tipo": "Extranjero",
-      "destino": "Turquia",
+      "tipo": "extranjero",
+      "destino": "turkey",
       "plazaLaboral": "Investigador",
       "justificacion": "Quiero ir a una conferencia.",
       "programaTrabajo": "N/A",
@@ -29,17 +29,20 @@
       "evento": "Comic-Con Estambul 2019",
       "programa": [
         {
-          "fecha": "30/12/2019",
+          "dia": "1",
+          "fecha": "2019-12-30",
           "lugar": "Estambul, Turquia.",
           "tareas": "Pensar"
         },
         {
-          "fecha": "31/12/2019",
+          "dia": "2",
+          "fecha": "2019-12-31",
           "lugar": "Estambul, Turquia.",
           "tareas": "Y trabajar"
         },
         {
-          "fecha": "01/01/2020",
+          "dia": "3",
+          "fecha": "2020-01-01",
           "lugar": "Roma, Italia.",
           "tareas": "Y comer"
         }

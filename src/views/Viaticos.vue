@@ -15,12 +15,19 @@
                 <!-- Sin comision activa -->
                 <div v-if="comisionActiva == null || comisionActiva == undefined">
                   <b-card-text>
-                    Usted no cuenta con una comisión activa. Para solicitar viáticos es necesario crear una comisión.
+                    Usted no cuenta con una comisión activa. Para solicitar viáticos es necesario solicitar una comisión.
                     <br>
                     <br>
-                    Puede crear una comisión haciendo clic en el botón a continuación:
+                    Puede comenzar solicitud haciendo clic en el botón a continuación:
                   </b-card-text>
-                  <b-button v-on:click="mostrarFormComision = true; formComisionVisible = true" variant="outline-primary">Crear comisión</b-button>
+
+                  <!-- Boton comenzar solicitud -->
+                  <div v-if="mostrarFormComision == false">
+                    <b-button v-on:click="mostrarFormComision = true;" variant="outline-primary">Comenzar solicitud</b-button>
+                  </div>
+                  <div v-else>
+                    <b-button disabled v-on:click="mostrarFormComision = true;" variant="outline-primary">Comenzar solicitud</b-button>
+                  </div>
                 </div>
 
                 <!-- Comision No Enviada -->
@@ -31,6 +38,14 @@
                     <br>
                     Por favor, complete su solicitud a continuación:
                   </b-card-text>
+                  
+                  <!-- Boton completar solicitud -->
+                  <div v-if="mostrarFormComision == false">
+                    <b-button v-on:click="mostrarFormComision = true;" variant="outline-primary">Completar solicitud</b-button>
+                  </div>
+                  <div v-else>
+                    <b-button disabled v-on:click="mostrarFormComision = true;" variant="outline-primary">Completar solicitud</b-button>
+                  </div>
                 </div>
 
                 <!-- Comision Pendiente -->
@@ -42,7 +57,7 @@
                   </b-card-text>
                   <a
                     href="#"
-                    v-on:click="mostrarFormComisionAbierta = true; formComisionVisible = true"
+                    v-on:click="mostrarFormComision = true;"
                     class="card-link"
                   >
                     Comisión {{ comisionActiva.folio }} <b-badge variant="primary">Pendiente</b-badge>
@@ -85,64 +100,49 @@
 
 
       <!-- Form Comision -->
-      <transition enter-active-class="animated desliceInferior" leave-active-class="animated fade-out-top">
+      <transition enter-active-class="animated fade-in-top" leave-active-class="animated fade-out-top">
         <div v-if="mostrarFormComision == true">
+
           <b-row align-h="center" class="mt-5">
             <b-col cols="10">
-              <FormComision titulo="Crear comision" :deshabilitado="false" />
+              <!-- Form vacio (habilitado) -->
+              <div v-if="comisionActiva == null || comisionActiva == undefined">
+                <FormComision titulo="Solicitud de comisión nueva" :deshabilitado="false" />
+              </div>
+
+              <!-- Form con datos (habilitado) -->
+              <div v-else-if="comisionActiva.estatus == 'NE'">
+                <FormComision titulo="Solicitud de comisión sin completar" :deshabilitado="false" />
+              </div>
+
+              <!-- Form con datos (deshabilitado) -->
+              <div v-else>
+                <FormComision titulo="Solicitud de comisión" :deshabilitado="true" />
+              </div>
             </b-col>
           </b-row>
+
+          <br>
+
+          <b-row class="mt-2" align-h="center">
+            <b-col cols="4">
+              <b-button 
+                block 
+                variant="secondary" 
+                v-on:click="mostrarFormComision = false;"
+              >
+                Esconder formulario
+              </b-button>
+            </b-col>
+          </b-row>
+
         </div>
       </transition>
 
-        
 
 
-      <!-- Form comision vacia -->
-      <transition enter-active-class="animated desliceInferior" leave-active-class="animated fade-out-top">
-        <div v-if="mostrarFormComision == true">
-          <b-row align-h="center" class="mt-5">
-            <b-col cols="10">
-              <FormComision titulo="Crear comision" :deshabilitado="false" />
-            </b-col>
-          </b-row>
-        </div>
-      </transition>
-
-      <!-- Form comision abierta -->
-      <transition enter-active-class="animation fade-in-top" leave-active-class="animated fade-out-top">
-        <div v-if="mostrarFormComisionAbierta == true">
-          <b-row align-h="center" class="mt-5">
-            <b-col cols="10">
-              <FormComision titulo="Detalles de la comisión" :deshabilitado="true" :comision_prop="comisionPrueba" />
-            </b-col>
-          </b-row>
-        </div>
-      </transition>
-
-
-
-      <!-- Boton esconder comision -->
-      <template v-if="formComisionVisible === true">
-        <br>
-        <b-row class="mt-2" align-h="center">
-          <b-col cols="4">
-            <b-button 
-              block 
-              variant="secondary" 
-              v-on:click="mostrarFormComision = false; mostrarFormComisionAbierta = false; formComisionVisible = false"
-            >
-              Esconder formulario
-            </b-button>
-          </b-col>
-        </b-row>
-      </template>
-
-
-
-      <!-- Comision autorizada (continuar a viaticos) -->
-      <template v-if="tipoUsuario === 'profesor3' && formViaticosVisible === false">
-
+      <!-- Comision autorizada (solicitud de viaticos) -->
+      <template v-if="comisionActiva != null && comisionActiva.estatus == 'AU' && mostrarFormViaticos == false">
         <hr class="mt-5">
 
         <b-row class="mt-4" align-h="center">
@@ -150,9 +150,9 @@
             <b-button 
               block 
               variant="outline-primary" 
-              v-on:click="formViaticosVisible = true"
+              v-on:click="mostrarFormViaticos = true"
             >
-              Comenzar la solicitud de viáticos
+              Solicitud de viáticos
             </b-button>
           </b-col>
         </b-row>
@@ -161,15 +161,33 @@
 
 
 
-      <!-- Form para viaticos -->
-      <template v-if="formViaticosVisible === true">
+      <!-- Form Viaticos -->
+      <template v-if="mostrarFormViaticos == true">
         <hr class="mt-4">
+
         <b-row align-h="center" class="mt-5">
           <b-col cols="10">
             <FormViaticos/>
           </b-col>
         </b-row>
+
+        <br>
+        <b-row class="mt-2" align-h="center">
+          <b-col cols="4">
+            <b-button 
+              block 
+              variant="secondary" 
+              v-on:click="mostrarFormViaticos = false"
+            >
+              Esconder formulario
+            </b-button>
+          </b-col>
+        </b-row>
+
       </template>
+
+        
+
 
 
 
@@ -207,53 +225,19 @@ export default {
   },
   data() {
     return {
+      // mostrarFormComision: { type: Boolean, default: false },
+      // mostrarFormViaticos: { type: Boolean, default: false },
       mostrarFormComision: false,
-      mostrarFormComisionAbierta: false,
-      
-      formComisionVisible: {
-        type: Boolean,
-        default: false
-      },
-      formViaticosVisible: false,
-
-      // Comision de prueba
-      comisionPrueba: {
-        folio: "000735",
-        fecha: "08/08/2019",
-        codigoTrabajador: "211693563",
-        nombreSolicitante: "Octavio Romo",
-        areaAdscripcion: "N/A",
-        tipoComision: "Conferencia",
-        destinoComision: "Turquia",
-        plazaLaboral: "Investigador",
-        justificacion: ` Quiero ir a una conferencia.
-        Necesito dinero.
-        Tenkiu :)
-        `,
-        programaTrabajo: "N/A",
-        objetivoTrabajo: "Pues aprender cosas, dah...",
-        eventoComision: "Comic-Con Estambul 2019",
-        programaComision: [
-          {
-            dia: "15/09/2019",
-            lugar: "Estambul, Turquia.",
-            tareas: "Pensar"
-          },
-          {
-            dia: "16/09/2019",
-            lugar: "Estambul, Turquia.",
-            tareas: "Y trabajar"
-          }
-        ]
-      }
-
+      mostrarFormViaticos: false,
     };
   },
 
   created: function () {
     // Verifica el estatus de la comision:
-    if(this.comisionActiva.estatus == 'NE'){
-      this.mostrarFormComision = true;
+    if(this.comisionActiva != null){
+      if(this.comisionActiva.estatus == 'NE'){
+        this.mostrarFormComision = true;
+      }
     }
   },
 

@@ -1,381 +1,475 @@
 <template>
   <div class="formComision">
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++ Formulario de Solicitud de Comision ++++++++++++++++++++++++++++++++++++++++ -->
+
+    
+
     <b-card bg-variant="light">
 
-      <h4 align="center"> {{ titulo }} </h4>
+      <b-form @submit="$bvModal.show('modal_enviar_solicitud')">
 
-      <b-row class="mt-4">
-        <b-col>
-          <h6 align="right"> Folio de comisión: {{ comision_prop.folio }} </h6>
-        </b-col>
-      </b-row>
-      <b-row align-h="end" class="mt-2">
-        <b-col>
-          <h6 align="right"> Fecha: {{ comision_prop.fecha }} </h6>
-        </b-col>
-      </b-row>
-
-
-
-      <h5> Datos personales </h5>
-      <hr>
-
-      <b-row class="mt-2">
-        <b-col cols="8">
-          <b-form-group
-            label-cols-sm="4"
-            label="Código de trabajador:"
-            label-for="codigoTrabajador-input"
-          >
-            <b-form-input 
-              id="codigoTrabajador-input" 
-              v-model="comision.codigoTrabajador"
-              :placeholder="comision_prop.codigoTrabajador" 
-              :disabled="deshabilitado"
-            >
-            </b-form-input>
-          </b-form-group>
-        </b-col>
-      </b-row>
-
-      <b-row align-h="start" class="mt-2">
-        <b-col cols="8">
-          <b-form-group
-            label-cols-sm="4"
-            label="Nombre del solicitante:"
-            label-for="nombreSolicitante-input"
-          >
-            <b-form-input 
-              id="nombreSolicitante-input" 
-              v-model="comision.nombreSolicitante"
-              :placeholder="comision_prop.nombreSolicitante" 
-              :disabled="deshabilitado"
-            >
-            </b-form-input>
-          </b-form-group>
-        </b-col>
-      </b-row>
-
-
-
-      <h5 class="mt-5"> Información de la comisión </h5>
-      <hr>
-
-      <b-row align-h="start" class="mt-2">
-        <b-col cols="8">
-          <b-form-group
-            label-cols-sm="4"
-            label="Área de adscripción:"
-            label-for="areaAdscripcion-input"
-          >
-            <b-form-input 
-              id="areaAdscripcion-input" 
-              v-model="comision.areaAdscripcion"
-              :placeholder="comision_prop.areaAdscripcion" 
-              :disabled="deshabilitado"
-            >
-            </b-form-input>
-          </b-form-group>
-        </b-col>
-      </b-row>
-
-      <b-row class="mt-2">
-        <b-col cols="8">
-          <b-form-group
-            label-cols-sm="4"
-            label="Tipo de comisión:"
-            label-for="tipoComision-input"
-          >
-            <b-form-select v-model="comision.tipoComision" :options="tipoComision.opciones" :disabled="deshabilitado"></b-form-select>
-
-            <div v-if="deshabilitado === true">
-              <div class="mt-2">Selección: <strong>{{ comision_prop.tipoComision }}</strong></div>
+        <!-- ++++++++++++++++++++++++++++++++ Datos generales de la solicitud ++++++++++++++++++++++++++++++++ -->
+        <!-- Solicitud nueva -->
+        <h4 align="center"> {{ titulo }} </h4>
+        <b-row class="mt-4">
+          <b-col>
+            <div v-if="comisionActiva == null || comisionActiva == undefined">
+              <h6 align="right"> Folio de comisión: (pendiente) </h6>
             </div>
             <div v-else>
-              <div class="mt-2">Selección: <strong>{{ comision.tipoComision }}</strong></div>
+              <h6 align="right"> Folio de comisión: {{comision.folio}} </h6>
             </div>
-
-          </b-form-group>
-        </b-col>
-      </b-row>
-
-      <b-row class="mt-2">
-        <b-col cols="8">
-          <b-form-group
-            label-cols-sm="4"
-            label="Destino de la comisión:"
-            label-for="destinoComision-input"
-          >
-            <b-form-select v-model="comision.destinoComision" class="mb-3" :disabled="deshabilitado">
-              <option :value="null">Seleccione un país</option>
-              <optgroup label="América">
-                <option value="canada">Canadá</option>
-                <option value="usa" disabled>Estados Unidos (no disponible)</option>
-              </optgroup>
-              <optgroup label="Europa">
-                <option value="germany">Alemania</option>
-                <option value="poland">Polonia</option>
-              </optgroup>
-              <optgroup label="Asia">
-                <option value="turkey">Turquía</option>
-                <option value="china">China</option>
-              </optgroup>
-            </b-form-select>
-
-            <div v-if="deshabilitado === true">
-              <div class="mt-2">Selección: <strong>{{ comision_prop.destinoComision }}</strong></div>
-            </div>
-            <div v-else>
-              <div class="mt-2">Selección: <strong>{{ comision.destinoComision }}</strong></div>
-            </div>
-
-          </b-form-group>
-        </b-col>
-      </b-row>
-
-      <b-row class="mt-2">
-        <b-col cols="8">
-          <b-form-group
-            label-cols-sm="4"
-            label="Plaza laboral:"
-            label-for="plazaLaboral-input"
-          >
-            <b-form-select v-model="comision.plazaLaboral" :options="tipoComision.opciones" :disabled="deshabilitado"></b-form-select>
-            
-            <div v-if="deshabilitado === true">
-              <div class="mt-2">Selección: <strong>{{ comision_prop.plazaLaboral }}</strong></div>
-            </div>
-            <div v-else>
-              <div class="mt-2">Selección: <strong>{{ comision.plazaLaboral }}</strong></div>
-            </div>
-            
-          </b-form-group>
-        </b-col>
-      </b-row>
-
-      <b-row class="mt-2">
-        <b-col cols="10">
-          <b-form-group
-            label-cols-sm="3"
-            label="Justificación:"
-            label-for="justificacion-input"
-          >
-            <b-form-textarea
-              id="justificacion-input"
-              v-model="comision.justificacion"
-              :placeholder="comision_prop.justificacion || 'Justificación de la comisión...'"
-              :disabled="deshabilitado"
-              rows="4"
-              max-rows="8"
-            ></b-form-textarea>
-          </b-form-group>
-        </b-col>
-      </b-row>
-
-
-
-      <h5 class="mt-5"> Actividades y programa </h5>
-      <hr>
-
-      <b-row class="mt-2">
-        <b-col cols="8">
-          <b-form-group
-            label-cols-sm="4"
-            label="Programa de trabajo:"
-            label-for="programaTrabajo-input"
-          >
-            <b-form-input 
-              id="programaTrabajo-input" 
-              v-model="comision.programaTrabajo"
-              :placeholder="comision_prop.programaTrabajo" 
-              :disabled="deshabilitado"
-            >
-            </b-form-input>
-          </b-form-group>
-        </b-col>
-      </b-row>
-
-      <b-row class="mt-2">
-        <b-col cols="8">
-          <b-form-group
-            label-cols-sm="4"
-            label="Objetivo de trabajo:"
-            label-for="objetivoTrabajo-input"
-          >
-            <b-form-input 
-              id="objetivoTrabajo-input" 
-              v-model="comision.objetivoTrabajo"
-              :placeholder="comision_prop.objetivoTrabajo" 
-              :disabled="deshabilitado"
-            >
-            </b-form-input>
-          </b-form-group>
-        </b-col>
-      </b-row>
-
-      <b-row class="mt-2">
-        <b-col cols="8">
-          <b-form-group
-            label-cols-sm="4"
-            label="Evento de la comisión:"
-            label-for="eventoComision-input"
-          >
-            <b-form-input 
-              id="eventoComision-input" 
-              v-model="comision.eventoComision"
-              :placeholder="comision_prop.eventoComision" 
-              :disabled="deshabilitado"
-            >
-            </b-form-input>
-          </b-form-group>
-        </b-col>
-      </b-row>
-
-      <!-- Template Tabla (Programa de la comision) -->
-      <b-row class="mt-2">
-        <b-col md="12">
-          <b-card>
-            <b-row align-h="between">
-              <h5>Programa de la comisión:</h5>
-              <b-button size="sm" @click="ReiniciarDiaTemplate" v-b-modal.modal_agregar_dia variant="outline-primary" align="end">
-                Agregar día
-              </b-button>
-            </b-row>
-            <hr>
-
-            <b-row>
-              <b-table
-                ref="tablaPrograma"
-                head-variant="dark"
-                bordered
-                hover
-                responsive
-                small
-                selectable
-                select-mode="single"
-                @row-selected="SeleccionarDia"
-                :fields="headersTabla"
-                :items="comision.programa"
-              >
-              </b-table>
-            </b-row>
-            
-            <!-- Acciones -->
-            <b-row align-h="center">
-              <b-col md="3">
-                <template v-if="this.diaTemplate.dia != null">
-                  <b-button size="sm" v-b-modal.modal_editar_dia block variant="outline-secondary">Editar</b-button>
-                </template>
-                <template v-else>
-                  <b-button size="sm" disabled block variant="outline-secondary">Editar</b-button>
-                </template>
-              </b-col>
-              <b-col md="3">
-                <template v-if="this.diaTemplate.dia != null">
-                  <b-button size="sm" v-b-modal.modal_eliminar_dia block variant="outline-danger">Eliminar</b-button>
-                </template>
-                <template v-else>
-                  <b-button size="sm" disabled block variant="outline-danger">Eliminar</b-button>
-                </template>
-              </b-col>
-            </b-row>
-
-          </b-card>
-        </b-col>
-      </b-row>
-
-
-
-      <h5 class="mt-5"> Documentos adjuntos (opcional)</h5>
-      <hr>
-
-      <b-row class="mt-2">
-        <b-col cols="6">
-          <label for="invitacion-input">Invitación:</label>
-          <b-form-file
-            id="invitacion-input"
-            v-model="archivoInvitacion"
-            :state="Boolean(archivoInvitacion) || null"
-            :disabled="deshabilitado"
-            placeholder="Elija o arrastre un archivo..."
-            drop-placeholder="Suelte el archivo aquí..."
-            browse-text="Buscar"
-          ></b-form-file>
-          <div class="mt-3">Selección: <strong>{{ archivoInvitacion ? archivoInvitacion.name : '' }}</strong> </div>
-        </b-col>
-
-        <b-col cols="6">
-          <label for="invitacion-input">Programa del evento:</label>
-          <b-form-file
-            id="invitacion-input"
-            v-model="archivoPrograma"
-            :state="Boolean(archivoPrograma) || null"
-            :disabled="deshabilitado"
-            placeholder="Elija o arrastre un archivo..."
-            drop-placeholder="Suelte el archivo aquí..."
-            browse-text="Buscar"
-          ></b-form-file>
-          <div class="mt-3">Selección: <strong>{{ archivoPrograma ? archivoPrograma.name : '' }}</strong> </div>
-        </b-col>
-      </b-row>
-
-
-
-      <template v-if="deshabilitado === false">
-
-        <hr class="mt-5">
-
-        <b-row class="mt-4" align-h="center">
-          <b-col cols="3">
-            <b-button 
-              block 
-              variant="danger"
-              v-b-tooltip.hover title="Elimina la solicitud por completo."
-            >
-              Cancelar solicitud
-            </b-button>
           </b-col>
-          <b-col cols="3">
-            <!-- Espacio en blanco -->
-          </b-col>
-          <b-col cols="3">
-            <b-button 
-              block 
-              variant="secondary"
-              v-b-tooltip.hover title="Se guarda la solicitud sin enviarla. Puede terminarla después."
-            >
-              Guardar solicitud
-            </b-button>
-          </b-col>
-          <b-col cols="3">
-            <b-button 
-              block 
-              variant="primary" 
-              v-b-tooltip.hover title="Una vez enviada, no podrá editarse."
-            >
-              Enviar solicitud
-            </b-button>
+        </b-row>
+        <b-row align-h="end" class="mt-2">
+          <b-col>
+            <h6 align="right"> Fecha de creación: {{comision.fechaCreacion}} </h6>
           </b-col>
         </b-row>
 
-      </template>
+        <!-- Solicitud con datos -->
+        <div v-if="comisionActiva != null && comisionActiva != undefined">
+          <b-row align-h="end" class="mt-2">
+            <b-col>
+              <h6 align="right"> Fecha de envio: {{comision.fechaEnvio}} </h6>
+            </b-col>
+          </b-row>
+          <b-row align-h="end" class="mt-2">
+            <b-col>
+              <h6 align="right"> Fecha de aprobación: {{comision.fechaAprobacion}} </h6>
+            </b-col>
+          </b-row>
+        </div>
 
 
 
-      
+        <!-- ++++++++++++++++++++++++++++++++ Datos del trabajador ++++++++++++++++++++++++++++++++ -->
+        <h5> Datos personales </h5>
+        <hr>
+        <b-row align-h="start" class="mt-2">
+          <b-col cols="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Código de trabajador:"
+              label-for="codigoTrabajador-input"
+            >
+              <b-form-input 
+                id="codigoTrabajador-input" 
+                :placeholder="trabajador.codigo" 
+                :disabled="true"
+              >
+              </b-form-input>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row align-h="start" class="mt-2">
+          <b-col cols="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Nombre del solicitante:"
+              label-for="nombreSolicitante-input"
+            >
+              <b-form-input 
+                id="nombreSolicitante-input" 
+                :placeholder="trabajador.nombre" 
+                :disabled="true"
+              >
+              </b-form-input>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row align-h="start" class="mt-2">
+          <b-col cols="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Área de adscripción:"
+              label-for="areaAdscripcion-input"
+            >
+              <b-form-input 
+                id="areaAdscripcion-input" 
+                :placeholder="trabajador.areaAdscripcion" 
+                :disabled="true"
+              >
+              </b-form-input>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row align-h="start" class="mt-2">
+          <b-col cols="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Plaza laboral:"
+              label-for="plazaLaboral-input"
+            >
+              <b-form-input 
+                id="plazaLaboral-input" 
+                :placeholder="trabajador.plazaLaboral" 
+                :disabled="true"
+              >
+              </b-form-input>
+            </b-form-group>
+          </b-col>
+        </b-row>
 
 
 
-      <!-- Espacio al final del formulario -->
-      <p class="mt-3"></p>
+        <!-- ++++++++++++++++++++++++++++++++ Informacion de la comision ++++++++++++++++++++++++++++++++ -->
+        <h5 class="mt-5"> Información de la comisión </h5>
+        <hr>
+
+        <b-row class="mt-2">
+          <b-col cols="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Tipo de comisión:"
+              label-for="tipo-input"
+            >
+              <b-form-select v-model="comision.tipo" :disabled="deshabilitado" required>
+                <option :value="null" disabled>Seleccione un tipo</option>
+                <option value="nacional">Nacional</option>
+                <option value="extranjero">Extranjero</option>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row class="mt-2">
+          <b-col cols="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Destino de la comisión:"
+              label-for="destinoComision-input"
+            >
+              <b-form-select v-model="comision.destino" class="mb-3" :disabled="deshabilitado" required>
+                <option :value="null">Seleccione un país</option>
+                <optgroup label="América">
+                  <option value="canada">Canadá</option>
+                  <option value="usa" disabled>Estados Unidos (no disponible)</option>
+                </optgroup>
+                <optgroup label="Europa">
+                  <option value="germany">Alemania</option>
+                  <option value="poland">Polonia</option>
+                </optgroup>
+                <optgroup label="Asia">
+                  <option value="turkey">Turquía</option>
+                  <option value="china">China</option>
+                </optgroup>
+              </b-form-select>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row>
+          <b-col cols="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Evento de la comisión:"
+              label-for="evento-input"
+            >
+              <b-form-input 
+                id="eventoComision-input" 
+                v-model="comision.evento"
+                placeholder="Nombre del evento..." 
+                :disabled="deshabilitado"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row class="mt-2">
+          <b-col cols="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Objetivo de trabajo:"
+              label-for="objetivoTrabajo-input"
+            >
+              <b-form-input 
+                id="objetivoTrabajo-input" 
+                v-model="comision.objetivoTrabajo"
+                placeholder="Objetivos al realizar la comisión..." 
+                :disabled="deshabilitado"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row class="mt-2">
+          <b-col cols="8">
+            <p>Justificación:</p>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col cols="8">
+            <b-form-textarea
+              id="justificacion-input"
+              v-model="comision.justificacion"
+              placeholder="Describa detalladamente la razón por la que solicita la comisión..."
+              :disabled="deshabilitado"
+              required
+              rows="4"
+              max-rows="8"
+            ></b-form-textarea>
+          </b-col>
+        </b-row>
 
 
-      
+
+        <!-- ++++++++++++++++++++++++++++++++ Actividades y programa ++++++++++++++++++++++++++++++++ -->
+        <h5 class="mt-5"> Actividades y programa </h5>
+        <hr>
+
+        <b-row class="mt-2">
+          <b-col cols="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Programa de trabajo:"
+              label-for="programaTrabajo-input"
+            >
+              <b-form-input 
+                id="programaTrabajo-input" 
+                v-model="comision.programaTrabajo"
+                placeholder="Programa de trabajo..." 
+                :disabled="deshabilitado"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        
+        <!-- ++++++++++++++++ Template Tabla (Programa de la comision) ++++++++++++++++ -->
+        <b-row class="mt-2">
+          <b-col md="12">
+            <b-card>
+              <b-row align-h="between">
+                <h5>Programa de la comisión:</h5>
+                <b-button size="sm" @click="ReiniciarDiaTemplate" v-b-modal.modal_agregar_dia variant="outline-primary" align="end" :disabled="deshabilitado">
+                  Agregar día
+                </b-button>
+              </b-row>
+              <hr>
+
+              <b-row>
+                <b-table
+                  ref="tablaPrograma"
+                  head-variant="dark"
+                  bordered
+                  hover
+                  responsive
+                  small
+                  :selectable="!deshabilitado"
+                  select-mode="single" 
+                  @row-selected="SeleccionarDia"
+                  :fields="headersTabla"
+                  :items="comision.programa"
+                >
+                </b-table>
+              </b-row>
+              
+              <!-- Acciones -->
+              <b-row align-h="center">
+                <b-col md="3">
+                  <template v-if="this.diaTemplate.dia != null">
+                    <b-button size="sm" v-b-modal.modal_editar_dia block variant="outline-secondary">Editar</b-button>
+                  </template>
+                  <template v-else>
+                    <b-button size="sm" disabled block variant="outline-secondary">Editar</b-button>
+                  </template>
+                </b-col>
+                <b-col md="3">
+                  <template v-if="this.diaTemplate.dia != null">
+                    <b-button size="sm" v-b-modal.modal_eliminar_dia block variant="outline-danger">Eliminar</b-button>
+                  </template>
+                  <template v-else>
+                    <b-button size="sm" disabled block variant="outline-danger">Eliminar</b-button>
+                  </template>
+                </b-col>
+              </b-row>
+
+            </b-card>
+          </b-col>
+        </b-row>
+
+        <!-- Alerta de tabla -->
+        <b-alert
+          variant="danger"
+          dismissible
+          fade
+          :show="mostrarAlertaProgramaComision"
+          @dismissed="mostrarAlertaProgramaComision=false"
+        >
+          El programa de la comisión no puede dejarse vacío.
+        </b-alert>
+
+
+
+        <!-- ++++++++++++++++++++++++++++++++ Documentos adjuntos ++++++++++++++++++++++++++++++++ -->
+        <h5 class="mt-5"> Documentos adjuntos</h5>
+        <hr>
+
+        <!-- Se permite seleccionar archivos -->
+        <div v-if="deshabilitado == false">
+          <b-row class="mt-2">
+            <b-col cols="6">
+              <label for="invitacion-input">Invitación al evento (opcional):</label>
+              <b-form-file
+                id="invitacion-input"
+                v-model="comision.invitacionEvento"
+                :state="Boolean(comision.invitacionEvento) || null"
+                :disabled="deshabilitado"
+                placeholder="Elija o arrastre un archivo..."
+                drop-placeholder="Suelte el archivo aquí..."
+                browse-text="Buscar"
+              ></b-form-file>
+              <div class="mt-3">Selección: <strong>{{ comision.invitacionEvento ? comision.invitacionEvento : '' }}</strong> </div>
+            </b-col>
+
+            <b-col cols="6">
+              <label for="invitacion-input">Programa del evento (opcional):</label>
+              <b-form-file
+                id="invitacion-input"
+                v-model="comision.programaEvento"
+                :state="Boolean(comision.programaEvento) || null"
+                :disabled="deshabilitado"
+                placeholder="Elija o arrastre un archivo..."
+                drop-placeholder="Suelte el archivo aquí..."
+                browse-text="Buscar"
+              ></b-form-file>
+              <div class="mt-3">Selección: <strong>{{ comision.programaEvento ? comision.programaEvento : '' }}</strong> </div>
+            </b-col>
+          </b-row>
+        </div>
+
+        <!-- Solo se muestra el link de los archivos -->
+        <div v-else>
+          <b-row class="mt-2">
+            <b-col cols="6">
+              <label>Invitación al evento:</label>
+              <p><i>{{ comision.invitacionEvento }}</i></p>
+            </b-col>
+
+            <b-col cols="6">
+              <label>Programa del evento:</label>
+              <p><i>{{ comision.programaEvento }}</i></p>
+            </b-col>
+          </b-row>
+        </div>
+        
+
+
+
+
+        <!-- ++++++++++++++++++++++++++++++++ Acciones del form ++++++++++++++++++++++++++++++++ -->
+        <transition enter-active-class="animated fade-in-top" leave-active-class="animated fade-out-top">
+          <div v-if="deshabilitado == false">
+            <hr class="mt-5">
+            <b-row class="mt-4" align-h="center">
+
+              <b-col cols="3">
+                <b-button 
+                  block 
+                  variant="danger"
+                  v-b-tooltip.hover title="Elimina la solicitud por completo."
+                  v-on:click="$bvModal.show('modal_cancelar_solicitud')"
+                >
+                  Cancelar solicitud
+                </b-button>
+              </b-col>
+
+              <b-col cols="3">
+                <!-- Espacio en blanco -->
+              </b-col>
+
+              <b-col cols="3">
+                <b-button 
+                  block 
+                  variant="secondary"
+                  v-b-tooltip.hover title="Se guarda la solicitud sin enviarla. Puede terminarla después."
+                  v-on:click="GuardarSolicitud()"
+                >
+                  Guardar solicitud
+                </b-button>
+              </b-col>
+
+              <b-col cols="3">
+                <b-button 
+                  block 
+                  variant="primary" 
+                  v-b-tooltip.hover title="Una vez enviada, no podrá editarse." 
+                  type="submit" 
+                >
+                  Enviar solicitud
+                </b-button>
+              </b-col>
+            </b-row>
+          </div>
+        </transition>
+
+        
+
+      </b-form>
+    
     </b-card>
 
 
 
 
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++ Notificaciones de resultado ++++++++++++++++++++++++++++++++++++++++ -->
+    
+    <br>
+    <!-- Solicitud cancelada -->
+    <b-alert
+      variant="primary"
+      dismissible
+      fade
+      :show="mostrarAlertaSolicitudCancelada"
+      @dismissed="mostrarAlertaSolicitudCancelada=false"
+    >
+      La solicitud ha sido cancelada. Puede comenzar una nueva solicitud si lo desea.
+    </b-alert>
+
+    <!-- Solicitud guardada -->
+    <b-alert
+      variant="primary"
+      dismissible
+      fade
+      :show="mostrarAlertaSolicitudGuardada"
+      @dismissed="mostrarAlertaSolicitudGuardada=false"
+    >
+      La solicitud ha sido guardada. Puede completarla más tarde.
+    </b-alert>
+
+    <!-- Solicitud enviada -->
+    <b-alert
+      variant="success"
+      dismissible
+      fade
+      :show="mostrarAlertaSolicitudEnviada"
+      @dismissed="mostrarAlertaSolicitudEnviada=false"
+    >
+      La solicitud ha sido enviada. Espere a su resolución para continuar con la solicitud de viáticos.
+    </b-alert>
+
+
+
+
+
+
+
+
+
+
+    <!-- ++++++++++++++++++++++++++++++++++++++++ Recursos adicionales ++++++++++++++++++++++++++++++++++++++++ -->
 
     <!-- Modal Agregar Dia -->
     <b-modal
@@ -530,6 +624,40 @@
 
 
 
+    <!-- Modal Cancelar Solicitud -->
+    <b-modal
+      id="modal_cancelar_solicitud"
+      title="¿Desea cancelar la solicitud?"
+      size= "md"
+      buttonSize="sm"
+      okVariant="danger"
+      okTitle="Cancelar solicitud"
+      cancelTitle="Cerrar ventana"
+      footerClass="p-2"
+      centered
+      @ok="CancelarSolicitud()"
+    >
+      Al cancelar la solicitud se eliminará toda la información relacionada a la misma y deberá comenzar una nueva solicitud.
+    </b-modal>
+
+
+
+    <!-- Modal Enviar Solicitud -->
+    <b-modal
+      id="modal_enviar_solicitud"
+      title="¿Desea enviar la solicitud?"
+      size= "md"
+      buttonSize="sm"
+      okVariant="success"
+      okTitle="Enviar solicitud"
+      cancelTitle="Cancelar envío"
+      footerClass="p-2"
+      centered
+      @ok="EnviarSolicitud()"
+    >
+      Una vez enviada, no podrá editarse ni podrá comenzar una nueva solicitud hasta que esta sea resuelta.
+    </b-modal>
+
 
 
   </div>
@@ -540,68 +668,79 @@
 
 
 <script>
+// State:
+import estado from "@/store.js";
+
+// Propiedades:
+import { mapState } from "vuex";
+
+// Componentes:
+
+// Atributos:
 export default {
   name: "formComision",
+
+  computed: {
+    ...mapState({
+      comisionActiva: "comisionActiva",
+      trabajador: "trabajador",
+    })
+  },
+
   props: {
     titulo: "",
     deshabilitado: false,
-    comision_prop: {
-      type: Object,
-      // Por ser un objeto, se debe regresar con una funcion:
-      default: function() {
-        return {
-          folio: "001302",
-          fecha: new Date().toLocaleDateString(),
-          codigoTrabajador: "",
-          nombreSolicitante: "",
-          areaAdscripcion: "",
-          tipoComision: "",
-          destinoComision: "",
-          plazaLaboral: "",
-          justificacion: "",
-          programaTrabajo: "",
-          objetivoTrabajo: "",
-          eventoComision: "",
-          programa: []
-        }
-      }
-    }
-
   },
 
   data() {
     return {
-        comision: {
-        folio: "",
-        fecha: "",
-        codigoTrabajador: "",
-        nombreSolicitante: "",
-        areaAdscripcion: "",
-        tipoComision: "",
-        destinoComision: "",
-        plazaLaboral: "",
-        justificacion: "",
-        programaTrabajo: "",
-        objetivoTrabajo: "",
-        eventoComision: "",
-        programa: []
+
+      // Variables de uso local:
+      comision: {
+        folio: null,
+        fechaCreacion: new Date().toLocaleDateString(),
+        fechaEnvio: null,
+        fechaAprobacion: null,
+        estatus: null,
+        codigoTrabajador: null,
+        nombreSolicitante: null,
+        areaAdscripcion: null,
+        tipo: null,
+        destino: null,
+        plazaLaboral: null,
+        justificacion: null,
+        programaTrabajo: null,
+        objetivoTrabajo: null,
+        evento: null,
+        programa: [],
+        invitacionEvento: null,
+        programaEvento: null
       },
 
-      tipoComision: {
-        opciones: [
-          { value: null, text: 'Seleccione un tipo' },
-          { value: 'nacional', text: 'Nacional' },
-          { value: 'extranjero', text: 'Extranjero' }
-        ]
-      },
-      destinoComision: {
-        opciones: []
-      },
-      archivoInvitacion: null,
-      archivoPrograma: null,
+      // Elementos visuales:
+      mostrarAlertaProgramaComision: false,
+      mostrarAlertaSolicitudCancelada: false,
+      mostrarAlertaSolicitudGuardada: false,
+      mostrarAlertaSolicitudEnviada: false,
+
+      
+
+      // tipoComision: {
+      //   opciones: [
+      //     { value: null, text: 'Seleccione un tipo' },
+      //     { value: 'nacional', text: 'Nacional' },
+      //     { value: 'extranjero', text: 'Extranjero' }
+      //   ]
+      // },
+      // destinoComision: {
+      //   opciones: []
+      // },
+      // archivoInvitacion: null,
+      // archivoPrograma: null,
 
 
-      // Tabla editable:
+
+      // ++++++++++++++++ Tabla editable ++++++++++++++++
       headersTabla: [
         { key: "dia", label: "Día", sortable: false, variant: "secondary" },
         { key: "fecha", label: "Fecha", sortable: false },
@@ -619,11 +758,105 @@ export default {
       // Modals Dia:
       estadoModalAgregarDia: null,
       estadoModalEditarDia: null,
-
-
     }
   },
+
+  created: function () {
+    // Si hay una comision activa, asigna su valor a comision:
+    if(this.comisionActiva != null){
+      this.comision = this.comisionActiva;
+    }
+  },
+
   methods:{
+
+    // ++++++++++++++++++++++++++++++++ Solicitud ++++++++++++++++++++++++++++++++
+    CancelarSolicitud(){
+
+      // Envia peticion al servidor para eliminar la solicitud de la BD
+
+      this.comision = {
+        folio: null,
+        fechaCreacion: new Date().toLocaleDateString(),
+        fechaEnvio: null,
+        fechaAprobacion: null,
+        estatus: null,
+        codigoTrabajador: null,
+        nombreSolicitante: null,
+        areaAdscripcion: null,
+        tipo: null,
+        destino: null,
+        plazaLaboral: null,
+        justificacion: null,
+        programaTrabajo: null,
+        objetivoTrabajo: null,
+        evento: null,
+        programa: [],
+        invitacionEvento: null,
+        programaEvento: null
+      }
+
+      // Reinicia el estado de comisionActiva:
+      estado.commit("establecerComisionActiva", {
+        comisionActiva: null
+      });
+
+      // Muestra alerta:
+      this.mostrarAlertaSolicitudCancelada = true;
+    },
+
+    GuardarSolicitud(){
+
+      // Se asignan los datos del trabajador a la solicitud:
+      this.comision.codigoTrabajador  = this.trabajador.codigo;
+      this.comision.nombreSolicitante = this.trabajador.nombre;
+      this.comision.areaAdscripcion   = this.trabajador.areaAdscripcion;
+      this.comision.plazaLaboral      = this.trabajador.plazaLaboral;
+      this.comision.estatus           = "NE";
+
+      // Envia peticion al servidor para guardar la solicitud en la BD:
+
+
+      // Se asigna el valor de comision a comisionActiva (temporal):
+      estado.commit("establecerComisionActiva", {
+        comisionActiva: this.comision
+      });
+
+      // Muestra alerta:
+      this.mostrarAlertaSolicitudGuardada = true;
+    },
+
+    EnviarSolicitud(){
+
+      // Comprueba que el programa de la comision no este vacio:
+      if(this.comision.programa.length > 0){
+        // Se asignan los datos del trabajador a la solicitud:
+        this.comision.codigoTrabajador  = this.trabajador.codigo;
+        this.comision.nombreSolicitante = this.trabajador.nombre;
+        this.comision.areaAdscripcion   = this.trabajador.areaAdscripcion;
+        this.comision.plazaLaboral      = this.trabajador.plazaLaboral;
+        this.comision.estatus           = "PE";
+        this.comision.fechaEnvio        = new Date().toLocaleDateString();
+
+        // Envia peticion al servidor para guardar la solicitud en la BD:
+
+
+        // Se asigna el valor de comision a comisionActiva (temporal):
+        estado.commit("establecerComisionActiva", {
+          comisionActiva: this.comision
+        });
+
+        // Muestra alerta:
+        this.mostrarAlertaSolicitudEnviada = true;
+      }
+      else{
+        // El programa de la comision esta vacio:
+        this.mostrarAlertaProgramaComision = true;
+      }
+    },
+
+
+
 
     // ++++++++++++++++++++++++++++++++ Tabla editable ++++++++++++++++++++++++++++++++
     SeleccionarDia(item){
