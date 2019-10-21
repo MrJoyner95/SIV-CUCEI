@@ -10,15 +10,17 @@ export default new Vuex.Store({
     // Profesor:
 
     // ++++++++++++++++++++++++++++++++ Login ++++++++++++++++++++++++++++++++
-    trabajador: {
-      codigo: null,
-      tipo: null,
-      nombre: null,
-      plazaLaboral: null,
-      areaAdscripcion: null,
-      token: null
-    },
+    trabajador: null,
+    // trabajador: {
+    //   codigo: null,
+    //   tipo: null,
+    //   nombre: null,
+    //   plazaLaboral: null,
+    //   areaAdscripcion: null,
+    //   token: null
+    // },
 
+    comisionActiva: null,
     // comisionActiva: {
     //   folio: null,
     //   fechaCreacion: null,
@@ -40,7 +42,7 @@ export default new Vuex.Store({
     //   programaEvento: null
     // },
 
-    comisionActiva: null,
+    historialComisiones: null,
 
   },
   // Se usa para funciones con los atributos:
@@ -52,15 +54,19 @@ export default new Vuex.Store({
     
     // ++++++++++++++++++++++++++++++++ Login ++++++++++++++++++++++++++++++++
     establecerTrabajador(state, payload){
-      state.trabajador.codigo = payload.codigo;
-      state.trabajador.tipo = payload.tipo;
-      state.trabajador.nombre = payload.nombre;
-      state.trabajador.plazaLaboral = payload.plazaLaboral;
-      state.trabajador.areaAdscripcion = payload.areaAdscripcion;
-      state.trabajador.token = payload.token;
+
+      state.trabajador = payload.trabajador;
+      // state.trabajador.codigo = payload.codigo;
+      // state.trabajador.tipo = payload.tipo;
+      // state.trabajador.nombre = payload.nombre;
+      // state.trabajador.plazaLaboral = payload.plazaLaboral;
+      // state.trabajador.areaAdscripcion = payload.areaAdscripcion;
+      // state.trabajador.token = payload.token;
     },
 
     establecerComisionActiva(state, payload){
+
+      state.comisionActiva = payload.comisionActiva;
       // state.comisionActiva.folio              = payload.folio;
       // state.comisionActiva.fechaCreacion      = payload.fechaCreacion;
       // state.comisionActiva.fechaEnvio         = payload.fechaEnvio;
@@ -79,8 +85,10 @@ export default new Vuex.Store({
       // state.comisionActiva.programa           = payload.programa;
       // state.comisionActiva.invitacionEvento   = payload.invitacionEvento;
       // state.comisionActiva.programaEvento     = payload.programaEvento;
+    },
 
-      state.comisionActiva = payload.comisionActiva;
+    establecerHistorialComisiones(state, payload){
+      state.historialComisiones = payload.historialComisiones;
     },
 
   },

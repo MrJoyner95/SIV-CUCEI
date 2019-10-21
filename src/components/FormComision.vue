@@ -10,11 +10,10 @@
       <b-form @submit="$bvModal.show('modal_enviar_solicitud')">
 
         <!-- ++++++++++++++++++++++++++++++++ Datos generales de la solicitud ++++++++++++++++++++++++++++++++ -->
-        <!-- Solicitud nueva -->
         <h4 align="center"> {{ titulo }} </h4>
         <b-row class="mt-4">
           <b-col>
-            <div v-if="comisionActiva == null || comisionActiva == undefined">
+            <div v-if="comision == null">
               <h6 align="right"> Folio de comisión: (pendiente) </h6>
             </div>
             <div v-else>
@@ -28,18 +27,38 @@
           </b-col>
         </b-row>
 
+
+
         <!-- Solicitud con datos -->
-        <div v-if="comisionActiva != null && comisionActiva != undefined">
-          <b-row align-h="end" class="mt-2">
-            <b-col>
-              <h6 align="right"> Fecha de envio: {{comision.fechaEnvio}} </h6>
-            </b-col>
-          </b-row>
-          <b-row align-h="end" class="mt-2">
-            <b-col>
-              <h6 align="right"> Fecha de aprobación: {{comision.fechaAprobacion}} </h6>
-            </b-col>
-          </b-row>
+        <div v-if="comision != null">
+
+          <!-- Solicitud PE / AU / RE / EP / CO -->
+          <div v-if="comision.fechaEnvio != null">
+            <b-row align-h="end" class="mt-2">
+              <b-col>
+                <h6 align="right"> Fecha de envio: {{comision.fechaEnvio}} </h6>
+              </b-col>
+            </b-row>
+          </div>
+
+          <!-- Solicitud AU / EP / CO -->
+          <div v-if="comision.fechaAprobacion != null">
+            <b-row align-h="end" class="mt-2">
+              <b-col>
+                <h6 align="right"> Fecha de aprobación: {{comision.fechaAprobacion}} </h6>
+              </b-col>
+            </b-row>
+          </div>
+
+          <!-- Solicitud CO -->
+          <div v-if="comision.fechaConclusion != null">
+            <b-row align-h="end" class="mt-2">
+              <b-col>
+                <h6 align="right"> Fecha de conclusión: {{comision.fechaConclusion}} </h6>
+              </b-col>
+            </b-row>
+          </div>
+          
         </div>
 
 
@@ -688,6 +707,7 @@ export default {
   },
 
   props: {
+    comisionInactiva: null,
     titulo: "",
     deshabilitado: false,
   },
@@ -701,6 +721,7 @@ export default {
         fechaCreacion: new Date().toLocaleDateString(),
         fechaEnvio: null,
         fechaAprobacion: null,
+        fechaConclusion: null,
         estatus: null,
         codigoTrabajador: null,
         nombreSolicitante: null,
@@ -762,10 +783,20 @@ export default {
   },
 
   created: function () {
-    // Si hay una comision activa, asigna su valor a comision:
-    if(this.comisionActiva != null){
+    // Si recibe una comision como parametro, la muestra de forma inactiva:
+    if(this.comisionInactiva){
+      this.comision = this.comisionInactiva;
+      this.deshabilitado = true;
+    }
+    // Si no se recibe una comision por parametros, revisa si hay una comision activa:
+    else if(this.comisionActiva){
       this.comision = this.comisionActiva;
     }
+
+    // Si hay una comision activa, asigna su valor a comision:
+    // if(this.comisionActiva != null){
+    //   this.comision = this.comisionActiva;
+    // }
   },
 
   methods:{

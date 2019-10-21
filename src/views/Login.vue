@@ -296,18 +296,28 @@ export default {
                 var trabajador = body.trabajador;
                 // Asigna objeto comision:
                 var comision = body.comisionActiva;
+                // Asigna objeto de historial de comisiones:
+                var historialComisiones = body.historialComisiones;
+
 
                 estado.commit("establecerTrabajador", {
-                  codigo: trabajador.codigo,
-                  tipo: trabajador.tipo,
-                  nombre: trabajador.nombre,
-                  plazaLaboral: trabajador.plazaLaboral,
-                  areaAdscripcion: trabajador.areaAdscripcion,
-                  token: trabajador.token,
+                  trabajador: trabajador
                 });
+                // estado.commit("establecerTrabajador", {
+                //   codigo: trabajador.codigo,
+                //   tipo: trabajador.tipo,
+                //   nombre: trabajador.nombre,
+                //   plazaLaboral: trabajador.plazaLaboral,
+                //   areaAdscripcion: trabajador.areaAdscripcion,
+                //   token: trabajador.token,
+                // });
 
                 estado.commit("establecerComisionActiva", {
                   comisionActiva: comision
+                });
+
+                estado.commit("establecerHistorialComisiones", {
+                  historialComisiones: historialComisiones
                 });
 
                 // Esconde pantalla de carga:

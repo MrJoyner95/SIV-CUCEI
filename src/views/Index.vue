@@ -38,7 +38,7 @@
 
 
     <!-- Redireccionamiento de la ruta / -->
-    <div v-if= "trabajador.codigo == null || trabajador.codigo == undefined" >
+    <div v-if="trabajador == null" >
       <Login/>
     </div>
     <div v-else>

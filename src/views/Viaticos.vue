@@ -58,7 +58,6 @@
                   <a
                     href="#"
                     v-on:click="mostrarFormComision = true;"
-                    class="card-link"
                   >
                     Comisión {{ comisionActiva.folio }} <b-badge variant="primary">Pendiente</b-badge>
                   </a>
@@ -71,22 +70,26 @@
                   </b-card-text>
                   <a
                     href="#"
-                    v-on:click="mostrarFormComisionAbierta = true; formComisionVisible = true"
-                    class="card-link"
+                    v-on:click="mostrarFormComision = true;"
                   >
                     Comisión {{ comisionActiva.folio }} <b-badge variant="success">Autorizada</b-badge>
                   </a>
                 </div>
-
               </b-col>
-              <b-col md="5">
 
+              <!-- Historial de comisiones -->
+              <b-col md="5">
                 <h5 align="left" class="titleColor"> Historial de comisiones: </h5>
                 <b-list-group>
-                  <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000831 (Italia)</b-list-group-item>
-                  <b-list-group-item href="#" @click="mostrarFormComisionAbierta = true; formComisionVisible = true">Comisión 000795 (España)</b-list-group-item>
+                  <div v-for="comisionItem in historialComisiones.comisiones" v-bind:key="comisionItem.folio">
+                    <b-list-group-item 
+                      href="#" 
+                      @click="MostrarComisionInactiva(comisionItem)"
+                    > 
+                      Comisión {{ comisionItem.folio }} ({{ comisionItem.destino }}) 
+                    </b-list-group-item>
+                  </div>
                 </b-list-group>
-
               </b-col>
 
             </b-row>
@@ -94,6 +97,20 @@
 
         </b-col>
       </b-row>
+
+
+      <!-- Alerta -->
+      <!-- <b-row>
+        <b-alert
+          variant="danger"
+          dismissible
+          fade
+          :show="mostrarAlertaServidor"
+          @dismissed="mostrarAlertaServidor=false"
+        >
+          Error: no se pudo obtener la información de la comisión.
+        </b-alert>
+      </b-row> -->
 
 
 
@@ -141,6 +158,36 @@
 
 
 
+      <!-- Comision Inactiva -->
+      <transition enter-active-class="animated fade-in-top" leave-active-class="animated fade-out-top">
+        <div v-if="mostrarComisionInactiva == true">
+
+          <b-row align-h="center" class="mt-5">
+            <b-col cols="10">
+              <!-- Comision inactiva -->
+              <FormComision :titulo="comisionInactiva.destino" :comisionInactiva="comisionInactiva" :deshabilitado="true" />
+            </b-col>
+          </b-row>
+
+          <br>
+
+          <b-row class="mt-2" align-h="center">
+            <b-col cols="4">
+              <b-button 
+                block 
+                variant="secondary" 
+                v-on:click="mostrarComisionInactiva = false;"
+              >
+                Ocultar comision
+              </b-button>
+            </b-col>
+          </b-row>
+
+        </div>
+      </transition>
+
+
+
       <!-- Comision autorizada (solicitud de viaticos) -->
       <template v-if="comisionActiva != null && comisionActiva.estatus == 'AU' && mostrarFormViaticos == false">
         <hr class="mt-5">
@@ -149,10 +196,10 @@
           <b-col cols="4">
             <b-button 
               block 
-              variant="outline-primary" 
+              variant="success" 
               v-on:click="mostrarFormViaticos = true"
             >
-              Solicitud de viáticos
+              Comenzar solicitud de viáticos
             </b-button>
           </b-col>
         </b-row>
@@ -217,6 +264,7 @@ export default {
   computed: {
     ...mapState({
       comisionActiva: "comisionActiva",
+      historialComisiones: "historialComisiones",
     })
   },
   components: {
@@ -229,6 +277,12 @@ export default {
       // mostrarFormViaticos: { type: Boolean, default: false },
       mostrarFormComision: false,
       mostrarFormViaticos: false,
+
+      // Historial de comisiones:
+      mostrarComisionInactiva: false,
+      comisionInactiva: null,
+      // mostrarAlertaServidor: false,
+
     };
   },
 
@@ -241,7 +295,75 @@ export default {
     }
   },
 
-  methods: {}
+  methods: {
+
+    // ++++++++++++++++++++++++++++++++ Historial de comisiones ++++++++++++++++++++++++++++++++
+    MostrarComisionInactiva(comision) {
+
+      console.log(comision);
+
+      // Asigna el valor de la comision seleccionada:
+      this.comisionInactiva = comision;
+      // Cambia estado:
+      this.mostrarComisionInactiva = true;
+
+      // // Cambia estado de visualizacion de la comision:
+      // this.mostrarComisionInactiva = true;
+      // // Duplica el objeto raiz (this) para poder usarlo en una funcion interna dentro de "setInterval":
+      // var data = this; // Dentro de una funcion interna se llama a "data" en lugar de "this".
+
+      // // ++++++++++++++++++++++++ Enviando JSON al servidor y esperando respuesta: ++++++++++++++++++++++++
+      // const request = require('request');
+      // var timeleft = 5;
+      // var downloadTimer = setInterval(function(){
+
+      //   // ++++++++++++++++ Peticion HTTP al servidor ++++++++++++++++
+      //   request(
+      //     {
+      //       method: "GET",
+      //       uri: "http://localhost:3000/iniciarSesion"
+      //     },
+      //     function (error, response) {
+
+      //       if(error){
+      //         // Muestra error:
+      //         data.mostrarAlertaServidor = true;
+      //         // Detiene el contador:
+      //         clearInterval(downloadTimer);
+      //       }
+      //       else{
+      //         if(response.statusCode == 200){
+      //           // Obtiene el objeto JSON de response:
+      //           var body = JSON.parse(response.body);
+                
+
+
+      //           // Asigna objeto a comisionInactiva:
+      //           data.comisionInactiva = body.comisionActiva;
+
+
+      //           // Detiene el contador:
+      //           clearInterval(downloadTimer);
+      //         }
+      //       }
+      //     }
+      //   )
+
+      //   // ++++++++++++++++ No hubo respuesta del servidor ++++++++++++++++
+      //   timeleft -= 1;
+      //   if(timeleft <= 0){
+      //     // Muestra error:
+      //     data.mostrarAlertaServidor = true;
+      //     // Detiene el contador:
+      //     clearInterval(downloadTimer);
+      //   }
+
+      // }, 1000);
+
+
+    }
+
+  }
 
 };
 </script>
