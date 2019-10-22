@@ -643,6 +643,24 @@
 
 
 
+    <!-- Modal Enviar Solicitud -->
+    <b-modal
+      id="modal_enviar_solicitud"
+      title="¿Desea enviar la solicitud?"
+      size= "md"
+      buttonSize="sm"
+      okVariant="success"
+      okTitle="Enviar solicitud"
+      cancelTitle="Cancelar envío"
+      footerClass="p-2"
+      centered
+      @ok="EnviarSolicitud()"
+    >
+      Una vez enviada, no podrá editarse ni podrá comenzar una nueva solicitud hasta que esta sea resuelta.
+    </b-modal>
+
+
+
     <!-- Modal Cancelar Solicitud -->
     <b-modal
       id="modal_cancelar_solicitud"
@@ -661,21 +679,7 @@
 
 
 
-    <!-- Modal Enviar Solicitud -->
-    <b-modal
-      id="modal_enviar_solicitud"
-      title="¿Desea enviar la solicitud?"
-      size= "md"
-      buttonSize="sm"
-      okVariant="success"
-      okTitle="Enviar solicitud"
-      cancelTitle="Cancelar envío"
-      footerClass="p-2"
-      centered
-      @ok="EnviarSolicitud()"
-    >
-      Una vez enviada, no podrá editarse ni podrá comenzar una nueva solicitud hasta que esta sea resuelta.
-    </b-modal>
+    
 
 
 
@@ -828,7 +832,7 @@ export default {
       }
 
       // Reinicia el estado de comisionActiva:
-      estado.commit("establecerComisionActiva", {
+      estado.commit("EstablecerComisionActiva", {
         comisionActiva: null
       });
 
@@ -849,7 +853,7 @@ export default {
 
 
       // Se asigna el valor de comision a comisionActiva (temporal):
-      estado.commit("establecerComisionActiva", {
+      estado.commit("EstablecerComisionActiva", {
         comisionActiva: this.comision
       });
 
@@ -873,7 +877,7 @@ export default {
 
 
         // Se asigna el valor de comision a comisionActiva (temporal):
-        estado.commit("establecerComisionActiva", {
+        estado.commit("EstablecerComisionActiva", {
           comisionActiva: this.comision
         });
 

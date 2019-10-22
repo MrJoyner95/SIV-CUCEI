@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="div_fondo_udg">
+    <!-- <div class="div_fondo_udg"> -->
 
       <!-- Academicos -->
       <div v-if="trabajador.tipo === 'AA'">
@@ -9,7 +9,20 @@
 
       <!-- Rangos Medios -->
       <div v-else-if="trabajador.tipo === 'RM'">
-        <h1>RANGOS MEDIOS</h1>
+        <!-- <h1>RANGOS MEDIOS</h1> -->
+
+        <!-- 
+          Cambia de vista dependiendo si tiene la funcion de aprobar solicitudes o no.
+          Si el objeto JSON que recibe al iniciar sesion contiene el objeto "solicitudesPendientes", aun si es un arreglo vacio,
+          el usuario tiene la funcion de aprobar solicitudes. Si el objeto es null, no.
+         -->
+        <div v-if="solicitudesPendientes != null">
+          <Solicitudes/>
+        </div>
+        <!-- Si no tiene el privilegio de aprobar solicitudes, se muestra la vista de viatios -->
+        <div v-else>
+          <Viaticos/>
+        </div>
       </div>
 
       <!-- Directivos -->
@@ -30,7 +43,7 @@
       </div> -->
       
 
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -44,6 +57,7 @@ import { mapState } from "vuex";
 
 // Vistas:
 import Viaticos from "@/views/Viaticos.vue";
+import Solicitudes from "@/views/Solicitudes.vue";
 
 // Componentes:
 import FormComision from "@/components/FormComision.vue";
@@ -56,13 +70,14 @@ export default {
   computed:{
     ...mapState({
       trabajador: "trabajador",
-
       comisionActiva: "comisionActiva",
-      
+      solicitudesPendientes: "solicitudesPendientes",
     })
   },
   components: {
     Viaticos,
+    Solicitudes,
+
     FormComision,
     FormViaticos,
   },

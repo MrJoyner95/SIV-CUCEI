@@ -292,33 +292,45 @@ export default {
                 var body = JSON.parse(response.body);
                 console.log("Objeto JSON obtenido: ", body);
 
-                // Asigna objeto trabajador:
-                var trabajador = body.trabajador;
-                // Asigna objeto comision:
-                var comision = body.comisionActiva;
-                // Asigna objeto de historial de comisiones:
-                var historialComisiones = body.historialComisiones;
+                // // Asigna objeto trabajador:
+                // var trabajador = body.trabajador;
+                // // Asigna objeto comision:
+                // var comision = body.comisionActiva;
+                // // Asigna objeto de historial de comisiones:
+                // var historialComisiones = body.historialComisiones;
 
 
-                estado.commit("establecerTrabajador", {
-                  trabajador: trabajador
-                });
-                // estado.commit("establecerTrabajador", {
-                //   codigo: trabajador.codigo,
-                //   tipo: trabajador.tipo,
-                //   nombre: trabajador.nombre,
-                //   plazaLaboral: trabajador.plazaLaboral,
-                //   areaAdscripcion: trabajador.areaAdscripcion,
-                //   token: trabajador.token,
-                // });
 
-                estado.commit("establecerComisionActiva", {
-                  comisionActiva: comision
+                // Todos los tipos de usuario:
+                estado.commit("EstablecerTrabajador", {
+                  trabajador: body.trabajador
                 });
 
-                estado.commit("establecerHistorialComisiones", {
-                  historialComisiones: historialComisiones
+                estado.commit("EstablecerComisionActiva", {
+                  comisionActiva: body.comisionActiva
                 });
+
+                estado.commit("EstablecerHistorialComisiones", {
+                  historialComisiones: body.historialComisiones
+                });
+
+                
+                
+                // Rangos Medios y Directivos:
+                if(body.solicitudesPendientes != null){
+                  estado.commit("EstablecerSolicitudesPendientes", {
+                    solicitudesPendientes: body.solicitudesPendientes
+                  });
+                }
+
+                // Rectora:
+                if(body.solicitudesSinResolver != null){
+                  estado.commit("EstablecerSolicitudesSinResolver", {
+                    solicitudesSinResolver: body.solicitudesSinResolver
+                  });
+                }
+
+
 
                 // Esconde pantalla de carga:
                 data.mostrarPantallaCarga = false;
@@ -339,6 +351,7 @@ export default {
           data.mostrarPantallaCarga = false;
           // Detiene el contador:
           clearInterval(downloadTimer);
+          // Cancela la petition:
         }
 
       }, 1000);

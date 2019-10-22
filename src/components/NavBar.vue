@@ -22,10 +22,18 @@
         <div v-else-if="trabajador.tipo === 'RM'">
           <!-- Rangos Medios -->
           <b-navbar-nav>
-            <b-nav-item href="#/">Inicio</b-nav-item>
-            <b-nav-item href="#/historicos">Históricos</b-nav-item>
-            <b-nav-item href="#/viaticos">Viáticos</b-nav-item>
-            <b-nav-item href="#/aportaciones">Aportaciones</b-nav-item>
+            <!-- Con privilegios para aprobar solicitudes -->
+            <template v-if="solicitudesPendientes != null">
+              <b-nav-item href="#/">Inicio</b-nav-item>
+              <b-nav-item href="#/historicos">Históricos</b-nav-item>
+              <b-nav-item href="#/viaticos">Viáticos</b-nav-item>
+              <b-nav-item href="#/aportaciones">Aportaciones</b-nav-item>
+            </template>
+            <!-- Sin privilegios para aprobar solicitudes -->
+            <template v-else>
+              <b-nav-item href="#/">Inicio</b-nav-item>
+              <b-nav-item href="#/aportaciones">Aportaciones</b-nav-item>
+            </template>
           </b-navbar-nav>
         </div>
         <div v-else-if="trabajador.tipo === 'AA'">
@@ -59,6 +67,7 @@ export default {
   computed: {
     ...mapState({
       trabajador: "trabajador",
+      solicitudesPendientes: "solicitudesPendientes",
     })
   }
 }

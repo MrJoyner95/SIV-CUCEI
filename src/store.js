@@ -44,6 +44,18 @@ export default new Vuex.Store({
 
     historialComisiones: null,
 
+
+
+    // Rangos Medios y Directivos:
+    solicitudesPendientes: null,
+
+
+
+    // Rectora:
+    solicitudesSinResolver: null,
+
+
+
   },
   // Se usa para funciones con los atributos:
   getters: {
@@ -53,7 +65,7 @@ export default new Vuex.Store({
   mutations: {
     
     // ++++++++++++++++++++++++++++++++ Login ++++++++++++++++++++++++++++++++
-    establecerTrabajador(state, payload){
+    EstablecerTrabajador(state, payload){
 
       state.trabajador = payload.trabajador;
       // state.trabajador.codigo = payload.codigo;
@@ -64,7 +76,7 @@ export default new Vuex.Store({
       // state.trabajador.token = payload.token;
     },
 
-    establecerComisionActiva(state, payload){
+    EstablecerComisionActiva(state, payload){
 
       state.comisionActiva = payload.comisionActiva;
       // state.comisionActiva.folio              = payload.folio;
@@ -87,8 +99,20 @@ export default new Vuex.Store({
       // state.comisionActiva.programaEvento     = payload.programaEvento;
     },
 
-    establecerHistorialComisiones(state, payload){
+    EstablecerHistorialComisiones(state, payload){
       state.historialComisiones = payload.historialComisiones;
+    },
+
+
+
+    // Rangos Medios y Directivos:
+    EstablecerSolicitudesPendientes(state, payload){
+      state.solicitudesPendientes = payload.solicitudesPendientes;
+    },
+
+    // Rectora:
+    EstablecerSolicitudesSinResolver(state, payload){
+      state.solicitudesSinResolver = payload.solicitudesSinResolver;
     },
 
   },

@@ -2,7 +2,7 @@
   "iniciarSesion": {
     "trabajador": {
       "codigo": "211693760",
-      "tipo": "AA",
+      "tipo": "RM",
       "nombre": "Octavio Romo",
       "plazaLaboral": "Investigador",
       "areaAdscripcion": "N/A",
@@ -51,6 +51,8 @@
       "invitacionEvento": "link del archivo adjunto",
       "programaEvento": "link del archivo adjunto"
     },
+
+
 
 
 
@@ -141,7 +143,103 @@
           "programaEvento": "link del archivo adjunto"
         }
       ]
-    }
+    },
+
+
+
+
+    
+    "solicitudesPendientes": [
+      {
+        "diasDeEspera": "8",
+        "folio": "000201",
+        "fechaCreacion": "31/12/2020",
+        "fechaEnvio": "31/12/2020",
+        "fechaAprobacion": null,
+        "fechaConclusion": null,
+        "estatus": "PE",
+        "codigoTrabajador": "211693760",
+        "nombreSolicitante": "Octavio Romo",
+        "areaAdscripcion": "N/A",
+        "tipo": "extranjero",
+        "destino": "Canada",
+        "plazaLaboral": "Investigador",
+        "justificacion": "Quiero ir a una conferencia.",
+        "programaTrabajo": "N/A",
+        "objetivoTrabajo": "Aprender cosas y traer regalos.",
+        "evento": "Comic-Con Estambul 2019",
+        "programa": [
+          {
+            "dia": "1",
+            "fecha": "2019-12-30",
+            "lugar": "Quebec, Canada.",
+            "tareas": "Pensar"
+          }
+        ],
+        "invitacionEvento": "link del archivo adjunto",
+        "programaEvento": "link del archivo adjunto"
+      },
+      {
+        "diasDeEspera": "1",
+        "folio": "000202",
+        "fechaCreacion": "31/12/2020",
+        "fechaEnvio": "31/12/2020",
+        "fechaAprobacion": null,
+        "fechaConclusion": null,
+        "estatus": "PE",
+        "codigoTrabajador": "211693760",
+        "nombreSolicitante": "Octavio Romo",
+        "areaAdscripcion": "N/A",
+        "tipo": "extranjero",
+        "destino": "Estados Unidos",
+        "plazaLaboral": "Investigador",
+        "justificacion": "Quiero ir a una conferencia.",
+        "programaTrabajo": "N/A",
+        "objetivoTrabajo": "Aprender cosas y traer regalos.",
+        "evento": "Comic-Con 2019",
+        "programa": [
+          {
+            "dia": "1",
+            "fecha": "2019-12-30",
+            "lugar": "San Diego, Estados Unidos.",
+            "tareas": "Pensar"
+          }
+        ],
+        "invitacionEvento": "link del archivo adjunto",
+        "programaEvento": "link del archivo adjunto"
+      },
+      {
+        "diasDeEspera": "0",
+        "folio": "000203",
+        "fechaCreacion": "31/12/2020",
+        "fechaEnvio": "31/12/2020",
+        "fechaAprobacion": null,
+        "fechaConclusion": null,
+        "estatus": "PE",
+        "codigoTrabajador": "211693760",
+        "nombreSolicitante": "Octavio Romo",
+        "areaAdscripcion": "N/A",
+        "tipo": "extranjero",
+        "destino": "Cuba",
+        "plazaLaboral": "Investigador",
+        "justificacion": "Quiero ir a una conferencia.",
+        "programaTrabajo": "N/A",
+        "objetivoTrabajo": "Aprender cosas y traer regalos.",
+        "evento": "Comic-Con Estambul 2019",
+        "programa": [
+          {
+            "dia": "1",
+            "fecha": "2019-12-30",
+            "lugar": "La Habana, Cuba.",
+            "tareas": "Pensar"
+          }
+        ],
+        "invitacionEvento": "link del archivo adjunto",
+        "programaEvento": "link del archivo adjunto"
+      }
+    ]
+
+
 
   }
 }
