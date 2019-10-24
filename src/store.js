@@ -49,6 +49,8 @@ export default new Vuex.Store({
     // Rangos Medios y Directivos:
     solicitudesPendientes: null,
 
+    historicoSolicitudes: null,
+
 
 
     // Rectora:
@@ -109,6 +111,12 @@ export default new Vuex.Store({
     EstablecerSolicitudesPendientes(state, payload){
       state.solicitudesPendientes = payload.solicitudesPendientes;
     },
+
+    EstablecerHistoricoSolicitudes(state, payload){
+      state.historicoSolicitudes = payload.historicoSolicitudes;
+    },
+
+    
 
     // Rectora:
     EstablecerSolicitudesSinResolver(state, payload){

@@ -1,129 +1,133 @@
 <template>
-  <div id="historicos">
-    <b-container>
+  <div>
 
-
-
+    <div class="div_fondo_udg">
       <!-- Vista general -->
-      <b-row align-h="center" class="mt-5">
-        <b-col cols="10">
-          <b-card>
-            
-            <b-row>
-              <b-col lg="12">
-                <!-- <hr> -->
-                <h4 class="titleColor">Comisiones atendidas</h4>
+      <b-container>
+
+        
+        <b-row align-h="center" class="mt-5">
+            <b-col md="10">
+
+              <b-card>
+                <h4 class="mb-3 titulo">Historial de comisiones atendidas</h4>
                 <b-card-text class="mb-2">En esta sección pueden verse las solicitudes de comisión que ha atendido, independientemente de si han sido aprobadas o no. Las solicitudes aprobadas se muestran en verde y las rechazadas en rojo.
-                <br><br>Consulte los detalles a continuación:
+                  <br>
+                  <br>
+                  Consulte los detalles de las solicitudes a continuación:
                 </b-card-text>
 
 
 
+                <!-- Filtro de visualizacion -->
+                <b-form-group label="Filtrar solicitudes:">
+                  <b-form-radio-group 
+                    id="filtro_radio" 
+                    name="filtro_radio"
+                    v-model="filtro" 
+                    @change="EsconderSolicitud()"
+                  >
+                    <b-form-radio value="todas">Todas</b-form-radio>
+                    <b-form-radio value="autorizadas">Autorizadas</b-form-radio>
+                    <b-form-radio value="rechazadas">Rechazadas</b-form-radio>
+                  </b-form-radio-group>
+                </b-form-group>
+
+
+
+                <!-- Solicitudes -->
                 <b-list-group>
-                  <b-list-group-item href="#" variant="success" @click="mostrarSolicitudPorAprobar()" class="flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-2 titleColor">Comisión 000614</h5>
-                      <small>Atendida ayer</small>
-                    </div>
-                    <p class="mb-0">
-                      Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-                    </p>
-                    <small class="titleColor">Destino: <strong>Polonia</strong></small>
-                  </b-list-group-item>
 
-                  <b-list-group-item href="#" variant="danger" @click="mostrarSolicitudPorAprobar()" class="flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-2 titleColor">Comisión 000662</h5>
-                      <small>Atendida hace 3 día(s)</small>
-                    </div>
-                    <p class="mb-0">
-                      Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-                    </p>
-                    <small class="titleColor">Destino: <strong>Alemania</strong></small>
-                  </b-list-group-item>
+                  <div v-for="solicitud in historicoSolicitudes" v-bind:key="solicitud.folio">
+                    
+                    <!-- Aplica el filtro -->
+                    <div v-if="filtro == 'todas' || filtro == 'autorizadas' && solicitud.estatus != 'RE' || filtro == 'rechazadas' && solicitud.estatus == 'RE'">
 
-                  <b-list-group-item href="#" variant="success" @click="mostrarSolicitudPorAprobar()" class="flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-2 titleColor">Comisión 000698</h5>
-                      <small>Atendida hace 8 día(s)</small>
-                    </div>
-                    <p class="mb-0">
-                      Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-                    </p>
-                    <small class="titleColor">Destino: <strong>Rusia</strong></small>
-                  </b-list-group-item>
+                      <b-list-group-item 
+                        href="#" 
+                        class="flex-column align-items-start" 
+                        @click="MostrarSolicitud(solicitud)" 
+                      >
+                        <div class="d-flex w-100 justify-content-between">
+                          <!-- <h5 class="mb-2 titulo">Comisión {{ solicitud.folio }}</h5> -->
+                          <!-- Muestra decision de la comision -->
+                          <template v-if="solicitud.estatus == 'RE'">
+                            <h5 class="mb-2 titulo">Comisión {{ solicitud.folio }} <b-badge pill variant="danger">Rechazada</b-badge> </h5>
+                          </template>
+                          <template v-else>
+                            <h5 class="mb-2 titulo">Comisión {{ solicitud.folio }} <b-badge pill variant="success">Autorizada</b-badge> </h5>
+                          </template>
 
-                  <b-list-group-item href="#" variant="success" @click="mostrarSolicitudPorAprobar()" class="flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-2 titleColor">Comisión 000623</h5>
-                      <small>Atendida hace 10 día(s)</small>
-                    </div>
-                    <p class="mb-0">
-                      Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-                    </p>
-                    <small class="titleColor">Destino: <strong>España</strong></small>
-                  </b-list-group-item>
+                          <!-- Muestra dias de espera de la solicitud -->
+                          <template v-if="solicitud.haceDias == 0">
+                            <small>Atendida hoy</small>
+                          </template>
+                          <template v-else-if="solicitud.haceDias == 1">
+                            <small>Atendida ayer</small>
+                          </template>
+                          <template v-else>
+                            <small>Atendida hace {{ solicitud.haceDias }} días</small>
+                          </template>
+                        </div>
+                        <!-- Descripcion de la solicitud -->
+                        <p class="mb-0"> {{ solicitud.justificacion }} </p>
+                        <!-- Informacion relevante -->
+                        <hr>
+                        <div class="d-flex w-100 justify-content-between">
+                          <small class="titulo">Evento:  <strong>{{ solicitud.evento }}</strong></small>
+                          <small class="titulo">Destino: <strong>{{ solicitud.destino }}</strong></small>
+                        </div>
+                      </b-list-group-item>
 
-                  <b-list-group-item href="#" variant="success" @click="mostrarSolicitudPorAprobar()" class="flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mb-2 titleColor">Comisión 000634</h5>
-                      <small>Atendida hace 11 día(s)</small>
                     </div>
-                    <p class="mb-0">
-                      Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-                    </p>
-                    <small class="titleColor">Destino: <strong>España</strong></small>
-                  </b-list-group-item>
-                  
+                    
+                  </div>
+
                 </b-list-group>
+              </b-card>
 
-
-                
-              </b-col>
-            </b-row>
-
-          </b-card>
-        </b-col>
-      </b-row>
-
-
-
-      <!-- Form comision abierta -->
-      <transition enter-active-class="animation fade-in-top" leave-active-class="animated fade-out-top">
-        <div v-if="formComisionVisible === true">
-          <b-row align-h="center" class="mt-5">
-            <b-col cols="10">
-              <FormComision titulo="Detalles de la solicitud" :deshabilitado="true" :comision_prop="comisionPrueba" />
             </b-col>
           </b-row>
-        </div>
-      </transition>
 
 
 
-      <!-- Boton esconder comision -->
-      <template v-if="formComisionVisible === true">
-        <br>
-        <b-row class="mt-2" align-h="center">
-          <b-col cols="4">
-            <b-button 
-              block 
-              variant="secondary" 
-              v-on:click="formComisionVisible = false"
-            >
-              Esconder formulario
-            </b-button>
-          </b-col>
-        </b-row>
-        <hr>
-      </template>
+          <!-- Solicitud de comision -->
+          <transition enter-active-class="animated fade-in-top" leave-active-class="animated fade-out-top">
+            
+            <div v-if="solicitudVisible == true">
+              <!-- Solicitud -->
+              <b-row align-h="center" class="mt-5">
+                <b-col cols="10">
+                  <FormComision titulo="Solicitud de comisión" :comisionInactiva="solicitud" :deshabilitado="true" />
+                </b-col>
+              </b-row>
+
+              <!-- Boton ocultar solicitud -->
+              <br>
+              <b-row align-h="center">
+                <b-col cols="4">
+                  <b-button 
+                    block 
+                    variant="secondary" 
+                    v-on:click="EsconderSolicitud()"
+                  >
+                    Ocultar comision
+                  </b-button>
+                </b-col>
+              </b-row>
+            </div>
+
+          </transition>
 
 
 
-    <br>
-    <br>
 
-    </b-container>
+      <br>
+      <br>
+
+      </b-container>
+    </div>
+    
   </div>
 </template>
 
@@ -132,6 +136,8 @@
 
 
 <script>
+// Propiedades:
+import { mapState } from "vuex";
 
 // Componentes:
 import FormComision from "@/components/FormComision.vue";
@@ -139,64 +145,55 @@ import FormComision from "@/components/FormComision.vue";
 export default {
 name: "homeJefe",
   computed: {
+    ...mapState({
+      historicoSolicitudes: "historicoSolicitudes",
+    })
   },
   components: {
     FormComision
   },
   data() {
     return {
-      formComisionVisible: false,
-      SolicitudPorAprobar: false,
-      solicitudRechazada: false,
+      // Solicitud:
+      solicitud: null,
+      solicitudVisible: false,
 
-      // Comision de prueba
-      comisionPrueba: {
-        folio: "000735",
-        fecha: "08/08/2019",
-        codigoTrabajador: "211693563",
-        nombreSolicitante: "Octavio Romo",
-        areaAdscripcion: "N/A",
-        tipoComision: "Conferencia",
-        destinoComision: "Turquia",
-        plazaLaboral: "Investigador",
-        justificacion: ` Quiero ir a una conferencia.
-        Necesito dinero.
-        Tenkiu :)
-        `,
-        programaTrabajo: "N/A",
-        objetivoTrabajo: "Pues aprender cosas, dah...",
-        eventoComision: "Comic-Con Estambul 2019",
-        programaComision: [
-          {
-            dia: "15/09/2019",
-            lugar: "Estambul, Turquia.",
-            tareas: "Pensar"
-          },
-          {
-            dia: "16/09/2019",
-            lugar: "Estambul, Turquia.",
-            tareas: "Y trabajar"
-          }
-        ]
-      }
-
+      // Filtro:
+      filtro: "todas", // rechazadas/ autorizadas
     };
   },
   methods: {
-      mostrarSolicitudPorAprobar: function(){
-          this.formComisionVisible = true;
-          this.SolicitudPorAprobar = true;
-          this.solicitudRechazada = false;
-      },
-      mostrarSolicitud: function(){
-          this.SolicitudPorAprobar = false;
-          this.formComisionVisible = true;
-      },
-      esconderSolicitud: function(){
-          this.formComisionVisible = false;
-          this.SolicitudPorAprobar = false;
-          this.solicitudRechazada = false;
+
+    MostrarSolicitud(solicitud) {
+      if(this.solicitud != solicitud){
+        // No se esta mostrando ninguna solicitud:
+        if(this.solicitud == null){
+          // Cambia estado de la solicitud:
+          this.solicitud = solicitud;
+          this.solicitudVisible = true;
+        }
+        // Hay una solicitud y la cambia:
+        else{
+          // Oculta solicitud anterior:
+          this.solicitud = null;
+          this.solicitudVisible = false;
+          // Espera 0.25 segundos para que la transicion de esconder la solicitud anterior comience:
+          var data = this;
+          setTimeout(function () {
+            // Muestra nueva solicitud despues de 0.25 segundos:
+            data.solicitud = solicitud;
+            data.solicitudVisible = true;
+          }, 250);
+        }
       }
+    },
+
+    EsconderSolicitud() {
+      this.solicitud = null;
+      this.solicitudVisible = false;
+    }
+
+
   }
 };
 </script>

@@ -9,9 +9,9 @@
       "token": "AAJJsasfg-1243-df-asda"
     },
 
-    "comisionActiva": null,
+    "comisionActiva_Z": null,
   
-    "comisionActiva_Z": {
+    "comisionActiva": {
       "folio": "000001",
       "fechaCreacion": "31/12/2020",
       "fechaEnvio": "31/12/2020",
@@ -159,7 +159,7 @@
         "fechaConclusion": null,
         "estatus": "PE",
         "codigoTrabajador": "211693760",
-        "nombreSolicitante": "Octavio Romo",
+        "nombreSolicitante": "Ernesto Rodriguez",
         "areaAdscripcion": "N/A",
         "tipo": "extranjero",
         "destino": "Canada",
@@ -188,7 +188,7 @@
         "fechaConclusion": null,
         "estatus": "PE",
         "codigoTrabajador": "211693760",
-        "nombreSolicitante": "Octavio Romo",
+        "nombreSolicitante": "Ernesto Rodriguez",
         "areaAdscripcion": "N/A",
         "tipo": "extranjero",
         "destino": "Estados Unidos",
@@ -217,10 +217,104 @@
         "fechaConclusion": null,
         "estatus": "PE",
         "codigoTrabajador": "211693760",
-        "nombreSolicitante": "Octavio Romo",
+        "nombreSolicitante": "Ernesto Rodriguez",
         "areaAdscripcion": "N/A",
         "tipo": "extranjero",
         "destino": "Cuba",
+        "plazaLaboral": "Investigador",
+        "justificacion": "Quiero ir a una conferencia.",
+        "programaTrabajo": "N/A",
+        "objetivoTrabajo": "Aprender cosas y traer regalos.",
+        "evento": "Comic-Con Estambul 2019",
+        "programa": [
+          {
+            "dia": "1",
+            "fecha": "2019-12-30",
+            "lugar": "La Habana, Cuba.",
+            "tareas": "Pensar"
+          }
+        ],
+        "invitacionEvento": "link del archivo adjunto",
+        "programaEvento": "link del archivo adjunto"
+      }
+    ],
+
+
+
+
+
+    "historicoSolicitudes": [
+      {
+        "haceDias": "8",
+        "folio": "000301",
+        "fechaCreacion": "31/12/2020",
+        "fechaEnvio": "31/12/2020",
+        "fechaAprobacion": "1/1/2021",
+        "fechaConclusion": null,
+        "estatus": "AU",
+        "codigoTrabajador": "211693760",
+        "nombreSolicitante": "Ernesto Rodriguez",
+        "areaAdscripcion": "N/A",
+        "tipo": "extranjero",
+        "destino": "Hungria",
+        "plazaLaboral": "Investigador",
+        "justificacion": "Quiero ir a una conferencia.",
+        "programaTrabajo": "N/A",
+        "objetivoTrabajo": "Aprender cosas y traer regalos.",
+        "evento": "Comic-Con Estambul 2019",
+        "programa": [
+          {
+            "dia": "1",
+            "fecha": "2019-12-30",
+            "lugar": "Quebec, Canada.",
+            "tareas": "Pensar"
+          }
+        ],
+        "invitacionEvento": "link del archivo adjunto",
+        "programaEvento": "link del archivo adjunto"
+      },
+      {
+        "haceDias": "1",
+        "folio": "000302",
+        "fechaCreacion": "31/12/2020",
+        "fechaEnvio": "31/12/2020",
+        "fechaAprobacion": null,
+        "fechaConclusion": null,
+        "estatus": "RE",
+        "codigoTrabajador": "211693760",
+        "nombreSolicitante": "Octavio Rodriguez",
+        "areaAdscripcion": "N/A",
+        "tipo": "extranjero",
+        "destino": "Austria",
+        "plazaLaboral": "Investigador",
+        "justificacion": "Quiero ir a una conferencia.",
+        "programaTrabajo": "N/A",
+        "objetivoTrabajo": "Aprender cosas y traer regalos.",
+        "evento": "Comic-Con 2019",
+        "programa": [
+          {
+            "dia": "1",
+            "fecha": "2019-12-30",
+            "lugar": "San Diego, Estados Unidos.",
+            "tareas": "Pensar"
+          }
+        ],
+        "invitacionEvento": "link del archivo adjunto",
+        "programaEvento": "link del archivo adjunto"
+      },
+      {
+        "haceDias": "0",
+        "folio": "000303",
+        "fechaCreacion": "31/12/2020",
+        "fechaEnvio": "31/12/2020",
+        "fechaAprobacion": "31/12/2020",
+        "fechaConclusion": "31/12/2020",
+        "estatus": "CO",
+        "codigoTrabajador": "211693760",
+        "nombreSolicitante": "Octavio Romo",
+        "areaAdscripcion": "N/A",
+        "tipo": "extranjero",
+        "destino": "Croacia",
         "plazaLaboral": "Investigador",
         "justificacion": "Quiero ir a una conferencia.",
         "programaTrabajo": "N/A",
@@ -241,5 +335,55 @@
 
 
 
+  },
+
+
+
+
+
+
+  
+
+
+
+  "buscarSolicitud": {
+
+    "solicitud_X": null,
+
+    "solicitud": {
+      "folio": "000303",
+      "fechaCreacion": "31/12/2020",
+      "fechaEnvio": "31/12/2020",
+      "fechaAprobacion": "31/12/2020",
+      "fechaConclusion": "31/12/2020",
+      "estatus": "CO",
+      "codigoTrabajador": "211693760",
+      "nombreSolicitante": "Oktay Romanov",
+      "areaAdscripcion": "N/A",
+      "tipo": "extranjero",
+      "destino": "Cuba",
+      "plazaLaboral": "Investigador",
+      "justificacion": "Quiero ir a una conferencia.",
+      "programaTrabajo": "N/A",
+      "objetivoTrabajo": "Aprender cosas y traer regalos.",
+      "evento": "Zagreb-Con",
+      "programa": [
+        {
+          "dia": "1",
+          "fecha": "2019-12-30",
+          "lugar": "Zagren, Croacia.",
+          "tareas": "Pensar"
+        }
+      ],
+      "invitacionEvento": "link del archivo adjunto",
+      "programaEvento": "link del archivo adjunto"
+    }
   }
+
+  
+
+
+
+
+
 }

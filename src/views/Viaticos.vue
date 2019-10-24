@@ -24,11 +24,11 @@
                     </b-card-text>
 
                     <!-- Boton comenzar solicitud -->
-                    <div v-if="mostrarFormComision == false">
-                      <b-button v-on:click="mostrarFormComision = true;" variant="outline-primary">Comenzar solicitud</b-button>
+                    <div v-if="formComisionVisible == false">
+                      <b-button v-on:click="MostrarComisionActiva()" variant="outline-primary">Comenzar solicitud</b-button>
                     </div>
                     <div v-else>
-                      <b-button disabled v-on:click="mostrarFormComision = true;" variant="outline-primary">Comenzar solicitud</b-button>
+                      <b-button disabled variant="outline-primary">Comenzar solicitud</b-button>
                     </div>
                   </div>
 
@@ -42,11 +42,11 @@
                     </b-card-text>
                     
                     <!-- Boton completar solicitud -->
-                    <div v-if="mostrarFormComision == false">
-                      <b-button v-on:click="mostrarFormComision = true;" variant="outline-primary">Completar solicitud</b-button>
+                    <div v-if="formComisionVisible == false">
+                      <b-button v-on:click="MostrarComisionActiva()" variant="outline-primary">Completar solicitud</b-button>
                     </div>
                     <div v-else>
-                      <b-button disabled v-on:click="mostrarFormComision = true;" variant="outline-primary">Completar solicitud</b-button>
+                      <b-button disabled variant="outline-primary">Completar solicitud</b-button>
                     </div>
                   </div>
 
@@ -59,7 +59,7 @@
                     </b-card-text>
                     <a
                       href="#"
-                      v-on:click="mostrarFormComision = true;"
+                      v-on:click="MostrarComisionActiva()"
                     >
                       Comisión {{ comisionActiva.folio }} <b-badge variant="primary">Pendiente</b-badge>
                     </a>
@@ -72,7 +72,7 @@
                     </b-card-text>
                     <a
                       href="#"
-                      v-on:click="mostrarFormComision = true;"
+                      v-on:click="MostrarComisionActiva()"
                     >
                       Comisión {{ comisionActiva.folio }} <b-badge variant="success">Autorizada</b-badge>
                     </a>
@@ -105,7 +105,7 @@
         <!-- Form Comision -->
         <transition enter-active-class="animated fade-in-top" leave-active-class="animated fade-out-top">
 
-          <div v-if="mostrarFormComision == true">
+          <div v-if="formComisionVisible == true">
             <b-row align-h="center" class="mt-5">
               <b-col cols="10">
                 <!-- Form vacio (habilitado) -->
@@ -130,7 +130,7 @@
                 <b-button 
                   block 
                   variant="secondary" 
-                  v-on:click="mostrarFormComision = false;"
+                  v-on:click="OcultarComisionActiva()"
                 >
                   Ocultar formulario
                 </b-button>
@@ -144,7 +144,7 @@
 
         <!-- Comision Inactiva -->
         <transition enter-active-class="animated fade-in-top" leave-active-class="animated fade-out-top">
-          <div v-if="mostrarComisionInactiva == true">
+          <div v-if="comisionInactivaVisible == true">
 
             <b-row align-h="center" class="mt-5">
               <b-col cols="10">
@@ -160,7 +160,7 @@
                 <b-button 
                   block 
                   variant="secondary" 
-                  v-on:click="mostrarComisionInactiva = false;"
+                  v-on:click="OcultarComisionInactiva()"
                 >
                   Ocultar comision
                 </b-button>
@@ -173,7 +173,7 @@
 
 
         <!-- Comision autorizada (solicitud de viaticos) -->
-        <template v-if="comisionActiva != null && comisionActiva.estatus == 'AU' && mostrarFormViaticos == false">
+        <template v-if="comisionActiva != null && comisionActiva.estatus == 'AU' && formViaticosVisible == false">
           <hr class="mt-5">
 
           <b-row class="mt-4" align-h="center">
@@ -181,7 +181,7 @@
               <b-button 
                 block 
                 variant="success" 
-                v-on:click="mostrarFormViaticos = true"
+                v-on:click="formViaticosVisible = true"
               >
                 Comenzar solicitud de viáticos
               </b-button>
@@ -193,7 +193,7 @@
 
 
         <!-- Form Viaticos -->
-        <template v-if="mostrarFormViaticos == true">
+        <template v-if="formViaticosVisible == true">
           <hr class="mt-4">
 
           <b-row align-h="center" class="mt-5">
@@ -208,7 +208,7 @@
               <b-button 
                 block 
                 variant="secondary" 
-                v-on:click="mostrarFormViaticos = false"
+                v-on:click="formViaticosVisible = false"
               >
                 Ocultar formulario
               </b-button>
@@ -256,16 +256,13 @@ export default {
   },
   data() {
     return {
-      // mostrarFormComision: { type: Boolean, default: false },
-      // mostrarFormViaticos: { type: Boolean, default: false },
-      mostrarFormComision: false,
-      mostrarFormViaticos: false,
+      // Comision activa:
+      formComisionVisible: false,
+      formViaticosVisible: false,
 
       // Historial de comisiones:
-      mostrarComisionInactiva: false,
       comisionInactiva: null,
-      // mostrarAlertaServidor: false,
-
+      comisionInactivaVisible: false,
     };
   },
 
@@ -273,81 +270,100 @@ export default {
     // Verifica el estatus de la comision:
     if(this.comisionActiva != null){
       if(this.comisionActiva.estatus == 'NE'){
-        this.mostrarFormComision = true;
+        this.MostrarComisionActiva();
       }
     }
   },
 
   methods: {
 
+    // ++++++++++++++++++++++++++++++++ Comision activa ++++++++++++++++++++++++++++++++
+
+    MostrarComisionActiva() {
+      // Si hay una comision inactiva visible, espera a que es esconda:
+      if(this.comisionInactivaVisible == true){
+        // Esconde comision inactiva:
+        this.OcultarComisionInactiva();
+        // Espera 0.25 segundos para que la transicion de esconder la comision anterior comience:
+        var data = this;
+        setTimeout(function () {
+          // Muestra nueva comision despues de 0.25 segundos:
+          data.formComisionVisible = true;
+        }, 250);
+      }
+      else{
+        // Cambia estado del form:
+        this.formComisionVisible = true;
+      }
+    },
+
+    OcultarComisionActiva() {
+      // Cambia estado del form:
+      this.formComisionVisible = false;
+    },
+
+
+
     // ++++++++++++++++++++++++++++++++ Historial de comisiones ++++++++++++++++++++++++++++++++
+
     MostrarComisionInactiva(comision) {
+      if(this.comisionInactiva != comision){
+        // No se esta mostrando ninguna comision inactiva ni activa:
+        if(this.comisionInactiva == null && this.formComisionVisible == false){
+          // Cambia estado de la comision:
+          this.comisionInactiva = comision;
+          this.comisionInactivaVisible = true;
+        }
+        // Hay una comision visible y la cambia:
+        else{
+          // Oculta comision anterior y comision activa:
+          this.OcultarComisionActiva();
+          this.OcultarComisionInactiva();
+          // Espera 0.25 segundos para que la transicion de esconder la comision anterior comience:
+          var data = this;
+          setTimeout(function () {
+            // Muestra nueva comision despues de 0.25 segundos:
+            data.comisionInactiva = comision;
+            data.comisionInactivaVisible = true;
+          }, 250);
+        }
+      }
+    },
 
-      console.log(comision);
-
-      // Asigna el valor de la comision seleccionada:
-      this.comisionInactiva = comision;
+    OcultarComisionInactiva() {
       // Cambia estado:
-      this.mostrarComisionInactiva = true;
-
-      // // Cambia estado de visualizacion de la comision:
-      // this.mostrarComisionInactiva = true;
-      // // Duplica el objeto raiz (this) para poder usarlo en una funcion interna dentro de "setInterval":
-      // var data = this; // Dentro de una funcion interna se llama a "data" en lugar de "this".
-
-      // // ++++++++++++++++++++++++ Enviando JSON al servidor y esperando respuesta: ++++++++++++++++++++++++
-      // const request = require('request');
-      // var timeleft = 5;
-      // var downloadTimer = setInterval(function(){
-
-      //   // ++++++++++++++++ Peticion HTTP al servidor ++++++++++++++++
-      //   request(
-      //     {
-      //       method: "GET",
-      //       uri: "http://localhost:3000/iniciarSesion"
-      //     },
-      //     function (error, response) {
-
-      //       if(error){
-      //         // Muestra error:
-      //         data.mostrarAlertaServidor = true;
-      //         // Detiene el contador:
-      //         clearInterval(downloadTimer);
-      //       }
-      //       else{
-      //         if(response.statusCode == 200){
-      //           // Obtiene el objeto JSON de response:
-      //           var body = JSON.parse(response.body);
-                
-
-
-      //           // Asigna objeto a comisionInactiva:
-      //           data.comisionInactiva = body.comisionActiva;
-
-
-      //           // Detiene el contador:
-      //           clearInterval(downloadTimer);
-      //         }
-      //       }
-      //     }
-      //   )
-
-      //   // ++++++++++++++++ No hubo respuesta del servidor ++++++++++++++++
-      //   timeleft -= 1;
-      //   if(timeleft <= 0){
-      //     // Muestra error:
-      //     data.mostrarAlertaServidor = true;
-      //     // Detiene el contador:
-      //     clearInterval(downloadTimer);
-      //   }
-
-      // }, 1000);
-
-
+      this.comisionInactiva = null;
+      this.comisionInactivaVisible = false;
     }
 
-  }
 
+
+    // ++++++++++++++++++++++++++++++++ Viaticos ++++++++++++++++++++++++++++++++
+
+    // MostrarSolicitudViaticos() {
+    //   // Si hay una comision inactiva visible, espera a que es esconda:
+    //   if(this.comisionInactivaVisible == true){
+    //     // Esconde comision inactiva:
+    //     this.OcultarComisionInactiva();
+    //     // Espera 0.25 segundos para que la transicion de esconder la comision anterior comience:
+    //     var data = this;
+    //     setTimeout(function () {
+    //       // Muestra nueva comision despues de 0.25 segundos:
+    //       data.formComisionVisible = true;
+    //     }, 250);
+    //   }
+    //   else{
+    //     // Cambia estado del form:
+    //     this.formComisionVisible = true;
+    //   }
+    // },
+
+    // OcultarSolicitudViaticos() {
+    //   // Cambia estado del form:
+    //   this.formComisionVisible = false;
+    // },
+
+  }
 };
 </script>
 

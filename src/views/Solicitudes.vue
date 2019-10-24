@@ -127,7 +127,7 @@
                 <b-button 
                   block 
                   variant="secondary" 
-                  v-on:click="solicitudVisible = false;"
+                  v-on:click="EsconderSolicitud()"
                 >
                   Ocultar comision
                 </b-button>
@@ -242,10 +242,34 @@ name: "solicitudes",
     };
   },
   methods: {
-    MostrarSolicitud(solicitud){
-      // Cambia estado de la solicitud:
-      this.solicitud = solicitud;
-      this.solicitudVisible = true;
+    
+    MostrarSolicitud(solicitud) {
+      if(this.solicitud != solicitud){
+        // No se esta mostrando ninguna solicitud:
+        if(this.solicitud == null){
+          // Cambia estado de la solicitud:
+          this.solicitud = solicitud;
+          this.solicitudVisible = true;
+        }
+        // Hay una solicitud y la cambia:
+        else{
+          // Oculta solicitud anterior:
+          this.solicitud = null;
+          this.solicitudVisible = false;
+          // Espera 0.25 segundos para que la transicion de esconder la solicitud anterior comience:
+          var data = this;
+          setTimeout(function () {
+            // Muestra nueva solicitud despues de 0.25 segundos:
+            data.solicitud = solicitud;
+            data.solicitudVisible = true;
+          }, 250);
+        }
+      }
+    },
+
+    EsconderSolicitud() {
+      this.solicitud = null;
+      this.solicitudVisible = false;
     },
 
     AutorizarSolicitud(Solicitud){

@@ -323,6 +323,12 @@ export default {
                   });
                 }
 
+                if(body.historicoSolicitudes != null){
+                  estado.commit("EstablecerHistoricoSolicitudes", {
+                    historicoSolicitudes: body.historicoSolicitudes
+                  });
+                }
+
                 // Rectora:
                 if(body.solicitudesSinResolver != null){
                   estado.commit("EstablecerSolicitudesSinResolver", {

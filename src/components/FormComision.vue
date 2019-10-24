@@ -64,7 +64,99 @@
 
 
         <!-- ++++++++++++++++++++++++++++++++ Datos del trabajador ++++++++++++++++++++++++++++++++ -->
+
+        
         <h5> Datos personales </h5>
+        <hr>
+        <b-row align-h="start" class="mt-2">
+          <b-col lg="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Código de trabajador:"
+            >
+              <!-- No se recibio una comision como parametro. Es una solicitud nueva -->
+              <div v-if="comision.folio == null">
+                <b-form-input :placeholder="trabajador.codigo" :disabled="true" >
+                </b-form-input>
+              </div>
+              <!-- Comision recibida como parametro. Se muestran sus datos -->
+              <div v-else>
+                <b-form-input :placeholder="comision.codigoTrabajador" :disabled="true" >
+                </b-form-input>
+              </div>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row align-h="start" class="mt-2">
+          <b-col lg="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Nombre del solicitante:"
+            >
+              <!-- No se recibio una comision como parametro. Es una solicitud nueva -->
+              <div v-if="comision.folio == null">
+                <b-form-input :placeholder="trabajador.nombre" :disabled="true" >
+                </b-form-input>
+              </div>
+              <!-- Comision recibida como parametro. Se muestran sus datos -->
+              <div v-else>
+                <b-form-input :placeholder="comision.nombreSolicitante" :disabled="true" >
+                </b-form-input>
+              </div>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row align-h="start" class="mt-2">
+          <b-col lg="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Área de adscripción:"
+            >
+              <!-- No se recibio una comision como parametro. Es una solicitud nueva -->
+              <div v-if="comision.folio == null">
+                <b-form-input :placeholder="trabajador.areaAdscripcion" :disabled="true" >
+                </b-form-input>
+              </div>
+              <!-- Comision recibida como parametro. Se muestran sus datos -->
+              <div v-else>
+                <b-form-input :placeholder="comision.areaAdscripcion" :disabled="true" >
+                </b-form-input>
+              </div>
+            </b-form-group>
+          </b-col>
+        </b-row>
+
+        <b-row align-h="start" class="mt-2">
+          <b-col lg="8">
+            <b-form-group
+              label-cols-sm="4"
+              label="Plaza laboral:"
+            >
+              <!-- No se recibio una comision como parametro. Es una solicitud nueva -->
+              <div v-if="comision.folio == null">
+                <b-form-input :placeholder="trabajador.plazaLaboral" :disabled="true" >
+                </b-form-input>
+              </div>
+              <!-- Comision recibida como parametro. Se muestran sus datos -->
+              <div v-else>
+                <b-form-input :placeholder="comision.plazaLaboral" :disabled="true" >
+                </b-form-input>
+              </div>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        
+        <!-- No se recibio una comision como parametro. Es una solicitud nueva -->
+        <div v-if="comision == null">
+
+        </div>
+        <!-- Comision recibida como parametro. Se muestran sus datos -->
+        <div v-else>
+
+        </div>
+        <!-- <h5> Datos personales </h5>
         <hr>
         <b-row align-h="start" class="mt-2">
           <b-col cols="8">
@@ -132,7 +224,7 @@
               </b-form-input>
             </b-form-group>
           </b-col>
-        </b-row>
+        </b-row> -->
 
 
 
@@ -815,6 +907,7 @@ export default {
         fechaCreacion: new Date().toLocaleDateString(),
         fechaEnvio: null,
         fechaAprobacion: null,
+        fechaConclusion: null,
         estatus: null,
         codigoTrabajador: null,
         nombreSolicitante: null,
