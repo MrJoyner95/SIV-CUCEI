@@ -130,43 +130,61 @@
           <b-col md="10">
             
             <b-card>
-              <h4 class="mb-3 titulo">Aportaciones económicas</h4>
+              <!-- Informacion general -->
+              <h4 class="mb-3 titulo" align="center">Aportar recursos</h4>
               <b-card-text class="mb-2">
-                En esta sección puede aportar recursos económicos a una comisión que haya sido previamente autorizada. 
+                Puede aportar recursos económicos a uno o más rubros de la comisión.
                 <br>
                 <br>
-                Ingrese el folio de la comisión a continuación:
+                División: &emsp;&emsp;&emsp;&emsp;  <strong> {{finanzas.division}} </strong> <br> 
+                Departamento: &emsp;                <strong> {{finanzas.departamento}} </strong> <br>
+                Presupuesto: &emsp;&emsp;           <strong> $ {{ FormatearNumero(finanzas.presupuesto) }} MXN</strong> <br>
+                Disponible: &emsp;&emsp;&emsp;      <strong> $ {{ FormatearNumero(finanzas.presupuestoDisponible) }} MXN</strong>
+                <!-- <br> -->
               </b-card-text>
 
-              <!-- Busqueda -->
-              <b-row align-h="center" class="mt-3">
-                <b-col md="5">
-                  <b-input-group>
 
-                    <b-form-input 
-                      placeholder="Folio de comisión..."
-                      v-model="folioABuscar"
-                    >
-                    </b-form-input>
-                    <b-input-group-append>
-                      <!-- Boton activo -->
-                      <template v-if="folioABuscar != null && folioABuscar.length > 0">
-                        <b-button variant="outline-primary" v-on:click="BuscarSolicitud()">
-                          Buscar
-                        </b-button>
-                      </template>
-                      <!-- Boton inactivo -->
-                      <template v-else>
-                        <b-button variant="outline-primary" disabled>
-                          Buscar
-                        </b-button>
-                      </template>
-                    </b-input-group-append>
+              <!-- Aportacion -->
+              <!-- <b-list-group class="mt-3">
+                <div v-for="solicitudViatico in solicitudViaticos" v-bind:key="solicitudViatico.rubro">
 
-                  </b-input-group>
-                </b-col>
-              </b-row>
+                  <b-list-group-item class="flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h5 class="mt-1 titulo">{{ solicitudViatico.nombre }}</h5>
+                    </div>
 
+                    <b-row align-h="center" class="mb-0">
+                      <b-col md="7">
+                        <p class="mb-0">Cantidad solicitada: &ensp; <strong>${{solicitudViatico.cantidadSolicitada}} MXN</strong></p>
+                        <p class="mb-0">Cantidad obtenida: &ensp;&nbsp; <strong>${{solicitudViatico.cantidadObtenida}} MXN</strong></p>
+                      </b-col>
+                    
+                      <b-col md="5">
+                        <b-input-group prepend="$" align="right">
+                          <b-form-input 
+                            placeholder="Cantidad..."
+                            type="number"
+                            v-model="cantidadAportada"
+                          >
+                          </b-form-input>
+                          <b-input-group-append>
+
+                            <template v-if="finanzas.presupuestoDisponible >= cantidadAportada && cantidadAportada < (solicitudViatico.cantidadSolicitada - solicitudViatico.cantidadObtenida)">
+                              <b-button variant="outline-success" v-on:click="formComisionVisible=true">Aportar</b-button>
+                            </template>
+                            <template v-else>
+                              <b-button variant="outline-danger" disabled="">Aportar</b-button>
+                            </template>
+
+                          </b-input-group-append>
+                        </b-input-group>
+                      </b-col>
+
+                    </b-row>
+                  </b-list-group-item>
+
+                </div>
+              </b-list-group> -->
               
             </b-card>
 
@@ -329,6 +347,9 @@
 
 <script>
 
+// Propiedades:
+import { mapState } from "vuex";
+
 // Componentes:
 import FormComision from "@/components/FormComision.vue";
 
@@ -339,6 +360,9 @@ import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
 name: "aportaciones",
   computed: {
+    ...mapState({
+      finanzas: "finanzas",
+    })
   },
   components: {
     FormComision,
@@ -356,6 +380,10 @@ name: "aportaciones",
       folioABuscar: null,
       solicitud: null,
       solicitudVisible: false,
+
+      // Solicitud de viaticos:
+      solicitudViaticos: null,
+      cantidadAportada: null,
 
       // Recursos visuales:
       pantallaCargaVisible: false,
@@ -399,9 +427,11 @@ name: "aportaciones",
                   var body = JSON.parse(response.body);
 
                   // Se encontro la solicitud:
-                  if(body.solicitud != null){
-                    // Muestra solicitud:
-                    data.MostrarSolicitud(body.solicitud);
+                  if(body.solicitud != null && body.solicitudViaticos != null){
+                    // Asigna solicitud:
+                    data.MostrarSolicitud(body.solicitud, body.solicitudViaticos);
+                    // Asigna solicitud de viaticos:
+                    
                   }
                   else{
                     data.alertaSolicitudVisible = true;
@@ -430,30 +460,177 @@ name: "aportaciones",
       }
     },
 
-    MostrarSolicitud(solicitud) {
+
+
+    AsignarSolicitudes(solicitud, solViaticos){
+
+      // Crea un objeto vacio:
+      var solicitudViaticos = {};
+
+      // Convierte campos numericos de solicitud de viaticos a number:
+      solViaticos.forEach(solViatico => {
+        // Crea objeto del rubro:
+        var nombreRubro = solViatico.rubro;
+        solicitudViaticos[nombreRubro] = {};
+        // Usa el nombre de la variable para asignar al objeto primario:
+        solicitudViaticos[nombreRubro].cantidadSolicitada = parseFloat(solViatico.cantidadSolicitada);
+        solicitudViaticos[nombreRubro].cantidadObtenida = parseFloat(solViatico.cantidadObtenida);
+      });
+
+      // console.log("solicitudViaticos: ", solicitudViaticos);
+
+      // Cambia estado de la solicitud:
+      this.solicitud = solicitud;
+      this.solicitudViaticos = solicitudViaticos;
+      this.solicitudVisible = true;
+
+    },
+
+
+
+    MostrarSolicitud(solicitud, solicitudViaticos) {
+
+      // "solicitudViaticos": [
+      //   {
+      //     "rubro": "hospedajeAlimentacion",
+      //     "nombre": "Hospedaje y alimentación",
+      //     "cantidadSolicitada": "12000",
+      //     "cantidadObtenida": "6000"
+      //   },
+      //   {
+      //     "rubro": "transporteAereo",
+      //     "nombre": "Transporte aéreo",
+      //     "cantidadSolicitada": "30000",
+      //     "cantidadObtenida": "0"
+      //   },
+      //   {
+      //     "rubro": "transporteInterno",
+      //     "nombre": "Transporte interno",
+      //     "cantidadSolicitada": "2500",
+      //     "cantidadObtenida": "2500"
+      //   },
+      //   {
+      //     "rubro": "combustible",
+      //     "nombre": "Combustible",
+      //     "cantidadSolicitada": "0",
+      //     "cantidadObtenida": "0"
+      //   },
+      //   {
+      //     "rubro": "otrosConceptos",
+      //     "nombre": "Otros conceptos",
+      //     "cantidadSolicitada": "0",
+      //     "cantidadObtenida": "0"
+      //   }
+      // ]
+
+
+
+      // "solicitudViaticos": {
+      //   "hospedajeAlimentacion": {
+      //     "cantidadSolicitada": "12000.00",
+      //     "cantidadFaltante": "6000.00"
+      //   },
+      //   "transporteAereo": {
+      //     "cantidadSolicitada": "30000.00",
+      //     "cantidadFaltante": "30000.00"
+      //   },
+      //   "transporteInterno": {
+      //     "cantidadSolicitada": "2500.00",
+      //     "cantidadFaltante": "0"
+      //   },
+      //   "combustible": {
+      //     "cantidadSolicitada": "0",
+      //     "cantidadFaltante": "0"
+      //   },
+      //   "otrosConceptos": {
+      //     "cantidadSolicitada": "0",
+      //     "cantidadFaltante": "0"
+      //   }
+      // }
+
+
+
+      // // Convierte campos numericos de solicitud de viaticos a number:
+      // // hospedajeAlimentacion:
+      // solicitudViaticos.hospedajeAlimentacion.cantidadSolicitada = parseFloat(solicitudViaticos.hospedajeAlimentacion.cantidadSolicitada);
+      // solicitudViaticos.hospedajeAlimentacion.cantidadFaltante = parseFloat(solicitudViaticos.hospedajeAlimentacion.cantidadFaltante);
+      // // transporteAereo:
+      // solicitudViaticos.transporteAereo.cantidadSolicitada = parseFloat(solicitudViaticos.transporteAereo.cantidadSolicitada);
+      // solicitudViaticos.transporteAereo.cantidadFaltante = parseFloat(solicitudViaticos.transporteAereo.cantidadFaltante);
+      // // transporteInterno:
+      // solicitudViaticos.transporteInterno.cantidadSolicitada = parseFloat(solicitudViaticos.transporteInterno.cantidadSolicitada);
+      // solicitudViaticos.transporteInterno.cantidadFaltante = parseFloat(solicitudViaticos.transporteInterno.cantidadFaltante);
+      // // combustible:
+      // solicitudViaticos.combustible.cantidadSolicitada = parseFloat(solicitudViaticos.combustible.cantidadSolicitada);
+      // solicitudViaticos.combustible.cantidadFaltante = parseFloat(solicitudViaticos.combustible.cantidadFaltante);
+      // // otrosConceptos:
+      // solicitudViaticos.otrosConceptos.cantidadSolicitada = parseFloat(solicitudViaticos.otrosConceptos.cantidadSolicitada);
+      // solicitudViaticos.otrosConceptos.cantidadFaltante = parseFloat(solicitudViaticos.otrosConceptos.cantidadFaltante);
+
+
+
+      // solicitudViaticos.forEach(solViatico => {
+      //   solViatico.cantidadSolicitada = parseFloat(solViatico.cantidadSolicitada);
+      //   solViatico.cantidadObtenida = parseFloat(solViatico.cantidadObtenida);
+      // });
+
+      // console.log("solicitud: ", solicitud);
+      // console.log("solicitudViaticos: ", solicitudViaticos);
+
       // No se esta mostrando ninguna solicitud:
       if(this.solicitud == null){
+
+        
+
         // Cambia estado de la solicitud:
-        this.solicitud = solicitud;
-        this.solicitudVisible = true;
+        // this.solicitud = solicitud;
+        // this.solicitudViaticos = solicitudViaticos;
+        // this.solicitudVisible = true;
+
+        // Asigna solicitudes:
+        this.AsignarSolicitudes(solicitud, solicitudViaticos);
+
+        console.log("IF");
+        console.log("solicitud: ", this.solicitud);
+        console.log("solicitudViaticos: ", this.solicitudViaticos);
       }
       // Hay una solicitud y la cambia:
       else{
+
+        
+
         // Oculta solicitud anterior:
         this.solicitud = null;
+        this.solicitudViaticos = null;
         this.solicitudVisible = false;
         // Espera 0.25 segundos para que la transicion de esconder la solicitud anterior comience:
         var data = this;
         setTimeout(function () {
           // Muestra nueva solicitud despues de 0.25 segundos:
-          data.solicitud = solicitud;
-          data.solicitudVisible = true;
+          // data.solicitud = solicitud;
+          // data.solicitudViaticos = solicitudViaticos;
+          // data.solicitudVisible = true;
+
+          // Asigna solicitudes:
+          data.AsignarSolicitudes(solicitud, solicitudViaticos);
+
+          console.log("ELSE");
+          console.log("solicitud: ", data.solicitud);
+          console.log("solicitudViaticos: ", data.solicitudViaticos);
+          
         }, 250);
       }
+
+
+
+      // console.log("solicitud: ", this.solicitud);
+      // console.log("solicitudViaticos: ", this.solicitudViaticos);
+
     },
 
     OcultarSolicitud() {
       this.solicitud = null;
+      this.solicitudViaticos = null;
       this.solicitudVisible = false;
     },
 
@@ -466,6 +643,12 @@ name: "aportaciones",
 
     OcultarPantallaCarga() {
       this.pantallaCargaVisible = false;
+    },
+
+    FormatearNumero(numero) {
+      var partesNumero = numero.toString().split(".");
+      partesNumero[0] = partesNumero[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return partesNumero.join(".");
     },
 
   }

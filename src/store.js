@@ -58,6 +58,10 @@ export default new Vuex.Store({
 
 
 
+    finanzas: null,
+
+
+
   },
   // Se usa para funciones con los atributos:
   getters: {
@@ -121,6 +125,12 @@ export default new Vuex.Store({
     // Rectora:
     EstablecerSolicitudesSinResolver(state, payload){
       state.solicitudesSinResolver = payload.solicitudesSinResolver;
+    },
+
+
+
+    EstablecerFinanzas(state, payload){
+      state.finanzas = payload.finanzas;
     },
 
   },

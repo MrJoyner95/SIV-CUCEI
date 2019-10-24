@@ -1,5 +1,6 @@
 {
   "iniciarSesion": {
+
     "trabajador": {
       "codigo": "211693760",
       "tipo": "RM",
@@ -15,7 +16,7 @@
       "folio": "000001",
       "fechaCreacion": "31/12/2020",
       "fechaEnvio": "31/12/2020",
-      "fechaAprobacion": null,
+      "fechaAutorizacion": null,
       "fechaConclusion": null,
       "estatus": "AU",
       "codigoTrabajador": "211693760",
@@ -62,7 +63,7 @@
           "folio": "000001",
           "fechaCreacion": "31/12/2020",
           "fechaEnvio": "31/12/2020",
-          "fechaAprobacion": "1/1/2021",
+          "fechaAutorizacion": "1/1/2021",
           "fechaConclusion": "3/1/2021",
           "estatus": "CO",
           "codigoTrabajador": "211693760",
@@ -90,7 +91,7 @@
           "folio": "000002",
           "fechaCreacion": "31/12/2020",
           "fechaEnvio": "31/12/2020",
-          "fechaAprobacion": "1/1/2021",
+          "fechaAutorizacion": "1/1/2021",
           "fechaConclusion": "3/1/2021",
           "estatus": "CO",
           "codigoTrabajador": "211693760",
@@ -118,9 +119,9 @@
           "folio": "000003",
           "fechaCreacion": "31/12/2020",
           "fechaEnvio": "31/12/2020",
-          "fechaAprobacion": "1/1/2021",
-          "fechaConclusion": "3/1/2021",
-          "estatus": "AU",
+          "fechaAutorizacion": null,
+          "fechaConclusion": null,
+          "estatus": "RE",
           "codigoTrabajador": "211693760",
           "nombreSolicitante": "Octavio Romo",
           "areaAdscripcion": "N/A",
@@ -155,7 +156,7 @@
         "folio": "000201",
         "fechaCreacion": "31/12/2020",
         "fechaEnvio": "31/12/2020",
-        "fechaAprobacion": null,
+        "fechaAutorizacion": null,
         "fechaConclusion": null,
         "estatus": "PE",
         "codigoTrabajador": "211693760",
@@ -184,7 +185,7 @@
         "folio": "000202",
         "fechaCreacion": "31/12/2020",
         "fechaEnvio": "31/12/2020",
-        "fechaAprobacion": null,
+        "fechaAutorizacion": null,
         "fechaConclusion": null,
         "estatus": "PE",
         "codigoTrabajador": "211693760",
@@ -213,7 +214,7 @@
         "folio": "000203",
         "fechaCreacion": "31/12/2020",
         "fechaEnvio": "31/12/2020",
-        "fechaAprobacion": null,
+        "fechaAutorizacion": null,
         "fechaConclusion": null,
         "estatus": "PE",
         "codigoTrabajador": "211693760",
@@ -249,7 +250,7 @@
         "folio": "000301",
         "fechaCreacion": "31/12/2020",
         "fechaEnvio": "31/12/2020",
-        "fechaAprobacion": "1/1/2021",
+        "fechaAutorizacion": "1/1/2021",
         "fechaConclusion": null,
         "estatus": "AU",
         "codigoTrabajador": "211693760",
@@ -278,7 +279,7 @@
         "folio": "000302",
         "fechaCreacion": "31/12/2020",
         "fechaEnvio": "31/12/2020",
-        "fechaAprobacion": null,
+        "fechaAutorizacion": null,
         "fechaConclusion": null,
         "estatus": "RE",
         "codigoTrabajador": "211693760",
@@ -307,7 +308,7 @@
         "folio": "000303",
         "fechaCreacion": "31/12/2020",
         "fechaEnvio": "31/12/2020",
-        "fechaAprobacion": "31/12/2020",
+        "fechaAutorizacion": "31/12/2020",
         "fechaConclusion": "31/12/2020",
         "estatus": "CO",
         "codigoTrabajador": "211693760",
@@ -331,7 +332,18 @@
         "invitacionEvento": "link del archivo adjunto",
         "programaEvento": "link del archivo adjunto"
       }
-    ]
+    ],
+
+
+
+
+
+    "finanzas": {
+      "division": "Electronica y Ciencias Computacionales",
+      "departamento": "Ingenieria Informatica",
+      "presupuesto": "50000",
+      "presupuestoDisponible": "24500"
+    }
 
 
 
@@ -354,9 +366,9 @@
       "folio": "000303",
       "fechaCreacion": "31/12/2020",
       "fechaEnvio": "31/12/2020",
-      "fechaAprobacion": "31/12/2020",
-      "fechaConclusion": "31/12/2020",
-      "estatus": "CO",
+      "fechaAutorizacion": "31/12/2020",
+      "fechaConclusion": null,
+      "estatus": "AU",
       "codigoTrabajador": "211693760",
       "nombreSolicitante": "Oktay Romanov",
       "areaAdscripcion": "N/A",
@@ -377,7 +389,45 @@
       ],
       "invitacionEvento": "link del archivo adjunto",
       "programaEvento": "link del archivo adjunto"
-    }
+    },
+
+
+
+    "solicitudViaticos": [
+      {
+        "rubro": "hospedajeAlimentacion",
+        "nombre": "Hospedaje y alimentación",
+        "cantidadSolicitada": "12000",
+        "cantidadObtenida": "6000"
+      },
+      {
+        "rubro": "transporteAereo",
+        "nombre": "Transporte aéreo",
+        "cantidadSolicitada": "30000",
+        "cantidadObtenida": "0"
+      },
+      {
+        "rubro": "transporteInterno",
+        "nombre": "Transporte interno",
+        "cantidadSolicitada": "2500",
+        "cantidadObtenida": "2500"
+      },
+      {
+        "rubro": "combustible",
+        "nombre": "Combustible",
+        "cantidadSolicitada": "0",
+        "cantidadObtenida": "0"
+      },
+      {
+        "rubro": "otrosConceptos",
+        "nombre": "Otros conceptos",
+        "cantidadSolicitada": "0",
+        "cantidadObtenida": "0"
+      }
+    ]
+      
+    
+
   }
 
   

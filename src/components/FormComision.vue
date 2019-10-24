@@ -10,7 +10,39 @@
       <b-form @submit="$bvModal.show('modal_enviar_solicitud')">
 
         <!-- ++++++++++++++++++++++++++++++++ Datos generales de la solicitud ++++++++++++++++++++++++++++++++ -->
-        <h4 align="center"> {{ titulo }} </h4>
+        <!-- <h4 align="center"> {{ titulo }} </h4> -->
+
+        <div v-if="comision.folio == null">
+          <h4 align="center"> {{ titulo }} </h4>
+        </div>
+        <div v-else-if="comision.estatus == 'NE'">
+          <h4 align="center"> Comisión (folio pendiente) <small><b-badge pill variant="secondary">No enviada</b-badge></small> </h4>
+        </div>
+        <div v-else-if="comision.estatus == 'PE'">
+          <h4 align="center"> Comisión {{ comision.folio }} <small><b-badge pill variant="secondary">Pendiente</b-badge></small> </h4>
+        </div>
+        <div v-else-if="comision.estatus == 'RE'">
+          <h4 align="center"> Comisión {{ comision.folio }} <small><b-badge pill variant="secondary">Rechazada</b-badge></small> </h4>
+        </div>
+        <div v-else-if="comision.estatus == 'AU'">
+          <h4 align="center"> Comisión {{ comision.folio }} <small><b-badge pill variant="secondary">Autorizada</b-badge></small> </h4>
+        </div>
+        <div v-else-if="comision.estatus == 'EP'">
+          <h4 align="center"> Comisión {{ comision.folio }} <small><b-badge pill variant="secondary">En proceso</b-badge></small> </h4>
+        </div>
+        <div v-else-if="comision.estatus == 'CO'">
+          <h4 align="center"> Comisión {{ comision.folio }} <small><b-badge pill variant="secondary">Concluida</b-badge></small> </h4>
+        </div>
+
+        <div v-else>
+          {{comision}}
+          <h4 align="center"> ELSE </h4>
+        </div>
+
+        <!-- <h4 align="center"> {{ titulo }} </h4>
+        <b-badge variant="primary">Pendiente</b-badge> -->
+
+
         <b-row class="mt-4">
           <b-col>
             <div v-if="comision == null">
@@ -42,10 +74,10 @@
           </div>
 
           <!-- Solicitud AU / EP / CO -->
-          <div v-if="comision.fechaAprobacion != null">
+          <div v-if="comision.fechaAutorizacion != null">
             <b-row align-h="end" class="mt-2">
               <b-col>
-                <h6 align="right"> Fecha de aprobación: {{comision.fechaAprobacion}} </h6>
+                <h6 align="right"> Fecha de autorización: {{comision.fechaAutorizacion}} </h6>
               </b-col>
             </b-row>
           </div>
@@ -361,11 +393,14 @@
         <b-row class="mt-2">
           <b-col md="12">
             <b-card>
+
               <b-row align-h="between">
                 <h5>Programa de la comisión:</h5>
-                <b-button size="sm" @click="ReiniciarDiaTemplate" v-b-modal.modal_agregar_dia variant="outline-primary" align="end" :disabled="deshabilitado">
-                  Agregar día
-                </b-button>
+                <template v-if="deshabilitado == false">
+                  <b-button size="sm" @click="ReiniciarDiaTemplate" v-b-modal.modal_agregar_dia variant="outline-primary" align="end" :disabled="deshabilitado">
+                    Agregar día
+                  </b-button>
+                </template>
               </b-row>
               <hr>
 
@@ -387,24 +422,26 @@
               </b-row>
               
               <!-- Acciones -->
-              <b-row align-h="center">
-                <b-col md="3">
-                  <template v-if="this.diaTemplate.dia != null">
-                    <b-button size="sm" v-b-modal.modal_editar_dia block variant="outline-secondary">Editar</b-button>
-                  </template>
-                  <template v-else>
-                    <b-button size="sm" disabled block variant="outline-secondary">Editar</b-button>
-                  </template>
-                </b-col>
-                <b-col md="3">
-                  <template v-if="this.diaTemplate.dia != null">
-                    <b-button size="sm" v-b-modal.modal_eliminar_dia block variant="outline-danger">Eliminar</b-button>
-                  </template>
-                  <template v-else>
-                    <b-button size="sm" disabled block variant="outline-danger">Eliminar</b-button>
-                  </template>
-                </b-col>
-              </b-row>
+              <template v-if="deshabilitado == false">
+                <b-row align-h="center">
+                  <b-col md="3">
+                    <template v-if="this.diaTemplate.dia != null">
+                      <b-button size="sm" v-b-modal.modal_editar_dia block variant="outline-secondary">Editar</b-button>
+                    </template>
+                    <template v-else>
+                      <b-button size="sm" disabled block variant="outline-secondary">Editar</b-button>
+                    </template>
+                  </b-col>
+                  <b-col md="3">
+                    <template v-if="this.diaTemplate.dia != null">
+                      <b-button size="sm" v-b-modal.modal_eliminar_dia block variant="outline-danger">Eliminar</b-button>
+                    </template>
+                    <template v-else>
+                      <b-button size="sm" disabled block variant="outline-danger">Eliminar</b-button>
+                    </template>
+                  </b-col>
+                </b-row>
+              </template>
 
             </b-card>
           </b-col>
@@ -816,7 +853,7 @@ export default {
         folio: null,
         fechaCreacion: new Date().toLocaleDateString(),
         fechaEnvio: null,
-        fechaAprobacion: null,
+        fechaAutorizacion: null,
         fechaConclusion: null,
         estatus: null,
         codigoTrabajador: null,
@@ -906,7 +943,7 @@ export default {
         folio: null,
         fechaCreacion: new Date().toLocaleDateString(),
         fechaEnvio: null,
-        fechaAprobacion: null,
+        fechaAutorizacion: null,
         fechaConclusion: null,
         estatus: null,
         codigoTrabajador: null,

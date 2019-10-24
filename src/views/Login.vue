@@ -338,6 +338,15 @@ export default {
 
 
 
+                if(body.finanzas != null){
+                  estado.commit("EstablecerFinanzas", {
+                    finanzas: body.finanzas
+                  });
+                }
+                
+
+
+
                 // Esconde pantalla de carga:
                 data.mostrarPantallaCarga = false;
                 // Detiene el contador:
