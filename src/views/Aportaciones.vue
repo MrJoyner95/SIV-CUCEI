@@ -141,10 +141,79 @@
                 Presupuesto: &emsp;&emsp;           <strong> $ {{ FormatearNumero(finanzas.presupuesto) }} MXN</strong> <br>
                 Disponible: &emsp;&emsp;&emsp;      <strong> $ {{ FormatearNumero(finanzas.presupuestoDisponible) }} MXN</strong>
                 <!-- <br> -->
+
+
+
+                <!-- <h5 class="mt-1 titulo">{{ finanzas }}</h5> -->
+
+
               </b-card-text>
 
 
               <!-- Aportacion -->
+              <b-list-group class="mt-3">
+                <div v-for="solicitudViatico in solicitudViaticos" v-bind:key="solicitudViatico.rubro">
+
+                  <b-list-group-item class="flex-column align-items-start">
+
+                    <h5 class="mt-2 titulo">{{ solicitudViatico.nombre }}</h5>
+
+                    <b-row align-h="center" class="mt-3 mb-2   d-flex w-100 justify-content-between">
+                      <b-col lg="8">
+                        <p class="mb-0">Cantidad solicitada: &ensp; <strong>${{ FormatearNumero(solicitudViatico.cantidadSolicitada) }} MXN</strong></p>
+                        <p class="mb-0">Cantidad obtenida: &ensp;&nbsp; <strong>${{ FormatearNumero(solicitudViatico.cantidadObtenida) }} MXN</strong></p>
+                      </b-col>
+                    
+                      <b-col lg="4">
+                        <b-input-group prepend="$" align="right">
+                          <b-form-input 
+                            placeholder="Cantidad..."
+                            type="number"
+                            v-model="solicitudViatico.aportacion"
+                            :change="ValidarAportacion(solicitudViatico)"
+                          >
+                          </b-form-input>
+                          <b-input-group-append>
+
+                            <!-- <template v-if="ValidarAportacion(solicitudViatico) == true">
+                              <b-button variant="outline-primary">Aportar</b-button>
+                            </template>
+                            <template v-else>
+                              <b-button variant="outline-secondary" disabled="">Aportar</b-button>
+                            </template> -->
+
+                            <template v-if="solicitudViatico.aportacionValida == true">
+                              <b-button variant="primary" v-on:click="AportarRecursos(solicitudViatico)">Aportar</b-button>
+                            </template>
+                            <template v-else>
+                              <b-button variant="secondary" disabled="">Aportar</b-button>
+                            </template>
+
+                            <!-- <template v-if="finanzas.presupuestoDisponible >= solicitudViatico.aportacion">
+                              <h5>if="finanzas.presupuestoDisponible >= solicitudViatico.aportacion"</h5>
+                            </template>
+                            <template v-else-if="solicitudViatico.cantidadObtenida + solicitudViatico.aportacion <= solicitudViatico.cantidadSolicitada">
+                              <h5>else-if="solicitudViatico.cantidadObtenida + solicitudViatico.aportacion c= solicitudViatico.cantidadSolicitada"</h5>
+                            </template>
+                            <template v-else-if="solicitudViatico.aportacion > 0">
+                              <h5>else-if="solicitudViatico.aportacion > 0"</h5>
+                            </template>
+                            <template v-else>
+                              <h5>ERROR</h5>
+                            </template> -->
+
+
+                          </b-input-group-append>
+                        </b-input-group>
+                      </b-col>
+
+                    </b-row>
+                  </b-list-group-item>
+
+                </div>
+              </b-list-group>
+
+
               <!-- <b-list-group class="mt-3">
                 <div v-for="solicitudViatico in solicitudViaticos" v-bind:key="solicitudViatico.rubro">
 
@@ -356,6 +425,7 @@ import FormComision from "@/components/FormComision.vue";
 // Pantalla de carga:
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import { isNullOrUndefined } from 'util';
 
 export default {
 name: "aportaciones",
@@ -462,26 +532,44 @@ name: "aportaciones",
 
 
 
+    // AsignarSolicitudes(solicitud, solViaticos){
+
+    //   // Crea un objeto vacio:
+    //   var solicitudViaticos = {};
+
+    //   // Convierte campos numericos de solicitud de viaticos a number:
+    //   solViaticos.forEach(solViatico => {
+    //     // Crea objeto del rubro:
+    //     var nombreRubro = solViatico.rubro;
+    //     solicitudViaticos[nombreRubro] = {};
+    //     // Usa el nombre de la variable para asignar al objeto primario:
+    //     solicitudViaticos[nombreRubro].cantidadSolicitada = parseFloat(solViatico.cantidadSolicitada);
+    //     solicitudViaticos[nombreRubro].cantidadObtenida = parseFloat(solViatico.cantidadObtenida);
+    //   });
+
+    //   // console.log("solicitudViaticos: ", solicitudViaticos);
+
+    //   // Cambia estado de la solicitud:
+    //   this.solicitud = solicitud;
+    //   this.solicitudViaticos = solicitudViaticos;
+    //   this.solicitudVisible = true;
+
+    // },
+
+
     AsignarSolicitudes(solicitud, solViaticos){
 
-      // Crea un objeto vacio:
-      var solicitudViaticos = {};
-
-      // Convierte campos numericos de solicitud de viaticos a number:
       solViaticos.forEach(solViatico => {
-        // Crea objeto del rubro:
-        var nombreRubro = solViatico.rubro;
-        solicitudViaticos[nombreRubro] = {};
-        // Usa el nombre de la variable para asignar al objeto primario:
-        solicitudViaticos[nombreRubro].cantidadSolicitada = parseFloat(solViatico.cantidadSolicitada);
-        solicitudViaticos[nombreRubro].cantidadObtenida = parseFloat(solViatico.cantidadObtenida);
+        // Agrega el atributo de aportacion:
+        solViatico.aportacion = null;
+        // Convierte campos numericos de solicitud de viaticos a float:
+        solViatico.cantidadSolicitada = parseFloat(solViatico.cantidadSolicitada);
+        solViatico.cantidadObtenida = parseFloat(solViatico.cantidadObtenida);
       });
-
-      // console.log("solicitudViaticos: ", solicitudViaticos);
 
       // Cambia estado de la solicitud:
       this.solicitud = solicitud;
-      this.solicitudViaticos = solicitudViaticos;
+      this.solicitudViaticos = solViaticos;
       this.solicitudVisible = true;
 
     },
@@ -637,6 +725,32 @@ name: "aportaciones",
 
 
     // ++++++++++++++++++++++++++++++++ Auxiliares ++++++++++++++++++++++++++++++++
+    ValidarAportacion(solicitudViatico) {
+      try {
+        // Convierte aportacion a float (cada que se borra por completo, se convierte en string):
+        solicitudViatico.aportacion = parseFloat(solicitudViatico.aportacion);
+        // Valida que la aportacion sea valida:
+        if(solicitudViatico.aportacion > 0  && solicitudViatico.aportacion <= this.finanzas.presupuestoDisponible && (solicitudViatico.aportacion + solicitudViatico.cantidadObtenida) <= solicitudViatico.cantidadSolicitada){
+          // Asigna estado de la aportacion:
+          solicitudViatico.aportacionValida = true;
+        }
+        else{
+          solicitudViatico.aportacionValida = false;
+        }
+      } catch (error) {
+        solicitudViatico.aportacionValida = false;
+      }
+    },
+
+
+    AportarRecursos(solicitudViatico) {
+
+      console.log(solicitudViatico);
+
+    },
+
+
+
     MostrarPantallaCarga() {
       this.pantallaCargaVisible = true;
     },

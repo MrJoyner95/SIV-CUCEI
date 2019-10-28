@@ -339,7 +339,12 @@ export default {
 
 
                 if(body.finanzas != null){
+                  // Convierte campos numericos, de string a float:
+                  body.finanzas.presupuesto = parseFloat(body.finanzas.presupuesto);
+                  body.finanzas.presupuestoDisponible = parseFloat(body.finanzas.presupuestoDisponible);
+
                   estado.commit("EstablecerFinanzas", {
+                    // Asigna objeto:
                     finanzas: body.finanzas
                   });
                 }
