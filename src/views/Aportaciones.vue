@@ -77,8 +77,6 @@
 
                 </b-col>
               </b-row>
-
-              
             </b-card>
 
           </b-col>
@@ -93,25 +91,11 @@
           <div v-if="solicitudVisible == true">
             
             <!-- Solicitud -->
-            <b-row align-h="center" class="mt-5">
+            <b-row align-h="center" class="mt-5 mb-4">
               <b-col cols="10">
                 <FormComision titulo="Solicitud de comisión" :comisionInactiva="solicitud" :deshabilitado="true" />
               </b-col>
             </b-row>
-
-            <!-- Boton ocultar solicitud -->
-            <!-- <br>
-            <b-row align-h="center">
-              <b-col cols="4">
-                <b-button 
-                  block 
-                  variant="secondary" 
-                  v-on:click="OcultarSolicitud()"
-                >
-                  Ocultar solicitud
-                </b-button>
-              </b-col>
-            </b-row> -->
 
           </div>
         </transition>
@@ -122,275 +106,129 @@
 
         <!-- Aportar recursos -->
         <div v-if="solicitudVisible == true">
-          <br>
+          <!-- <br> -->
           <hr>
-
-
           <b-row align-h="center" class="mt-5">
-          <b-col md="10">
-            
-            <b-card>
-              <!-- Informacion general -->
-              <h4 class="mb-3 titulo" align="center">Aportar recursos</h4>
-              <b-card-text class="mb-2">
-                Puede aportar recursos económicos a uno o más rubros de la comisión.
-                <br>
-                <br>
-                División: &emsp;&emsp;&emsp;&emsp;  <strong> {{finanzas.division}} </strong> <br> 
-                Departamento: &emsp;                <strong> {{finanzas.departamento}} </strong> <br>
-                Presupuesto: &emsp;&emsp;           <strong> $ {{ FormatearNumero(finanzas.presupuesto) }} MXN</strong> <br>
-                Disponible: &emsp;&emsp;&emsp;      <strong> $ {{ FormatearNumero(finanzas.presupuestoDisponible) }} MXN</strong>
-                <!-- <br> -->
-
-
-
-                <!-- <h5 class="mt-1 titulo">{{ finanzas }}</h5> -->
-
-
-              </b-card-text>
-
-
-              <!-- Aportacion -->
-              <b-list-group class="mt-3">
-                <div v-for="solicitudViatico in solicitudViaticos" v-bind:key="solicitudViatico.rubro">
-
-                  <b-list-group-item class="flex-column align-items-start">
-
-                    <h5 class="mt-2 titulo">{{ solicitudViatico.nombre }}</h5>
-
-                    <b-row align-h="center" class="mt-3 mb-2   d-flex w-100 justify-content-between">
-                      <b-col lg="8">
-                        <p class="mb-0">Cantidad solicitada: &ensp; <strong>${{ FormatearNumero(solicitudViatico.cantidadSolicitada) }} MXN</strong></p>
-                        <p class="mb-0">Cantidad obtenida: &ensp;&nbsp; <strong>${{ FormatearNumero(solicitudViatico.cantidadObtenida) }} MXN</strong></p>
-                      </b-col>
-                    
-                      <b-col lg="4">
-                        <b-input-group prepend="$" align="right">
-                          <b-form-input 
-                            placeholder="Cantidad..."
-                            type="number"
-                            v-model="solicitudViatico.aportacion"
-                            :change="ValidarAportacion(solicitudViatico)"
-                          >
-                          </b-form-input>
-                          <b-input-group-append>
-
-                            <!-- <template v-if="ValidarAportacion(solicitudViatico) == true">
-                              <b-button variant="outline-primary">Aportar</b-button>
-                            </template>
-                            <template v-else>
-                              <b-button variant="outline-secondary" disabled="">Aportar</b-button>
-                            </template> -->
-
-                            <template v-if="solicitudViatico.aportacionValida == true">
-                              <b-button variant="primary" v-on:click="AportarRecursos(solicitudViatico)">Aportar</b-button>
-                            </template>
-                            <template v-else>
-                              <b-button variant="secondary" disabled="">Aportar</b-button>
-                            </template>
-
-                            <!-- <template v-if="finanzas.presupuestoDisponible >= solicitudViatico.aportacion">
-                              <h5>if="finanzas.presupuestoDisponible >= solicitudViatico.aportacion"</h5>
-                            </template>
-                            <template v-else-if="solicitudViatico.cantidadObtenida + solicitudViatico.aportacion <= solicitudViatico.cantidadSolicitada">
-                              <h5>else-if="solicitudViatico.cantidadObtenida + solicitudViatico.aportacion c= solicitudViatico.cantidadSolicitada"</h5>
-                            </template>
-                            <template v-else-if="solicitudViatico.aportacion > 0">
-                              <h5>else-if="solicitudViatico.aportacion > 0"</h5>
-                            </template>
-                            <template v-else>
-                              <h5>ERROR</h5>
-                            </template> -->
-
-
-                          </b-input-group-append>
-                        </b-input-group>
-                      </b-col>
-
-                    </b-row>
-                  </b-list-group-item>
-
-                </div>
-              </b-list-group>
-
-
-              <!-- <b-list-group class="mt-3">
-                <div v-for="solicitudViatico in solicitudViaticos" v-bind:key="solicitudViatico.rubro">
-
-                  <b-list-group-item class="flex-column align-items-start">
-                    <div class="d-flex w-100 justify-content-between">
-                      <h5 class="mt-1 titulo">{{ solicitudViatico.nombre }}</h5>
-                    </div>
-
-                    <b-row align-h="center" class="mb-0">
-                      <b-col md="7">
-                        <p class="mb-0">Cantidad solicitada: &ensp; <strong>${{solicitudViatico.cantidadSolicitada}} MXN</strong></p>
-                        <p class="mb-0">Cantidad obtenida: &ensp;&nbsp; <strong>${{solicitudViatico.cantidadObtenida}} MXN</strong></p>
-                      </b-col>
-                    
-                      <b-col md="5">
-                        <b-input-group prepend="$" align="right">
-                          <b-form-input 
-                            placeholder="Cantidad..."
-                            type="number"
-                            v-model="cantidadAportada"
-                          >
-                          </b-form-input>
-                          <b-input-group-append>
-
-                            <template v-if="finanzas.presupuestoDisponible >= cantidadAportada && cantidadAportada < (solicitudViatico.cantidadSolicitada - solicitudViatico.cantidadObtenida)">
-                              <b-button variant="outline-success" v-on:click="formComisionVisible=true">Aportar</b-button>
-                            </template>
-                            <template v-else>
-                              <b-button variant="outline-danger" disabled="">Aportar</b-button>
-                            </template>
-
-                          </b-input-group-append>
-                        </b-input-group>
-                      </b-col>
-
-                    </b-row>
-                  </b-list-group-item>
-
-                </div>
-              </b-list-group> -->
+            <b-col md="10">
               
-            </b-card>
-
-          </b-col>
-        </b-row>
-
-
-
-
-
-          <b-row align-h="center" class="mt-5">
-            <b-col cols="10">
               <b-card>
-                
-                <b-row>
-                  <b-col lg="12">
-                    <!-- <hr> -->
-                    <h4 class="mb-3 titleColor" align="center">Aportar recursos</h4>
-                    <b-card-text>Puede aportar recursos económicos a uno o más rubros de la comisión.
-                    <br>Presupuesto disponible: <strong>$32,350.00 MXN</strong>
-                    </b-card-text>
+                <!-- Informacion general -->
+                <h4 class="mb-3 titulo" align="center">Aportar recursos</h4>
+                <b-card-text class="mb-2">
+                  Puede aportar recursos económicos a uno o más rubros de la comisión.
+                  <br>
+                  <br>
+                  División: &emsp;&emsp;&emsp;&emsp;  <strong> {{finanzas.division}} </strong> <br> 
+                  Departamento: &emsp;                <strong> {{finanzas.departamento}} </strong> <br>
+                  Presupuesto: &emsp;&emsp;           <strong> $ {{ FormatearNumero(finanzas.presupuesto) }} MXN</strong> <br>
+                  Disponible: &emsp;&emsp;&emsp;      <strong> $ {{ FormatearNumero(finanzas.presupuestoDisponible) }} MXN</strong>
+                </b-card-text>
 
-                    
-                    
-                    <b-list-group>
-                      <b-list-group-item variant="danger" class="flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-2 titleColor">Hospedaje y alimentación</h5>
-                        </div>
+                <!-- Aportacion -->
+                <b-list-group class="mt-3">
+                  <div v-for="solicitudViatico in solicitudViaticos" v-bind:key="solicitudViatico.rubro">
 
-                        <b-row align-h="center" class="mt-3">
-                          <b-col cols="7">
-                            <p class="mb-0">Cantidad solicitada: <strong>$40,000.00 MXN</strong></p>
-                          </b-col>
-                        
-                          <b-col cols="5">
-                            <b-input-group prepend="$" align="right">
-                              <b-form-input disabled placeholder="Cantidad..."></b-form-input>
-                              <b-input-group-append>
-                                <b-button disabled variant="outline-secondary" v-on:click="formComisionVisible=true">Aportar</b-button>
-                              </b-input-group-append>
-                            </b-input-group>
-                          </b-col>
-                        </b-row>
-                      </b-list-group-item>
+                    <b-list-group-item class="flex-column align-items-start">
+                      <h5 class="mt-2 titulo">{{ solicitudViatico.nombre }}</h5>
 
-                      <b-list-group-item class="flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-2 titleColor">Transporte</h5>
-                        </div>
-
-                        <b-row align-h="center" class="mt-3">
-                          <b-col cols="7">
-                            <p class="mb-0">Cantidad solicitada: <strong>$18,000.00 MXN</strong></p>
-                          </b-col>
-                        
-                          <b-col cols="5">
-                            <b-input-group prepend="$" align="right">
-                              <b-form-input placeholder="Cantidad..."></b-form-input>
-                              <b-input-group-append>
-                                <b-button variant="outline-success" v-on:click="formComisionVisible=true">Aportar</b-button>
-                              </b-input-group-append>
-                            </b-input-group>
-                          </b-col>
-                        </b-row>
-                      </b-list-group-item>
-
-                      <b-list-group-item class="flex-column align-items-start">
-                        <div class="d-flex w-100 justify-content-between">
-                          <h5 class="mb-2 titleColor">Transporte interno</h5>
-                        </div>
-
-                        <b-row align-h="center" class="mt-3">
-                          <b-col cols="7">
-                            <p class="mb-0">Cantidad solicitada: <strong>$5,500.00 MXN</strong></p>
-                          </b-col>
-                        
-                          <b-col cols="5">
-                            <b-input-group prepend="$" align="right">
-                              <b-form-input placeholder="Cantidad..."></b-form-input>
-                              <b-input-group-append>
-                                <b-button variant="outline-success" v-on:click="formComisionVisible=true">Aportar</b-button>
-                              </b-input-group-append>
-                            </b-input-group>
-                          </b-col>
-                        </b-row>
-                      </b-list-group-item>
+                      <b-row align-h="center" class="mt-3 mb-2   d-flex w-100 justify-content-between">
+                        <b-col lg="8">
+                          <p class="mb-0">Cantidad solicitada: &ensp; <strong>${{ FormatearNumero(solicitudViatico.cantidadSolicitada) }} MXN</strong></p>
+                          <p class="mb-0">Cantidad obtenida: &ensp;&nbsp; <strong>${{ FormatearNumero(solicitudViatico.cantidadObtenida) }} MXN</strong></p>
+                        </b-col>
                       
-                    </b-list-group>
+                        <b-col lg="4">
 
+                          <b-input-group prepend="$" align="right">
+                            <b-form-input 
+                              placeholder="Cantidad..."
+                              type="number"
+                              step="any"
+                              v-model="solicitudViatico.aportacion"
+                              :change="ValidarAportacion(solicitudViatico)"
+                            >
+                            </b-form-input>
+                            <b-input-group-append>
+                              <template v-if="solicitudViatico.aportacionValida == true">
+                                <!-- <b-button 
+                                  variant="primary" 
+                                  v-b-tooltip.hover title="Confirmar la aportación"
+                                  v-on:click="$bvModal.show('modal_confirmar_aportacion')"
+                                > -->
+                                <b-button 
+                                  variant="primary" 
+                                  v-b-tooltip.hover title="Confirmar la aportación"
+                                  v-on:click="DefinirAportacion(solicitudViatico)"
+                                >
+                                  Aportar
+                                </b-button>
+                              </template>
+                              <template v-else>
+                                <b-button variant="secondary" disabled="">Aportar</b-button>
+                              </template>
+                            </b-input-group-append>
+                          </b-input-group>
 
-                    
-                  </b-col>
-                </b-row>
+                          <!-- v-b-tooltip.hover title="Autorizar y enviar solicitud a la rectora."
+                  v-on:click="$bvModal.show('modal_autorizar_solicitud')" -->
 
+                        </b-col>
+                      </b-row>
+                    </b-list-group-item>
+
+                  </div>
+                </b-list-group>
               </b-card>
+
             </b-col>
           </b-row>
-
-        </div>
-
-
-
-        <!-- Boton cancelar aporte -->
-        <template v-if="formComisionVisible === true">
+          <!-- Espacio vacio -->
           <br>
-          <b-row class="mt-2" align-h="center">
-            <b-col cols="4">
-              <b-button 
-                block 
-                variant="outline-secondary" 
-                v-on:click="formComisionVisible = false"
-              >
-                Cancelar aporte
-              </b-button>
-            </b-col>
-          </b-row>
-          <hr>
-        </template>
-      
-
-
-        
-        
-      
+          <br>
+          <br>
+        </div>
 
       </b-container>
     </div>
-    
+
+
+
+
+
 
 
 
 
 
     <!-- ++++++++++++++++++++++++++++++++++++++++ Recursos adicionales ++++++++++++++++++++++++++++++++++++++++ -->
-    <!-- Pantalla de carga -->
 
+    <!-- Modal Confirmar Aportacion -->
+    <b-modal
+      id="modal_confirmar_aportacion"
+      ref="modal_confirmar_aportacion"
+      title="¿Desea continuar con la aportación?"
+      size= "md"
+      buttonSize="md"
+      okVariant="success"
+      okTitle="Confirmar"
+      cancelTitle="Cancelar"
+      footerClass="p-2"
+      centered
+      @ok="ConfirmarAportacion(aportacion)"
+      @hidden="ReiniciarAportacion()"
+    >
+      Una vez confirmada la aportación, no podrá recuperarse el dinero aportado.
+      <br>
+      Aportacion:
+      <br>
+      <strong>{{aportacion}}</strong>
+    </b-modal>
+
+
+
+
+
+    <!-- Pantalla de carga -->
     <loading 
       :active.sync="pantallaCargaVisible" 
       :can-cancel="false"
@@ -403,6 +241,7 @@
       :opacity=0.5
     >
     </loading>
+
 
 
 
@@ -431,6 +270,7 @@ export default {
 name: "aportaciones",
   computed: {
     ...mapState({
+      trabajador: "trabajador",
       finanzas: "finanzas",
     })
   },
@@ -453,7 +293,10 @@ name: "aportaciones",
 
       // Solicitud de viaticos:
       solicitudViaticos: null,
-      cantidadAportada: null,
+      rubroSeleccionado: null,
+
+      // Aportaciones:
+      aportacion: null,
 
       // Recursos visuales:
       pantallaCargaVisible: false,
@@ -733,19 +576,137 @@ name: "aportaciones",
         if(solicitudViatico.aportacion > 0  && solicitudViatico.aportacion <= this.finanzas.presupuestoDisponible && (solicitudViatico.aportacion + solicitudViatico.cantidadObtenida) <= solicitudViatico.cantidadSolicitada){
           // Asigna estado de la aportacion:
           solicitudViatico.aportacionValida = true;
+          return true;
         }
         else{
           solicitudViatico.aportacionValida = false;
+          return false;
         }
       } catch (error) {
         solicitudViatico.aportacionValida = false;
+        return false;
       }
     },
 
 
-    AportarRecursos(solicitudViatico) {
+
+
+    DefinirAportacion(solicitudViatico) {
+      // Define objeto de aportacion
+      this.aportacion = {};
+
+      this.aportacion.benefactor =        this.trabajador.codigo;
+      this.aportacion.division =          this.finanzas.division;
+      this.aportacion.departamento =      this.finanzas.departamento;
+
+      this.aportacion.beneficiario =      this.solicitud.codigoTrabajador;
+      this.aportacion.folioComision =     this.solicitud.folio;
+      this.aportacion.rubro =             solicitudViatico.rubro;
+      this.aportacion.cantidadAportada =  solicitudViatico.aportacion;
+
+      // Abre modal:
+      this.$refs.modal_confirmar_aportacion.show();
+    },
+
+
+
+
+    ConfirmarAportacion(aportacion) {
+
+      console.log(this.aportacion);
+
+    },
+
+
+
+    // ++++++++++++++++++++++++++++++++ Modal rechazar solicitud ++++++++++++++++++++++++++++++++
+    ReiniciarAportacion() {
+      this.aportacion = null;
+    },
+
+
+
+
+
+    RealizarAportacion(solicitudViatico) {
 
       console.log(solicitudViatico);
+
+      // showMsgBoxTwo() {
+      //   this.boxTwo = ''
+      //   this.$bvModal.msgBoxConfirm('Por favor, confirme el aporte', {
+      //     title: 'Please Confirm',
+      //     size: 'sm',
+      //     buttonSize: 'sm',
+      //     okVariant: 'danger',
+      //     okTitle: 'YES',
+      //     cancelTitle: 'NO',
+      //     footerClass: 'p-2',
+      //     hideHeaderClose: false,
+      //     centered: true
+      //   })
+      //     .then(value => {
+      //       this.boxTwo = value
+      //     })
+      //     .catch(err => {
+      //       // An error occurred
+      //     })
+      // }
+
+      
+
+      this.$bvModal.msgBoxConfirm('Por favor, confirme el aporte para continuar. /n algo <strong>algo</strong>', 
+      {
+        title: "¿Desea continuar con la aportación?",
+        size: "md",
+        buttonSize: "md",
+        okVariant: "success",
+        okTitle: "Confirmar",
+        cancelTitle: "Cancelar",
+        footerClass: "p-2",
+        centered: true
+      })
+      .then(value => {
+        // this.boxTwo = value
+        console.log(value);
+      })
+      .catch(err => {
+        // An error occurred
+      })
+
+
+    //   <b-modal
+    //   id="modal_confirmar_aportacion"
+    //   ref="modal_confirmar_aportacion"
+    //   title="¿Desea continuar con la aportación?"
+    //   size= "md"
+    //   buttonSize="md"
+    //   okVariant="success"
+    //   okTitle="Confirmar"
+    //   cancelTitle="Cancelar"
+    //   footerClass="p-2"
+    //   centered
+    //   @ok="AutorizarSolicitud(solicitud)"
+    // >
+    //   Una vez confirmada la aportación, no podrá recuperarse el dinero aportado.
+    // </b-modal>
+
+      // this.$bvModal.show('modal_confirmar_aportacion')
+      // .then( function() {
+      //   console.log(value);
+      // })
+      // .catch(err => {
+      //   console.log("Error");
+      // });
+
+      // this.$refs.modal_confirmar_aportacion.show()
+      // .then(seleccion => {
+      //   // this.boxTwo = value
+      //   console.log(seleccion);
+      // })
+      // .catch(err => {
+      //   // An error occurred
+      // })
 
     },
 
