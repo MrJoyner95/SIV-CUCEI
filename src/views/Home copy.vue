@@ -59,28 +59,36 @@ import { mapState } from "vuex";
 import Viaticos from "@/views/Viaticos.vue";
 import Solicitudes from "@/views/Solicitudes.vue";
 
+// Componentes:
+import FormComision from "@/components/FormComision.vue";
+import FormViaticos from "@/components/FormViaticos.vue";
+
+
 // Atributos:
 export default {
   name: "home",
   computed:{
     ...mapState({
       trabajador: "trabajador",
+      comisionActiva: "comisionActiva",
       solicitudesPendientes: "solicitudesPendientes",
     })
   },
   components: {
     Viaticos,
     Solicitudes,
-  }
 
-
-
-  ,created: function () {
-    console.log("home");
+    FormComision,
+    FormViaticos,
   },
-
-
-
+  data() {
+    return {
+      mostrarFormComision: false,
+      mostrarFormComisionAbierta: false,
+      
+    };
+  },
+  methods: {}
 };
 </script>
 

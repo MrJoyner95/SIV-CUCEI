@@ -15,7 +15,7 @@
                   <h4 class="mb-4 titulo">Iniciar Sesión</h4>
 
                   <!-- Form Login -->
-                  <b-form @submit="iniciarSesion">
+                  <b-form @submit="IniciarSesion">
                     <b-form-group label="Código:">
                       <b-form-input
                         id="input-codigo"
@@ -164,8 +164,8 @@
 
 <script>
 // State y Router:
-import estado from "@/store.js";
-import enrutador from "@/router.js";
+import state from "@/store.js";
+import router from "@/router.js";
 
 // vue-loading-overlay:
 import Loading from 'vue-loading-overlay';
@@ -192,7 +192,7 @@ export default {
   },
   methods: {
 
-    iniciarSesion(codigo) {
+    IniciarSesion(codigo) {
 
       // Muestra pantalla de carga:
       this.mostrarPantallaCarga = true;
@@ -222,7 +222,7 @@ export default {
       //       var response = JSON.parse(requestGetUser.responseText);
       //       console.log(response);
 
-      //       estado.commit("establecerTrabajador", {
+      //       state.commit("establecerTrabajador", {
       //         codigo: response.codigo,
       //         tipo: response.tipo,
       //         nombre: response.nombre,
@@ -235,7 +235,7 @@ export default {
       //       data.mostrarPantallaCarga = false;
 
       //       console.log("RESPUESTA DEL SERVIDOR");
-      //       enrutador.push("/");
+      //       router.push("/");
 
       //       // Detiene el contador:
       //       clearInterval(downloadTimer);
@@ -253,7 +253,7 @@ export default {
 
       //     // Error al obtener datos desde el servidor:
       //     console.log("ERROR EN EL SERVIDOR");
-      //     // enrutador.push("/error");
+      //     // router.push("/error");
 
       //     // Detiene el contador:
       //     clearInterval(downloadTimer);
@@ -302,15 +302,15 @@ export default {
 
 
                 // Todos los tipos de usuario:
-                estado.commit("EstablecerTrabajador", {
+                state.commit("EstablecerTrabajador", {
                   trabajador: body.trabajador
                 });
 
-                estado.commit("EstablecerComisionActiva", {
+                state.commit("EstablecerComisionActiva", {
                   comisionActiva: body.comisionActiva
                 });
 
-                estado.commit("EstablecerHistorialComisiones", {
+                state.commit("EstablecerHistorialComisiones", {
                   historialComisiones: body.historialComisiones
                 });
 
@@ -318,20 +318,20 @@ export default {
                 
                 // Rangos Medios y Directivos:
                 if(body.solicitudesPendientes != null){
-                  estado.commit("EstablecerSolicitudesPendientes", {
+                  state.commit("EstablecerSolicitudesPendientes", {
                     solicitudesPendientes: body.solicitudesPendientes
                   });
                 }
 
                 if(body.historicoSolicitudes != null){
-                  estado.commit("EstablecerHistoricoSolicitudes", {
+                  state.commit("EstablecerHistoricoSolicitudes", {
                     historicoSolicitudes: body.historicoSolicitudes
                   });
                 }
 
                 // Rectora:
                 if(body.solicitudesSinResolver != null){
-                  estado.commit("EstablecerSolicitudesSinResolver", {
+                  state.commit("EstablecerSolicitudesSinResolver", {
                     solicitudesSinResolver: body.solicitudesSinResolver
                   });
                 }
@@ -343,11 +343,15 @@ export default {
                   body.finanzas.presupuesto = parseFloat(body.finanzas.presupuesto);
                   body.finanzas.presupuestoDisponible = parseFloat(body.finanzas.presupuestoDisponible);
 
-                  estado.commit("EstablecerFinanzas", {
+                  state.commit("EstablecerFinanzas", {
                     // Asigna objeto:
                     finanzas: body.finanzas
                   });
                 }
+
+
+
+                console.log("despues de las mutaciones");
                 
 
 
@@ -357,7 +361,14 @@ export default {
                 // Detiene el contador:
                 clearInterval(downloadTimer);
                 // Continua la ruta:
-                enrutador.push("/");
+                router.push("/");
+
+
+
+                console.log("despues de push");
+
+
+
               }
             }
           }

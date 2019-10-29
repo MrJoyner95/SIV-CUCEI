@@ -1,41 +1,5 @@
 <template>
-  <div class="home">
-
-    <!-- Barra de navegacion -->
-    <!-- <NavBar/> -->
-
-    <!-- <router-view></router-view> -->
-
-    <!-- Homes de usuarios -->
-    <!-- <div v-if= "tipoUsuario === 'profesor' || tipoUsuario === 'profesor2' || tipoUsuario === 'profesor3'" >
-      <HomeProfesor/>
-    </div>
-    <div v-else-if= "tipoUsuario === 'rectora'">
-      <HomeRectora/>
-    </div>
-    <div v-else-if= "tipoUsuario === 'jefe'">
-      <HomeJefeDep/>
-    </div>
-    <div v-else>
-      <Login/>
-    </div> -->
-
-
-
-    <!-- <div v-if= "tipoUsuario === 'profesor' || tipoUsuario === 'profesor2' || tipoUsuario === 'profesor3'" >
-      <HomeProfesor/>
-    </div>
-    <div v-else-if= "tipoUsuario === 'rectora'">
-      <HomeRectora/>
-    </div>
-    <div v-else-if= "tipoUsuario === 'jefe'">
-      <HomeJefeDep/>
-    </div>
-    <div v-else>
-      <HomeProfesor/>
-    </div> -->
-
-
+  <div>
 
     <!-- Redireccionamiento de la ruta / -->
     <div v-if="trabajador == null" >
@@ -44,7 +8,6 @@
     <div v-else>
       <Home/>
     </div>
-
     
   </div>
 </template>
@@ -61,35 +24,27 @@ import { mapState } from 'vuex'
 import Login from '@/views/Login.vue'
 import Home from '@/views/Home.vue'
 
-
-import HomeProfesor from '@/views/HomeProfesor.vue'
-// import HomeProfesor from '@/views/HomeProfesor_NEW.vue'
-import HomeRectora from '@/views/HomeRectora.vue'
-import HomeJefeDep from '@/views/HomeJefeDep.vue'
-
-// Componentes:
-import NavBar from '@/components/NavBar.vue'
-import Null from '@/components/Null.vue'
-
+// Atributos:
 export default {
   name: 'index',
   computed: {
-    ...mapState([
-      'trabajador',
-      'tipoUsuario'
-    ]),
-    // otras propiedades
+    ...mapState({
+      trabajador: "trabajador",
+    })
   },
   components: {
     Login,
-    Home, 
-
-    NavBar,
-    Null,
-    HomeProfesor,
-    HomeRectora,
-    HomeJefeDep
+    Home,
   }
+
+
+  
+  ,created: function () {
+    console.log("index");
+  },
+
+
+
 }
 </script>
 

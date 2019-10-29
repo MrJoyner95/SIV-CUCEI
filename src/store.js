@@ -129,8 +129,16 @@ export default new Vuex.Store({
 
 
 
+    // Finanzas:
     EstablecerFinanzas(state, payload){
       state.finanzas = payload.finanzas;
+    },
+
+    ReducirPresupuestoDisponible(state, payload){
+      // Aplica reduccion de presupuesto:
+      state.finanzas.presupuestoDisponible -= payload.reduccion;
+      // Limita los decimales y convierte de vuelta a float:
+      state.finanzas.presupuestoDisponible = parseFloat( state.finanzas.presupuestoDisponible.toFixed(2) );
     },
 
   },

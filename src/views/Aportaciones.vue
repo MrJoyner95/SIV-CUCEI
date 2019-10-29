@@ -150,11 +150,6 @@
                             </b-form-input>
                             <b-input-group-append>
                               <template v-if="solicitudViatico.aportacionValida == true">
-                                <!-- <b-button 
-                                  variant="primary" 
-                                  v-b-tooltip.hover title="Confirmar la aportación"
-                                  v-on:click="$bvModal.show('modal_confirmar_aportacion')"
-                                > -->
                                 <b-button 
                                   variant="primary" 
                                   v-b-tooltip.hover title="Confirmar la aportación"
@@ -168,9 +163,6 @@
                               </template>
                             </b-input-group-append>
                           </b-input-group>
-
-                          <!-- v-b-tooltip.hover title="Autorizar y enviar solicitud a la rectora."
-                  v-on:click="$bvModal.show('modal_autorizar_solicitud')" -->
 
                         </b-col>
                       </b-row>
@@ -214,14 +206,19 @@
       cancelTitle="Cancelar"
       footerClass="p-2"
       centered
-      @ok="ConfirmarAportacion(aportacion)"
-      @hidden="ReiniciarAportacion()"
+      @ok="ConfirmarAportacion()"
     >
-      Una vez confirmada la aportación, no podrá recuperarse el dinero aportado.
+      Por favor, confirme que los datos del aporte sean correctos.
       <br>
-      Aportacion:
       <br>
-      <strong>{{aportacion}}</strong>
+      <div v-if="aportacion != null">
+        <pre class="pre_normal">
+          Folio de comisión:  <strong>{{ aportacion.folioComision }}</strong>
+          Beneficiario:              <strong>{{ aportacion.beneficiario }}</strong> 
+          Rubro:                           <strong>{{ aportacion.nombre }}</strong> 
+          Aporte:                         <strong>${{ FormatearNumero(aportacion.cantidadAportada) }} MXN</strong> 
+        </pre>
+      </div>
     </b-modal>
 
 
@@ -257,6 +254,8 @@
 
 // Propiedades:
 import { mapState } from "vuex";
+// State:
+import state from "@/store.js";
 
 // Componentes:
 import FormComision from "@/components/FormComision.vue";
@@ -264,7 +263,6 @@ import FormComision from "@/components/FormComision.vue";
 // Pantalla de carga:
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
-import { isNullOrUndefined } from 'util';
 
 export default {
 name: "aportaciones",
@@ -280,12 +278,6 @@ name: "aportaciones",
   },
   data() {
     return {
-      formComisionVisible: false,
-      SolicitudPorAprobar: false,
-      solicitudRechazada: false,
-
-      // 
-
       // Solicitud:
       folioABuscar: null,
       solicitud: null,
@@ -302,12 +294,12 @@ name: "aportaciones",
       pantallaCargaVisible: false,
       alertaSolicitudVisible: false,
       alertaServidorVisible: false,
-
     };
   },
   methods: {
+    
+    // ++++++++++++++++++++++++++++++++++++++++ Solicitud ++++++++++++++++++++++++++++++++++++++++
 
-    // ++++++++++++++++++++++++++++++++ Solicitud ++++++++++++++++++++++++++++++++
     BuscarSolicitud() {
       if(this.folioABuscar != null){
         
@@ -375,30 +367,9 @@ name: "aportaciones",
 
 
 
-    // AsignarSolicitudes(solicitud, solViaticos){
 
-    //   // Crea un objeto vacio:
-    //   var solicitudViaticos = {};
 
-    //   // Convierte campos numericos de solicitud de viaticos a number:
-    //   solViaticos.forEach(solViatico => {
-    //     // Crea objeto del rubro:
-    //     var nombreRubro = solViatico.rubro;
-    //     solicitudViaticos[nombreRubro] = {};
-    //     // Usa el nombre de la variable para asignar al objeto primario:
-    //     solicitudViaticos[nombreRubro].cantidadSolicitada = parseFloat(solViatico.cantidadSolicitada);
-    //     solicitudViaticos[nombreRubro].cantidadObtenida = parseFloat(solViatico.cantidadObtenida);
-    //   });
-
-    //   // console.log("solicitudViaticos: ", solicitudViaticos);
-
-    //   // Cambia estado de la solicitud:
-    //   this.solicitud = solicitud;
-    //   this.solicitudViaticos = solicitudViaticos;
-    //   this.solicitudVisible = true;
-
-    // },
-
+    // ++++++++++++++++++++++++++++++++++++++++ Solicitud Viaticos ++++++++++++++++++++++++++++++++++++++++
 
     AsignarSolicitudes(solicitud, solViaticos){
 
@@ -414,160 +385,43 @@ name: "aportaciones",
       this.solicitud = solicitud;
       this.solicitudViaticos = solViaticos;
       this.solicitudVisible = true;
-
     },
 
 
 
     MostrarSolicitud(solicitud, solicitudViaticos) {
 
-      // "solicitudViaticos": [
-      //   {
-      //     "rubro": "hospedajeAlimentacion",
-      //     "nombre": "Hospedaje y alimentación",
-      //     "cantidadSolicitada": "12000",
-      //     "cantidadObtenida": "6000"
-      //   },
-      //   {
-      //     "rubro": "transporteAereo",
-      //     "nombre": "Transporte aéreo",
-      //     "cantidadSolicitada": "30000",
-      //     "cantidadObtenida": "0"
-      //   },
-      //   {
-      //     "rubro": "transporteInterno",
-      //     "nombre": "Transporte interno",
-      //     "cantidadSolicitada": "2500",
-      //     "cantidadObtenida": "2500"
-      //   },
-      //   {
-      //     "rubro": "combustible",
-      //     "nombre": "Combustible",
-      //     "cantidadSolicitada": "0",
-      //     "cantidadObtenida": "0"
-      //   },
-      //   {
-      //     "rubro": "otrosConceptos",
-      //     "nombre": "Otros conceptos",
-      //     "cantidadSolicitada": "0",
-      //     "cantidadObtenida": "0"
-      //   }
-      // ]
-
-
-
-      // "solicitudViaticos": {
-      //   "hospedajeAlimentacion": {
-      //     "cantidadSolicitada": "12000.00",
-      //     "cantidadFaltante": "6000.00"
-      //   },
-      //   "transporteAereo": {
-      //     "cantidadSolicitada": "30000.00",
-      //     "cantidadFaltante": "30000.00"
-      //   },
-      //   "transporteInterno": {
-      //     "cantidadSolicitada": "2500.00",
-      //     "cantidadFaltante": "0"
-      //   },
-      //   "combustible": {
-      //     "cantidadSolicitada": "0",
-      //     "cantidadFaltante": "0"
-      //   },
-      //   "otrosConceptos": {
-      //     "cantidadSolicitada": "0",
-      //     "cantidadFaltante": "0"
-      //   }
-      // }
-
-
-
-      // // Convierte campos numericos de solicitud de viaticos a number:
-      // // hospedajeAlimentacion:
-      // solicitudViaticos.hospedajeAlimentacion.cantidadSolicitada = parseFloat(solicitudViaticos.hospedajeAlimentacion.cantidadSolicitada);
-      // solicitudViaticos.hospedajeAlimentacion.cantidadFaltante = parseFloat(solicitudViaticos.hospedajeAlimentacion.cantidadFaltante);
-      // // transporteAereo:
-      // solicitudViaticos.transporteAereo.cantidadSolicitada = parseFloat(solicitudViaticos.transporteAereo.cantidadSolicitada);
-      // solicitudViaticos.transporteAereo.cantidadFaltante = parseFloat(solicitudViaticos.transporteAereo.cantidadFaltante);
-      // // transporteInterno:
-      // solicitudViaticos.transporteInterno.cantidadSolicitada = parseFloat(solicitudViaticos.transporteInterno.cantidadSolicitada);
-      // solicitudViaticos.transporteInterno.cantidadFaltante = parseFloat(solicitudViaticos.transporteInterno.cantidadFaltante);
-      // // combustible:
-      // solicitudViaticos.combustible.cantidadSolicitada = parseFloat(solicitudViaticos.combustible.cantidadSolicitada);
-      // solicitudViaticos.combustible.cantidadFaltante = parseFloat(solicitudViaticos.combustible.cantidadFaltante);
-      // // otrosConceptos:
-      // solicitudViaticos.otrosConceptos.cantidadSolicitada = parseFloat(solicitudViaticos.otrosConceptos.cantidadSolicitada);
-      // solicitudViaticos.otrosConceptos.cantidadFaltante = parseFloat(solicitudViaticos.otrosConceptos.cantidadFaltante);
-
-
-
-      // solicitudViaticos.forEach(solViatico => {
-      //   solViatico.cantidadSolicitada = parseFloat(solViatico.cantidadSolicitada);
-      //   solViatico.cantidadObtenida = parseFloat(solViatico.cantidadObtenida);
-      // });
-
-      // console.log("solicitud: ", solicitud);
-      // console.log("solicitudViaticos: ", solicitudViaticos);
+      // Asigna this a una variable local:
+      var data = this;
 
       // No se esta mostrando ninguna solicitud:
       if(this.solicitud == null){
-
-        
-
-        // Cambia estado de la solicitud:
-        // this.solicitud = solicitud;
-        // this.solicitudViaticos = solicitudViaticos;
-        // this.solicitudVisible = true;
-
         // Asigna solicitudes:
         this.AsignarSolicitudes(solicitud, solicitudViaticos);
-
-        console.log("IF");
-        console.log("solicitud: ", this.solicitud);
-        console.log("solicitudViaticos: ", this.solicitudViaticos);
       }
       // Hay una solicitud y la cambia:
       else{
-
-        
-
         // Oculta solicitud anterior:
         this.solicitud = null;
         this.solicitudViaticos = null;
         this.solicitudVisible = false;
-        // Espera 0.25 segundos para que la transicion de esconder la solicitud anterior comience:
-        var data = this;
-        setTimeout(function () {
-          // Muestra nueva solicitud despues de 0.25 segundos:
-          // data.solicitud = solicitud;
-          // data.solicitudViaticos = solicitudViaticos;
-          // data.solicitudVisible = true;
 
+        // Espera 0.25 segundos para que la transicion de esconder la solicitud anterior comience:
+        setTimeout(function () {
           // Asigna solicitudes:
           data.AsignarSolicitudes(solicitud, solicitudViaticos);
 
-          console.log("ELSE");
-          console.log("solicitud: ", data.solicitud);
-          console.log("solicitudViaticos: ", data.solicitudViaticos);
-          
         }, 250);
       }
-
-
-
-      // console.log("solicitud: ", this.solicitud);
-      // console.log("solicitudViaticos: ", this.solicitudViaticos);
-
-    },
-
-    OcultarSolicitud() {
-      this.solicitud = null;
-      this.solicitudViaticos = null;
-      this.solicitudVisible = false;
     },
 
 
 
-    // ++++++++++++++++++++++++++++++++ Auxiliares ++++++++++++++++++++++++++++++++
+
+
+
+    // ++++++++++++++++++++++++++++++++++++++++ Aportaciones ++++++++++++++++++++++++++++++++++++++++
+
     ValidarAportacion(solicitudViatico) {
       try {
         // Convierte aportacion a float (cada que se borra por completo, se convierte en string):
@@ -576,142 +430,69 @@ name: "aportaciones",
         if(solicitudViatico.aportacion > 0  && solicitudViatico.aportacion <= this.finanzas.presupuestoDisponible && (solicitudViatico.aportacion + solicitudViatico.cantidadObtenida) <= solicitudViatico.cantidadSolicitada){
           // Asigna estado de la aportacion:
           solicitudViatico.aportacionValida = true;
-          return true;
         }
         else{
           solicitudViatico.aportacionValida = false;
-          return false;
         }
       } catch (error) {
         solicitudViatico.aportacionValida = false;
-        return false;
       }
     },
 
 
 
-
     DefinirAportacion(solicitudViatico) {
-      // Define objeto de aportacion
+      // Define objeto de aportacion vacio:
       this.aportacion = {};
 
+      // Define atributos del objeto:
       this.aportacion.benefactor =        this.trabajador.codigo;
       this.aportacion.division =          this.finanzas.division;
       this.aportacion.departamento =      this.finanzas.departamento;
-
       this.aportacion.beneficiario =      this.solicitud.codigoTrabajador;
       this.aportacion.folioComision =     this.solicitud.folio;
       this.aportacion.rubro =             solicitudViatico.rubro;
+      this.aportacion.nombre =            solicitudViatico.nombre;
       this.aportacion.cantidadAportada =  solicitudViatico.aportacion;
 
-      // Abre modal:
+      // Abre modal de confirmacion:
       this.$refs.modal_confirmar_aportacion.show();
     },
 
 
 
+    ConfirmarAportacion() {
 
-    ConfirmarAportacion(aportacion) {
 
-      console.log(this.aportacion);
+      // ENVIAR PETICION AL SERVIDOR
 
+
+      // Recorre arreglo de solicitud de viaticos:
+      this.solicitudViaticos.forEach(solicitud => {
+
+        if(solicitud.rubro == this.aportacion.rubro){
+          // Convierte las variables de vuelta a float y limita los decimales a 2 (toFixed() convierte la variable a string):
+          this.aportacion.cantidadAportada = parseFloat( this.aportacion.cantidadAportada.toFixed(2) );
+          solicitud.cantidadObtenida = parseFloat( solicitud.cantidadObtenida.toFixed(2) );
+
+          // Cambia estado de finanzas:
+          state.commit("ReducirPresupuestoDisponible", {
+            reduccion: this.aportacion.cantidadAportada
+          });
+
+          // Actualiza cantidad obtenidad de la solicitud:
+          solicitud.cantidadObtenida += this.aportacion.cantidadAportada;
+          // Limita los decimales y convierte de vuelta a float:
+          solicitud.cantidadObtenida = parseFloat( solicitud.cantidadObtenida.toFixed(2) );
+        }
+      });
     },
 
 
 
-    // ++++++++++++++++++++++++++++++++ Modal rechazar solicitud ++++++++++++++++++++++++++++++++
-    ReiniciarAportacion() {
-      this.aportacion = null;
-    },
 
 
-
-
-
-    RealizarAportacion(solicitudViatico) {
-
-      console.log(solicitudViatico);
-
-      // showMsgBoxTwo() {
-      //   this.boxTwo = ''
-      //   this.$bvModal.msgBoxConfirm('Por favor, confirme el aporte', {
-      //     title: 'Please Confirm',
-      //     size: 'sm',
-      //     buttonSize: 'sm',
-      //     okVariant: 'danger',
-      //     okTitle: 'YES',
-      //     cancelTitle: 'NO',
-      //     footerClass: 'p-2',
-      //     hideHeaderClose: false,
-      //     centered: true
-      //   })
-      //     .then(value => {
-      //       this.boxTwo = value
-      //     })
-      //     .catch(err => {
-      //       // An error occurred
-      //     })
-      // }
-
-      
-
-      this.$bvModal.msgBoxConfirm('Por favor, confirme el aporte para continuar. /n algo <strong>algo</strong>', 
-      {
-        title: "¿Desea continuar con la aportación?",
-        size: "md",
-        buttonSize: "md",
-        okVariant: "success",
-        okTitle: "Confirmar",
-        cancelTitle: "Cancelar",
-        footerClass: "p-2",
-        centered: true
-      })
-      .then(value => {
-        // this.boxTwo = value
-        console.log(value);
-      })
-      .catch(err => {
-        // An error occurred
-      })
-
-
-    //   <b-modal
-    //   id="modal_confirmar_aportacion"
-    //   ref="modal_confirmar_aportacion"
-    //   title="¿Desea continuar con la aportación?"
-    //   size= "md"
-    //   buttonSize="md"
-    //   okVariant="success"
-    //   okTitle="Confirmar"
-    //   cancelTitle="Cancelar"
-    //   footerClass="p-2"
-    //   centered
-    //   @ok="AutorizarSolicitud(solicitud)"
-    // >
-    //   Una vez confirmada la aportación, no podrá recuperarse el dinero aportado.
-    // </b-modal>
-
-      // this.$bvModal.show('modal_confirmar_aportacion')
-      // .then( function() {
-      //   console.log(value);
-      // })
-      // .catch(err => {
-      //   console.log("Error");
-      // });
-
-      // this.$refs.modal_confirmar_aportacion.show()
-      // .then(seleccion => {
-      //   // this.boxTwo = value
-      //   console.log(seleccion);
-      // })
-      // .catch(err => {
-      //   // An error occurred
-      // })
-
-    },
-
-
-
+    // ++++++++++++++++++++++++++++++++ Funciones auxiliares ++++++++++++++++++++++++++++++++
     MostrarPantallaCarga() {
       this.pantallaCargaVisible = true;
     },
@@ -721,10 +502,13 @@ name: "aportaciones",
     },
 
     FormatearNumero(numero) {
+      numero = parseFloat(numero).toFixed(2);
       var partesNumero = numero.toString().split(".");
       partesNumero[0] = partesNumero[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       return partesNumero.join(".");
     },
+
+
 
   }
 };

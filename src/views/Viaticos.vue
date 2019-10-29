@@ -338,31 +338,6 @@ export default {
 
 
 
-    // ++++++++++++++++++++++++++++++++ Viaticos ++++++++++++++++++++++++++++++++
-
-    // MostrarSolicitudViaticos() {
-    //   // Si hay una comision inactiva visible, espera a que es esconda:
-    //   if(this.comisionInactivaVisible == true){
-    //     // Esconde comision inactiva:
-    //     this.OcultarComisionInactiva();
-    //     // Espera 0.25 segundos para que la transicion de esconder la comision anterior comience:
-    //     var data = this;
-    //     setTimeout(function () {
-    //       // Muestra nueva comision despues de 0.25 segundos:
-    //       data.formComisionVisible = true;
-    //     }, 250);
-    //   }
-    //   else{
-    //     // Cambia estado del form:
-    //     this.formComisionVisible = true;
-    //   }
-    // },
-
-    // OcultarSolicitudViaticos() {
-    //   // Cambia estado del form:
-    //   this.formComisionVisible = false;
-    // },
-
   }
 };
 </script>

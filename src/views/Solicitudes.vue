@@ -222,7 +222,6 @@ export default {
 name: "solicitudes",
   computed: {
     ...mapState({
-      trabajador: "trabajador",
       solicitudesPendientes: "solicitudesPendientes",
     })
   },
@@ -241,6 +240,15 @@ name: "solicitudes",
 
     };
   },
+
+
+
+  created: function () {
+    console.log("solicitudes");
+  },
+
+
+
   methods: {
     
     MostrarSolicitud(solicitud) {
