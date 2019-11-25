@@ -62,14 +62,58 @@
         <hr>
 
         <b-row class="mt-2">
-          <b-col cols="7">
-            <p align="left">Dependencia:</p>
-            <b-form-input 
-              id="dependencia-input" 
-              placeholder="dependencia..." 
-            >
-            </b-form-input>
-          </b-col>
+          
+          <!-- Columnas dinamicas (tipo de beneficiario) -->
+          <transition enter-active-class="animated fade-in-top" leave-active-class="animated fade-out-top">
+
+            <div v-if="beneficiarioInvitado == false">
+              <b-row align-h="start" class="mt-2">
+                <b-col lg="7">
+                  <p align="left">Código de trabajador:</p>
+                  <!-- No se recibio una comision como parametro. Es una solicitud nueva -->
+                  <div v-if="comision.folio == null">
+                    <b-form-input :placeholder="trabajador.codigo" :disabled="true" >
+                    </b-form-input>
+                  </div>
+                  <!-- Comision recibida como parametro. Se muestran sus datos -->
+                  <div v-else>
+                    <b-form-input :placeholder="comision.codigoTrabajador" :disabled="true" >
+                    </b-form-input>
+                  </div>
+                </b-col>
+              </b-row>
+
+              <b-row align-h="start" class="mt-2">
+                <b-col lg="7">
+                  <p align="left">Nombre:</p>
+                  <!-- No se recibio una comision como parametro. Es una solicitud nueva -->
+                  <div v-if="comision.folio == null">
+                    <b-form-input :placeholder="trabajador.nombre" :disabled="true" >
+                    </b-form-input>
+                  </div>
+                  <!-- Comision recibida como parametro. Se muestran sus datos -->
+                  <div v-else>
+                    <b-form-input :placeholder="comision.nombreSolicitante" :disabled="true" >
+                    </b-form-input>
+                  </div>
+                </b-col>
+              </b-row>
+            </div>
+
+            <div v-else>
+              <b-row class="mt-1">
+                <b-col cols="7">
+                  <p align="left">Nombre del invitado:</p>
+                  <b-form-input 
+                    id="dependencia-input" 
+                    placeholder="nombre..." 
+                  >
+                  </b-form-input>
+                </b-col>
+              </b-row>
+            </div>
+
+          </transition>
 
           <b-col cols="5">
             <p align="left">Tipo de beneficiario:</p>
@@ -77,7 +121,7 @@
               <b-form-radio-group 
               id="radio-1"
               name="radios-stacked" 
-              v-model="esInvitado"
+              v-model="beneficiarioInvitado"
               stacked
               >
                 <b-form-radio :value="false">Empleado o funcionario universitario</b-form-radio>
@@ -88,37 +132,10 @@
         </b-row>
 
 
-        <b-row align-h="start" class="mt-2">
-          <b-col lg="7">
-            <p align="left">Código de trabajador:</p>
-            <!-- No se recibio una comision como parametro. Es una solicitud nueva -->
-            <div v-if="comision.folio == null">
-              <b-form-input :placeholder="trabajador.codigo" :disabled="true" >
-              </b-form-input>
-            </div>
-            <!-- Comision recibida como parametro. Se muestran sus datos -->
-            <div v-else>
-              <b-form-input :placeholder="comision.codigoTrabajador" :disabled="true" >
-              </b-form-input>
-            </div>
-          </b-col>
-        </b-row>
+        
 
-        <b-row align-h="start" class="mt-2">
-          <b-col lg="7">
-            <p align="left">Nombre:</p>
-            <!-- No se recibio una comision como parametro. Es una solicitud nueva -->
-            <div v-if="comision.folio == null">
-              <b-form-input :placeholder="trabajador.nombre" :disabled="true" >
-              </b-form-input>
-            </div>
-            <!-- Comision recibida como parametro. Se muestran sus datos -->
-            <div v-else>
-              <b-form-input :placeholder="comision.nombreSolicitante" :disabled="true" >
-              </b-form-input>
-            </div>
-          </b-col>
-        </b-row>
+
+        
 
         
         
@@ -1265,6 +1282,8 @@ export default {
   
   data() {
     return {
+
+      beneficiarioInvitado: false,
 
       esInvitado: false,
       noProyectos: 1,
