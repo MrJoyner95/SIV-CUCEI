@@ -83,7 +83,7 @@
                 <b-col md="5">
                   <h5 align="left" class="titleColor"> Historial de comisiones: </h5>
                   <b-list-group>
-                    <div v-for="comisionItem in historialComisiones.comisiones" v-bind:key="comisionItem.folio">
+                    <div v-for="comisionItem in historialComisiones" v-bind:key="comisionItem.folio">
                       <b-list-group-item 
                         href="#" 
                         @click="MostrarComisionInactiva(comisionItem)"

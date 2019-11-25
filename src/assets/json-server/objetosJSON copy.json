@@ -10,13 +10,13 @@
       "token": "AAJJsasfg-1243-df-asda"
     },
 
-    "comisionActiva_X": null,
+    "comisionActiva_Z": null,
   
     "comisionActiva": {
       "folio": "000001",
       "fechaCreacion": "31/12/2020",
       "fechaEnvio": "31/12/2020",
-      "fechaAutorizacion": "01/01/2021",
+      "fechaAutorizacion": null,
       "fechaConclusion": null,
       "estatus": "AU",
       "codigoTrabajador": "211693760",
@@ -57,92 +57,94 @@
 
 
 
-    "historialComisiones": [
-      {
-        "folio": "000001",
-        "fechaCreacion": "31/12/2020",
-        "fechaEnvio": "31/12/2020",
-        "fechaAutorizacion": "1/1/2021",
-        "fechaConclusion": "3/1/2021",
-        "estatus": "CO",
-        "codigoTrabajador": "211693760",
-        "nombreSolicitante": "Octavio Romo",
-        "areaAdscripcion": "N/A",
-        "tipo": "extranjero",
-        "destino": "Polonia",
-        "plazaLaboral": "Investigador",
-        "justificacion": "Quiero ir a una conferencia.",
-        "programaTrabajo": "N/A",
-        "objetivoTrabajo": "Aprender cosas y traer regalos.",
-        "evento": "Comic-Con Estambul 2019",
-        "programa": [
-          {
-            "dia": "1",
-            "fecha": "2019-12-30",
-            "lugar": "Estambul, Turquia.",
-            "tareas": "Pensar"
-          }
-        ],
-        "invitacionEvento": "link del archivo adjunto",
-        "programaEvento": "link del archivo adjunto"
-      },
-      {
-        "folio": "000002",
-        "fechaCreacion": "31/12/2020",
-        "fechaEnvio": "31/12/2020",
-        "fechaAutorizacion": "1/1/2021",
-        "fechaConclusion": "3/1/2021",
-        "estatus": "CO",
-        "codigoTrabajador": "211693760",
-        "nombreSolicitante": "Octavio Romo",
-        "areaAdscripcion": "N/A",
-        "tipo": "extranjero",
-        "destino": "Alemania",
-        "plazaLaboral": "Investigador",
-        "justificacion": "Quiero ir a una conferencia.",
-        "programaTrabajo": "N/A",
-        "objetivoTrabajo": "Aprender cosas y traer regalos.",
-        "evento": "Comic-Con Estambul 2019",
-        "programa": [
-          {
-            "dia": "1",
-            "fecha": "2019-12-30",
-            "lugar": "Estambul, Turquia.",
-            "tareas": "Pensar"
-          }
-        ],
-        "invitacionEvento": "link del archivo adjunto",
-        "programaEvento": "link del archivo adjunto"
-      },
-      {
-        "folio": "000003",
-        "fechaCreacion": "31/12/2020",
-        "fechaEnvio": "31/12/2020",
-        "fechaAutorizacion": null,
-        "fechaConclusion": null,
-        "estatus": "RE",
-        "codigoTrabajador": "211693760",
-        "nombreSolicitante": "Octavio Romo",
-        "areaAdscripcion": "N/A",
-        "tipo": "extranjero",
-        "destino": "Rusia",
-        "plazaLaboral": "Investigador",
-        "justificacion": "Quiero ir a una conferencia.",
-        "programaTrabajo": "N/A",
-        "objetivoTrabajo": "Aprender cosas y traer regalos.",
-        "evento": "Comic-Con Estambul 2019",
-        "programa": [
-          {
-            "dia": "1",
-            "fecha": "2019-12-30",
-            "lugar": "Estambul, Turquia.",
-            "tareas": "Pensar"
-          }
-        ],
-        "invitacionEvento": "link del archivo adjunto",
-        "programaEvento": "link del archivo adjunto"
-      }
-    ],
+    "historialComisiones": {
+      "comisiones": [
+        {
+          "folio": "000001",
+          "fechaCreacion": "31/12/2020",
+          "fechaEnvio": "31/12/2020",
+          "fechaAutorizacion": "1/1/2021",
+          "fechaConclusion": "3/1/2021",
+          "estatus": "CO",
+          "codigoTrabajador": "211693760",
+          "nombreSolicitante": "Octavio Romo",
+          "areaAdscripcion": "N/A",
+          "tipo": "extranjero",
+          "destino": "Polonia",
+          "plazaLaboral": "Investigador",
+          "justificacion": "Quiero ir a una conferencia.",
+          "programaTrabajo": "N/A",
+          "objetivoTrabajo": "Aprender cosas y traer regalos.",
+          "evento": "Comic-Con Estambul 2019",
+          "programa": [
+            {
+              "dia": "1",
+              "fecha": "2019-12-30",
+              "lugar": "Estambul, Turquia.",
+              "tareas": "Pensar"
+            }
+          ],
+          "invitacionEvento": "link del archivo adjunto",
+          "programaEvento": "link del archivo adjunto"
+        },
+        {
+          "folio": "000002",
+          "fechaCreacion": "31/12/2020",
+          "fechaEnvio": "31/12/2020",
+          "fechaAutorizacion": "1/1/2021",
+          "fechaConclusion": "3/1/2021",
+          "estatus": "CO",
+          "codigoTrabajador": "211693760",
+          "nombreSolicitante": "Octavio Romo",
+          "areaAdscripcion": "N/A",
+          "tipo": "extranjero",
+          "destino": "Alemania",
+          "plazaLaboral": "Investigador",
+          "justificacion": "Quiero ir a una conferencia.",
+          "programaTrabajo": "N/A",
+          "objetivoTrabajo": "Aprender cosas y traer regalos.",
+          "evento": "Comic-Con Estambul 2019",
+          "programa": [
+            {
+              "dia": "1",
+              "fecha": "2019-12-30",
+              "lugar": "Estambul, Turquia.",
+              "tareas": "Pensar"
+            }
+          ],
+          "invitacionEvento": "link del archivo adjunto",
+          "programaEvento": "link del archivo adjunto"
+        },
+        {
+          "folio": "000003",
+          "fechaCreacion": "31/12/2020",
+          "fechaEnvio": "31/12/2020",
+          "fechaAutorizacion": null,
+          "fechaConclusion": null,
+          "estatus": "RE",
+          "codigoTrabajador": "211693760",
+          "nombreSolicitante": "Octavio Romo",
+          "areaAdscripcion": "N/A",
+          "tipo": "extranjero",
+          "destino": "Rusia",
+          "plazaLaboral": "Investigador",
+          "justificacion": "Quiero ir a una conferencia.",
+          "programaTrabajo": "N/A",
+          "objetivoTrabajo": "Aprender cosas y traer regalos.",
+          "evento": "Comic-Con Estambul 2019",
+          "programa": [
+            {
+              "dia": "1",
+              "fecha": "2019-12-30",
+              "lugar": "Estambul, Turquia.",
+              "tareas": "Pensar"
+            }
+          ],
+          "invitacionEvento": "link del archivo adjunto",
+          "programaEvento": "link del archivo adjunto"
+        }
+      ]
+    },
 
 
 
