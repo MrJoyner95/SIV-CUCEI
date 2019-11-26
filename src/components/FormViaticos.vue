@@ -9,7 +9,7 @@
 
     <b-card bg-variant="light">
 
-      <b-form @submit="$bvModal.show('modal_enviar_solicitud')">
+      <!-- <b-form> -->
 
         <!-- ++++++++++++++++++++++++++++++++ Datos generales de la solicitud ++++++++++++++++++++++++++++++++ -->
         <div v-if="1 == 1">
@@ -31,9 +31,8 @@
 
 
         <!-- Solicitud con datos -->
-        <div v-if="comision != null">
+        <!-- <div v-if="comision != null">
 
-          <!-- Solicitud PE / AU / RE / EP / CO -->
           <div v-if="comision.fechaEnvio != null">
             <b-row align-h="end" class="mt-2">
               <b-col>
@@ -42,7 +41,7 @@
             </b-row>
           </div>
           
-        </div>
+        </div> -->
 
 
 
@@ -121,12 +120,14 @@
             <!-- El beneficiario es un invitado -->
             <transition enter-active-class="animated fade-in-fwd" leave-active-class="animated fade-out-bck">
               <div v-if="beneficiarioInvitado == true && animacionActiva == false">
-                <p align="left">Nombre del invitado:</p>
-                <b-form-input 
-                  id="dependencia-input" 
-                  placeholder="nombre..." 
+                <b-form-group
+                  label="Nombre del invitado:"
                 >
-                </b-form-input>                
+                  <b-form-input 
+                    placeholder="nombre..." 
+                  >
+                  </b-form-input>
+                </b-form-group>           
               </div>
             </transition>
 
@@ -212,10 +213,25 @@
 
         <!-- <h1>{{diaSeleccionado}}</h1> -->
 
+        <b-row>
+          <b-col md="9">
+            <p align="left"> Se ofrece la máxima cantidad por día. Puede modificar los valores. </p>
+          </b-col>
+          <b-col md="3">
+            <template v-if="this.diaSeleccionado.dia != 'null'">
+              <b-button v-b-modal.modal_editar_dia_gastos block variant="outline-primary">Editar día</b-button>
+            </template>
+            <template v-else>
+              <b-button disabled block variant="outline-secondary">Editar día</b-button>
+            </template>
+          </b-col>
+        </b-row>
+
         <b-row class="mt-2">
           <b-col md="12">
 
-            <p align="left"> Se ofrece la máxima cantidad por día. Puede modificar los valores. </p>
+            <!-- <p align="left"> Se ofrece la máxima cantidad por día. Puede modificar los valores. </p> -->
+
             <b-table
               ref="tablaGastos"
               head-variant="dark"
@@ -235,7 +251,7 @@
         </b-row>
 
         <!-- Acciones de la tabla -->
-        <b-row align-h="center">
+        <!-- <b-row align-h="center">
           <b-col md="3">
             <template v-if="this.diaSeleccionado.dia != 'null'">
               <b-button v-b-modal.modal_editar_dia_gastos block variant="outline-primary">Editar día</b-button>
@@ -243,6 +259,29 @@
             <template v-else>
               <b-button disabled block variant="outline-secondary">Editar día</b-button>
             </template>
+          </b-col>
+        </b-row> -->
+
+
+
+
+        <b-row align-h="center">
+          <h6> Total solicitado: $ {{totalSolicitado}} MXN </h6>
+        </b-row>
+
+        <b-row align-h="center" class="mt-1">
+          <b-col md="12">
+            <b-form-group
+              label="Comentarios:"
+            >
+              <b-form-textarea
+                v-model="comentario" 
+                placeholder="comentario..." 
+                rows="2"
+                max-rows="3"
+              >
+              </b-form-textarea>
+            </b-form-group>
           </b-col>
         </b-row>
 
@@ -256,7 +295,7 @@
 
         <!-- ++++++++++++++++++++++++++++++++++++++++ Acciones del form ++++++++++++++++++++++++++++++++++++++++ -->
 
-        <hr class="mt-5">
+        <hr class="mt-3">
           <b-row class="mt-4" align-h="center">
 
 
@@ -279,7 +318,7 @@
                 block 
                 variant="primary" 
                 v-b-tooltip.hover title="Una vez guardada, la solicitud no podrá editarse." 
-                type="submit" 
+                v-on:click="$bvModal.show('modal_enviar_solicitud')"
               >
                 Guardar solicitud
               </b-button>
@@ -296,7 +335,7 @@
 
         
 
-      </b-form>
+      <!-- </b-form> -->
     
     </b-card>
 
@@ -304,6 +343,25 @@
 
 
 
+
+
+
+
+    <!-- Modal Enviar Solicitud -->
+    <b-modal
+      id="modal_enviar_solicitud"
+      title="¿Desea enviar la solicitud?"
+      size= "md"
+      buttonSize="sm"
+      okVariant="success"
+      okTitle="Enviar solicitud"
+      cancelTitle="Cancelar envío"
+      footerClass="p-2"
+      centered
+      @ok="EnviarSolicitud()"
+    >
+      Una vez enviada la solicitud, no podrán modificarse las cantidades solicitadas.
+    </b-modal>
 
 
 
@@ -465,78 +523,6 @@ export default {
 
 
 
-
-
-
-
-
-
-      esInvitado: false,
-      noProyectos: 1,
-
-        comision: {
-        folio: "",
-        fecha: "",
-        codigoTrabajador: "",
-        nombreSolicitante: "",
-        areaAdscripcion: "",
-        tipoComision: "",
-        destinoComision: "",
-        plazaLaboral: "",
-        justificacion: "",
-        programaTrabajo: "",
-        objetivoTrabajo: "",
-        eventoComision: "",
-        programaComision: [
-          {
-            dia: "",
-            lugar: "",
-            tareas: ""
-          }
-        ]
-      },
-
-      tipoComision: {
-        opciones: [
-          { value: null, text: 'Seleccione un tipo' },
-          { value: 'a', text: 'Tipo a' },
-          { value: 'b', text: 'Tipo b' },
-          { value: 'c', text: 'Tipo c' },
-          { value: 'd', text: 'Tipo d (no disponible)', disabled: true }
-        ]
-      },
-      destinoComision: {
-        opciones: []
-      },
-      archivoInvitacion: null,
-      archivoPrograma: null,
-
-
-      // Viaticos:
-      viaticos: {
-        dependencia: null,
-        esEmpleado: null,
-        nombreInvitado: null,
-        proyectos: [],
-        dias: [],
-        comentarios: null
-      },
-
-
-
-      // Tabla editable:
-      headersTabla: [
-        { key: "dia", label: "Día", sortable: false, variant: "secondary" },
-        { key: "alimentacion", label: "Alimentación", sortable: false },
-        { key: "hospedaje", label: "Hospedaje", sortable: false },
-        { key: "transporte_foraneo", label: "Transporte foráneo", sortable: false },
-        { key: "transporte_local", label: "Transporte local", sortable: false },
-        { key: "combustible", label: "Combustible", sortable: false },
-        { key: "otros_conceptos", label: "Otros conceptos", sortable: false },
-        { key: "suma", label: "Suma", sortable: false, variant: "secondary" }
-      ],
-      // Dias:
-      dias: [],
       // Dia seleccionado:
       diaSeleccionado: {
         dia: "null",
@@ -549,55 +535,15 @@ export default {
         suma: "null"
       },
 
-      // Dia base:
-      // Al inicializar la aplicacion se deben asignar los valores maximos del tabulador al dia, en lugar de null.
-      diaBase: {
-        alimentacion: "0",
-        hospedaje: "0",
-        transporte_foraneo: "0",
-        transporte_local: "0",
-        combustible: "0",
-        otros_conceptos: "0"
-      },
-      // Dia nuevo:
-      // Se usa como modelo para manejar los datos de un dia nuevo:
-      diaNuevo: {
-        alimentacion: "null",
-        hospedaje: "null",
-        transporte_foraneo: "null",
-        transporte_local: "null",
-        combustible: "null",
-        otros_conceptos: "null"
-      },
-
-      // diaSeleccionado: null,
-
-      // Modals Dia:
-      estadoModalAgregarDia: null,
       estadoModalEditarDia: null,
 
 
+      totalSolicitado: 0,
 
-      // Tabla Proyectos:
-      headersTablaProyectos: [
-        { key: "nombre", label: "Proyecto", sortable: false }
-      ],
-      
-      proyectoTemplate: {
-        indice: null,
-        nombre: null,
-      },
+      comentario: null,
 
-      // Proyecto seleccionado en los modals:
-      proyectoSeleccionado: null,
-      opcionesProyectos: [
-        { value: 'a', text: 'proyecto A' },
-        { value: 'b', text: 'proyecto B' },
-        { value: 'c', text: 'proyecto C' }
-      ],
-      // Modals Proyecto:
-      estadoModalAgregarProyecto: null,
-      estadoModalEditarProyecto: null,
+
+
 
 
     }
@@ -608,22 +554,9 @@ export default {
 
 
   created: function () {
-    // Inicializa el objeto diasGastos:
-    for (let i = 0; i < this.comisionActiva.programa.length; i++) {
-      // Define dia nuevo:
-      var diaNuevo = {
-        dia: i+1,
-        alimentacion: 0,
-        hospedaje: 0,
-        transporte_foraneo: 0,
-        transporte_local: 0,
-        combustible: 0,
-        otros_conceptos: 0,
-        suma: 0
-      }
-      // Agrega dia al arreglo:
-      this.diasGastos.push(diaNuevo);
-    }
+    this.InicializarTablaGastos();
+
+    this.CalcularTotalSolicitado();
   },
 
 
@@ -632,167 +565,7 @@ export default {
 
   methods:{
 
-    // ++++++++++++++++++++++++++++++++ Tabla Proyectos ++++++++++++++++++++++++++++++++
-    SeleccionarProyecto(item){
-      // Verifica si se selecciono un objeto de la tabla o se quito la seleccion:
-      if(item[0]){
-        // Copia valor del item a proyectoTemplate:
-        this.proyectoTemplate = JSON.parse(JSON.stringify(item[0]));
-      }
-      else{
-        // Regresa al valor inicial:
-        this.ReiniciarProyectoTemplate();
-      }
-    },
-
-    AgregarProyecto(proyectoNuevo){
-      // Copia template de proyecto:
-      var proyecto = JSON.parse(JSON.stringify(this.proyectoTemplate));
-      // Copia proyecto seleccionado:
-      proyecto.nombre = JSON.parse(JSON.stringify(proyectoNuevo));
-      // Comprobaciones de fecha:
-
-      // Agrega el indice de proyecto:
-      var contProy = this.viaticos.proyectos.length;
-      proyecto.indice = contProy.toString();
-      // Agrega dia al arreglo de la comision:
-      this.viaticos.proyectos.push(proyecto);
-    },    
-
-    EditarProyecto(proySel){
-      // Comprueba que haya un proyecto seleccionado:
-      if(this.proyectoTemplate.indice != null){
-        // Copia template de proyecto:
-        var proyecto = JSON.parse(JSON.stringify(this.proyectoTemplate));
-        // Copia proySel (opcion seleccionada en modal):
-        proyecto.nombre = JSON.parse(JSON.stringify(proySel));
-        // Copia indice de proyectoTemplate:
-        proyecto.indice = JSON.parse(JSON.stringify(this.proyectoTemplate.indice)); 
-        // Comprobaciones de fecha:
-
-        // Copia valor de proyecto al arreglo:
-        this.viaticos.proyectos[ parseInt(proyecto.indice) ] = proyecto;
-        // Refresca tabla del programa:
-        this.$refs.tablaProyectos.refresh();
-      }
-    },
-
-    EliminarProyecto(){
-      // Comprueba que haya un proyecto seleccionado:
-      if(this.proyectoTemplate.indice != null){
-        // Obtiene indice del objeto:
-        var indiceProyecto = JSON.parse(JSON.stringify(this.proyectoTemplate.indice));
-        indiceProyecto = parseInt(indiceProyecto);
-        // Elimina objeto del arreglo:
-        this.viaticos.proyectos.splice(indiceProyecto, 1);
-        // Recalcula los valores de indice:
-        for (let i = 0; i < this.viaticos.proyectos.length; i++) {
-          this.viaticos.proyectos[i].indice = i;
-        }
-        // Refresca tabla del programa:
-        this.$refs.tablaProyectos.refresh();
-      }
-    },
-
-    ReiniciarProyectoTemplate(){
-      this.proyectoTemplate = {
-        indice: null,
-        nombre: null
-      }
-    },
-
-
-    // ++++++++++++++++++++++++++++++++ Modal Agregar Proyecto ++++++++++++++++++++++++++++++++
-    ComprobarModalAgregarProyecto() {
-      // Comprueba que haya seleccionado una opcion de proyecto:
-      if(this.proyectoSeleccionado === null){
-        this.estadoModalAgregarProyecto = false;
-        return false;
-      }
-      // Comprueba el estado del form:
-      const valid = this.$refs.modal_agregar_proyecto_form.checkValidity();
-      this.estadoModalAgregarProyecto = valid ? "valid" : "invalid";
-      return valid;
-    },
-    ReiniciarModalAgregarProyecto() {
-      this.estadoModalAgregarProyecto = null;
-      this.ReiniciarProyectoTemplate();
-    },
-    OkModalAgregarProyecto(bvModalEvt) {
-      // Previene default:
-      bvModalEvt.preventDefault();
-      // Se sale si el form no es valido:
-      if (!this.ComprobarModalAgregarProyecto()) {
-        return;
-      }
-      // Agrega proyecto:
-      this.AgregarProyecto(this.proyectoSeleccionado);
-      // Esconde modal:
-      this.$nextTick(() => {
-        this.$refs.modal_agregar_proyecto.hide();
-      });
-    },
-
-
-    // ++++++++++++++++++++++++++++++++ Modal Editar Proyecto ++++++++++++++++++++++++++++++++
-    ComprobarModalEditarProyecto() {
-      // Comprueba que haya seleccionado una opcion de proyecto:
-      if(this.proyectoSeleccionado === null){
-        this.estadoModalEditarProyecto = false;
-        return false;
-      }
-      // Comprueba el estado del form:
-      const valid = this.$refs.modal_editar_proyecto_form.checkValidity();
-      this.estadoModalEditarProyecto = valid ? "valid" : "invalid";
-      return valid;
-    },
-    ReiniciarModalEditarProyecto() {
-      this.estadoModalEditarProyecto = null;
-    },
-    OkModalEditarProyecto(bvModalEvt) {
-      // Previene default:
-      bvModalEvt.preventDefault();
-      // Sale si el form no es valido:
-      if (!this.ComprobarModalEditarProyecto()) {
-        return;
-      }
-      // Agrega dia:
-      this.EditarProyecto(this.proyectoSeleccionado);
-      // Esconde modal:
-      this.$nextTick(() => {
-        this.$refs.modal_editar_proyecto.hide();
-      });
-    },
-
-
-
-
-
-    // ++++++++++++++++++++++++++++++++ Tabla Gastos ++++++++++++++++++++++++++++++++
-    AgregarDia(diaNuevo){
-      // NOTAS:
-      // se agregan las propiedades "dia" y "suma" en este metodo.
-
-      // Copia diaNuevo:
-      var dia = JSON.parse(JSON.stringify(diaNuevo));
-
-      // Calcula la suma del dia:
-      var suma = 0;
-      for( var rubro in dia ) {
-        if( dia.hasOwnProperty( rubro ) && rubro != "dia" && rubro != "suma" ) {
-          suma += parseFloat( dia[rubro] );
-        }
-      }
-      dia.suma = suma;
-
-      // Calcula el indice de dia:
-      var contDia = this.dias.length + 1;
-      dia.dia = contDia.toString();
-
-      // Agrega dia al arreglo:
-      this.dias.push(dia);
-    },
-
+    // ++++++++++++++++++++++++++++++++++++++++ Tabla Gastos ++++++++++++++++++++++++++++++++++++++++
     SeleccionarDia(item){
       // Verifica si se selecciono un objeto de la tabla o se quito la seleccion:
       if(item[0]){
@@ -814,6 +587,8 @@ export default {
       }
     },
 
+
+
     EditarDia(diaSel){
       // Comprueba que haya un dia seleccionado:
       if(diaSel.dia != "null"){
@@ -830,86 +605,20 @@ export default {
         dia.suma = suma;
 
         // Copia valor de diaSeleccionado al arreglo (toma el indice de diaSeleccionado):
-        // this.dias[ parseInt(dia.dia) - 1 ] = dia;
-        
         this.diasGastos[ parseInt(dia.dia) - 1 ] = dia;
-
-
         // Refresca tabla:
-        // this.$refs.tablaDias.refresh();
-
         this.$refs.tablaGastos.refresh();
-      }
-    },
 
-    EliminarDia(diaSel){
-      // Comprueba que haya un dia seleccionado:
-      if(diaSel.dia != "null"){
-        // Obtiene indice del objeto:
-        var indiceDia = JSON.parse(JSON.stringify(diaSel.dia));
-        indiceDia = parseInt(indiceDia - 1);
-
-        // Elimina objeto del arreglo:
-        this.dias.splice(indiceDia, 1);
-
-        // Recalcula los valores de dia:
-        for (let i = 0; i < this.dias.length; i++) {
-          this.dias[i].dia = i + 1;
-        }
-
-        // Refresca tabla:
-        this.$refs.tablaDias.refresh();
+        // Recalcula el total solicitado:
+        this.CalcularTotalSolicitado();
       }
     },
 
 
-    // ++++++++++++++++++++++++++++++++ Modal Agregar Dia ++++++++++++++++++++++++++++++++
-    ComprobarModalAgregarDia() {
-      // Si algun rubro de diaNuevo es negativo o no es indice, regresa null:
-      var dia = JSON.parse(JSON.stringify(this.diaNuevo));
-      for( var rubro in dia ) {
-        try {
-          var cantidad = parseFloat(dia[rubro]);
-          if( cantidad < 0 ){
-            this.estadoModalAgregarDia = false;
-            return false;
-          }
-        } catch (error) {
-          this.estadoModalAgregarDia = false;
-          return false;
-        }
-      }
-
-      // Comprueba el estado del form:
-      const valid = this.$refs.modal_agregar_dia_form.checkValidity();
-      this.estadoModalAgregarDia = valid ? "valid" : "invalid";
-      return valid;
-    },
-    ReiniciarModalAgregarDia() {
-      this.estadoModalAgregarDia = null;
-      // Copia valor de diaBase en diaNuevo:
-      this.diaNuevo = JSON.parse(JSON.stringify(this.diaBase));
-    },
-    OkModalAgregarDia(bvModalEvt) {
-      // Previene default:
-      bvModalEvt.preventDefault();
-
-      // Sale si el form no es valido:
-      if (!this.ComprobarModalAgregarDia()) {
-        return;
-      }
-
-      // Agrega dia:
-      this.AgregarDia(this.diaNuevo);
-
-      // Esconde modal:
-      this.$nextTick(() => {
-        this.$refs.modal_agregar_dia.hide();
-      });
-    },
 
 
-    // ++++++++++++++++++++++++++++++++ Modal Editar Dia ++++++++++++++++++++++++++++++++
+
+    // ++++++++++++++++++++++++++++++++++++++++ Modal Editar Dia ++++++++++++++++++++++++++++++++++++++++
     ComprobarModalEditarDia() {
       // Si algun rubro de diaNuevo es negativo o no es indice, regresa null:
       var dia = JSON.parse(JSON.stringify(this.diaSeleccionado));
@@ -943,7 +652,7 @@ export default {
         return;
       }
 
-      // Agrega dia:
+      // Edita dia:
       this.EditarDia(this.diaSeleccionado);
 
       // Esconde modal:
@@ -956,8 +665,73 @@ export default {
 
 
 
-    RetrasarAnimacion(milisegundosEnEspera){
+    // ++++++++++++++++++++++++++++++++++++++++ Funciones auxiliares ++++++++++++++++++++++++++++++++++++++++
+    EnviarSolicitud(){
 
+      // // Comprueba que el programa de la comision no este vacio:
+      // if(this.comision.programa.length > 0){
+      //   // Se asignan los datos del trabajador a la solicitud:
+      //   this.comision.codigoTrabajador  = this.trabajador.codigo;
+      //   this.comision.nombreSolicitante = this.trabajador.nombre;
+      //   this.comision.areaAdscripcion   = this.trabajador.areaAdscripcion;
+      //   this.comision.plazaLaboral      = this.trabajador.plazaLaboral;
+      //   this.comision.estatus           = "PE";
+      //   this.comision.fechaEnvio        = new Date().toLocaleDateString();
+
+      //   // Envia peticion al servidor para guardar la solicitud en la BD:
+
+
+      //   // Se asigna el valor de comision a comisionActiva (temporal):
+      //   estado.commit("EstablecerComisionActiva", {
+      //     comisionActiva: this.comision
+      //   });
+
+      //   // Muestra alerta:
+      //   this.mostrarAlertaSolicitudEnviada = true;
+      // }
+      // else{
+      //   // El programa de la comision esta vacio:
+      //   this.mostrarAlertaProgramaComision = true;
+      // }
+
+      console.log("ENVIADA");
+    },
+
+
+
+    InicializarTablaGastos(){
+      // Inicializa el objeto diasGastos:
+      for (let i = 0; i < this.comisionActiva.programa.length; i++) {
+        // Define dia nuevo:
+        var diaNuevo = {
+          dia: i+1,
+          alimentacion: 0,
+          hospedaje: 0,
+          transporte_foraneo: 0,
+          transporte_local: 0,
+          combustible: 0,
+          otros_conceptos: 0,
+          suma: 0
+        }
+        // Agrega dia al arreglo:
+        this.diasGastos.push(diaNuevo);
+      }
+    },
+
+
+
+    CalcularTotalSolicitado(){
+      // Calcula la suma del dia:
+      var suma = 0;
+      for (let i = 0; i < this.diasGastos.length; i++) {
+        suma += parseFloat( this.diasGastos[i].suma );
+      }
+      this.totalSolicitado = suma;
+    },
+
+
+
+    RetrasarAnimacion(milisegundosEnEspera){
       // Detiene las animaciones:
       this.animacionActiva = true;
       // Copia el objeto this a un objeto local:
@@ -966,13 +740,9 @@ export default {
       setTimeout(function () {
         data.animacionActiva = false;
       }, milisegundosEnEspera);
-
     }
 
-    
-
   }
-
 };
 </script>
 
