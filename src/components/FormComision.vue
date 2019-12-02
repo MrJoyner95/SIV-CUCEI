@@ -13,7 +13,7 @@
         <!-- <h4 align="center"> {{ titulo }} </h4> -->
 
         <div v-if="comision.folio == null">
-          <h4 align="center"> {{ titulo }} </h4>
+          <h4 align="center"> Comisión <small><b-badge pill variant="secondary">Folio pendiente</b-badge></small> </h4>
         </div>
         <div v-else-if="comision.estatus == 'NE'">
           <h4 align="center"> Comisión (folio pendiente) <small><b-badge pill variant="secondary">No enviada</b-badge></small> </h4>
@@ -34,6 +34,9 @@
           <h4 align="center"> Comisión {{ comision.folio }} <small><b-badge pill variant="secondary">Concluida</b-badge></small> </h4>
         </div>
 
+
+
+
         <div v-else>
           {{comision}}
           <h4 align="center"> ELSE </h4>
@@ -41,6 +44,9 @@
 
         <!-- <h4 align="center"> {{ titulo }} </h4>
         <b-badge variant="primary">Pendiente</b-badge> -->
+
+
+        
 
 
         <b-row class="mt-4">
@@ -995,6 +1001,7 @@ export default {
 
       // Comprueba que el programa de la comision no este vacio:
       if(this.comision.programa.length > 0){
+
         // Se asignan los datos del trabajador a la solicitud:
         this.comision.codigoTrabajador  = this.trabajador.codigo;
         this.comision.nombreSolicitante = this.trabajador.nombre;
@@ -1003,7 +1010,49 @@ export default {
         this.comision.estatus           = "PE";
         this.comision.fechaEnvio        = new Date().toLocaleDateString();
 
-        // Envia peticion al servidor para guardar la solicitud en la BD:
+
+
+        // Copia el objeto y remueve las variables innecesarias del objeto comision:
+        var comisionJson = JSON.parse( JSON.stringify(this.comision) );
+        delete comisionJson.folio;
+        delete comisionJson.fechaAutorizacion;
+        delete comisionJson.fechaConclusion;
+        delete comisionJson.estatus;
+
+
+
+        // Comparacion de objetos:
+        console.log( "Comision objeto:", this.comision );
+        console.log( "Comision JSON:", comisionJson );
+        
+
+
+        // Crea, define y envia peticion HTTP:
+        const request = require('request');
+
+        request(
+          {
+            url: 'http://localhost:3000/comision',
+            method: 'POST',
+            headers: {
+              name: 'content-type',
+              value: 'application/json'
+            },
+            
+            json: true,
+            body: comisionJson
+          },
+          function (error, response) {
+            if(error){
+              console.log("ERROR: ", error);
+            }
+            else{
+              console.log('Objeto JSON guardado. Respuesta del servidor: ', response);
+              console.log('Objeto JSON desde la funcion: ', comisionJson);
+            }
+          }
+        )
+
 
 
         // Se asigna el valor de comision a comisionActiva (temporal):

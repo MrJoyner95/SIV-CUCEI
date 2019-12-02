@@ -102,7 +102,7 @@
 
 
 
-        <!-- Form Comision -->
+        <!-- ++++++++++++++++++++++++++++++++++++++++ Comision Activa ++++++++++++++++++++++++++++++++++++++++ -->
         <transition enter-active-class="animated fade-in-top" leave-active-class="animated fade-out-top">
 
           <div v-if="formComisionVisible == true">
@@ -142,7 +142,7 @@
 
 
 
-        <!-- Comision Inactiva -->
+        <!-- ++++++++++++++++++++++++++++++++++++++++ Comision Inactiva ++++++++++++++++++++++++++++++++++++++++ -->
         <transition enter-active-class="animated fade-in-top" leave-active-class="animated fade-out-top">
           <div v-if="comisionInactivaVisible == true">
 
@@ -172,11 +172,11 @@
 
 
 
-        <!-- Comision autorizada (solicitud de viaticos) -->
-        <template v-if="comisionActiva != null && comisionActiva.estatus == 'AU' && formViaticosVisible == false">
+        <!-- ++++++++++++++++++++++++++++++++++++++++ Comision autorizada (solicitud de viaticos) ++++++++++++++++++++++++++++++++++++++++ -->
+        <!-- Boton para comenzar solicitud -->
+        <div v-if="comisionActiva != null && comisionActiva.estatus == 'AU' && formViaticosVisible == false">
           <hr class="mt-5">
-
-          <b-row class="mt-4" align-h="center">
+          <b-row class="mt-5" align-h="center">
             <b-col cols="4">
               <b-button 
                 block 
@@ -187,35 +187,39 @@
               </b-button>
             </b-col>
           </b-row>
+        </div>
 
-        </template>
+        <!-- Form de solicitud de viaticos -->
+        <transition enter-active-class="animated fade-in-top" leave-active-class="animated fade-out-top">
+          <div v-if="formViaticosVisible == true">
+            <hr class="mt-5">
+
+            <b-row align-h="center" class="mt-5">
+              <b-col cols="10">
+                <FormViaticos/>
+              </b-col>
+            </b-row>
+
+            <br>
+            <b-row align-h="center">
+              <b-col cols="4">
+                <b-button 
+                  block 
+                  variant="secondary" 
+                  v-on:click="formViaticosVisible = false"
+                >
+                  Ocultar formulario
+                </b-button>
+              </b-col>
+            </b-row>
+
+          </div>
+        </transition>
 
 
 
         <!-- Form Viaticos -->
-        <template v-if="formViaticosVisible == true">
-          <hr class="mt-4">
-
-          <b-row align-h="center" class="mt-5">
-            <b-col cols="10">
-              <FormViaticos/>
-            </b-col>
-          </b-row>
-
-          <br>
-          <b-row align-h="center">
-            <b-col cols="4">
-              <b-button 
-                block 
-                variant="secondary" 
-                v-on:click="formViaticosVisible = false"
-              >
-                Ocultar formulario
-              </b-button>
-            </b-col>
-          </b-row>
-
-        </template>
+        
 
           
         <!-- <br> -->
@@ -327,6 +331,10 @@ export default {
             data.comisionInactivaVisible = true;
           }, 250);
         }
+      }
+      else{
+        // Si es la misma comision inactiva, la oculta:
+        this.OcultarComisionInactiva();
       }
     },
 

@@ -1,6 +1,5 @@
 {
   "iniciarSesion": {
-
     "trabajador": {
       "codigo": "211693760",
       "tipo": "RM",
@@ -9,10 +8,8 @@
       "areaAdscripcion": "N/A",
       "token": "AAJJsasfg-1243-df-asda"
     },
-
-    "comisionActiva_X": null,
-  
-    "comisionActiva": {
+    "comisionActiva": null,
+    "comisionActiva_X": {
       "folio": "000001",
       "fechaCreacion": "31/12/2020",
       "fechaEnvio": "31/12/2020",
@@ -52,11 +49,6 @@
       "invitacionEvento": "link del archivo adjunto",
       "programaEvento": "link del archivo adjunto"
     },
-
-
-
-
-
     "historialComisiones": [
       {
         "folio": "000001",
@@ -143,11 +135,6 @@
         "programaEvento": "link del archivo adjunto"
       }
     ],
-
-
-
-
-    
     "solicitudesPendientes": [
       {
         "diasDeEspera": "8",
@@ -237,11 +224,6 @@
         "programaEvento": "link del archivo adjunto"
       }
     ],
-
-
-
-
-
     "historicoSolicitudes": [
       {
         "haceDias": "8",
@@ -331,35 +313,15 @@
         "programaEvento": "link del archivo adjunto"
       }
     ],
-
-
-
-
-
     "finanzas": {
       "division": "Electronica y Ciencias Computacionales",
       "departamento": "Ingenieria Informatica",
       "presupuesto": "50000",
       "presupuestoDisponible": "24500"
     }
-
-
-
   },
-
-
-
-
-
-
-  
-
-
-
   "buscarSolicitud": {
-
     "solicitud_X": null,
-
     "solicitud": {
       "folio": "000303",
       "fechaCreacion": "31/12/2020",
@@ -388,9 +350,6 @@
       "invitacionEvento": "link del archivo adjunto",
       "programaEvento": "link del archivo adjunto"
     },
-
-
-
     "solicitudViaticos": [
       {
         "rubro": "hospedajeAlimentacion",
@@ -423,15 +382,45 @@
         "cantidadObtenida": "0"
       }
     ]
-      
-    
-
+  },
+  "comision": {
+    "fechaCreacion": "2/12/2019",
+    "fechaEnvio": "2/12/2019",
+    "codigoTrabajador": "211693760",
+    "nombreSolicitante": "Octavio Romo",
+    "areaAdscripcion": "N/A",
+    "tipo": "extranjero",
+    "destino": "turkey",
+    "plazaLaboral": "Investigador",
+    "justificacion": "b",
+    "programaTrabajo": "b",
+    "objetivoTrabajo": "b",
+    "evento": "b",
+    "programa": [
+      {
+        "dia": "1",
+        "fecha": "2019-12-03",
+        "lugar": "b",
+        "tareas": "b"
+      },
+      {
+        "dia": "2",
+        "fecha": "2019-12-04",
+        "lugar": "c",
+        "tareas": "c"
+      }
+    ],
+    "invitacionEvento": null,
+    "programaEvento": null
+  },
+  "solicitudViaticos": {
+    "idSolicitud": null,
+    "folioComision": null,
+    "dependencia": null,
+    "invitado": null,
+    "nombreBeneficiario": null,
+    "gastos": [
+      {}
+    ]
   }
-
-  
-
-
-
-
-
 }
