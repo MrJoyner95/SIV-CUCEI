@@ -384,30 +384,30 @@
     ]
   },
   "comision": {
-    "fechaCreacion": "2/12/2019",
-    "fechaEnvio": "2/12/2019",
+    "fechaCreacion": "4/12/2019",
+    "fechaEnvio": "4/12/2019",
     "codigoTrabajador": "211693760",
     "nombreSolicitante": "Octavio Romo",
     "areaAdscripcion": "N/A",
     "tipo": "extranjero",
     "destino": "turkey",
     "plazaLaboral": "Investigador",
-    "justificacion": "b",
-    "programaTrabajo": "b",
-    "objetivoTrabajo": "b",
-    "evento": "b",
+    "justificacion": "c",
+    "programaTrabajo": "c",
+    "objetivoTrabajo": "c",
+    "evento": "c",
     "programa": [
       {
         "dia": "1",
-        "fecha": "2019-12-03",
-        "lugar": "b",
-        "tareas": "b"
-      },
-      {
-        "dia": "2",
         "fecha": "2019-12-04",
         "lugar": "c",
         "tareas": "c"
+      },
+      {
+        "dia": "2",
+        "fecha": "2019-12-05",
+        "lugar": "d",
+        "tareas": "d"
       }
     ],
     "invitacionEvento": null,
