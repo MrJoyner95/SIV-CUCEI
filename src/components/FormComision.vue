@@ -12,7 +12,8 @@
         <!-- ++++++++++++++++++++++++++++++++ Datos generales de la solicitud ++++++++++++++++++++++++++++++++ -->
         <!-- <h4 align="center"> {{ titulo }} </h4> -->
 
-        <div v-if="comision.folio == null">
+        
+        <div v-if="comision.folio == null && comision.estatus != null">
           <h4 align="center"> Comisión <small><b-badge pill variant="secondary">Folio pendiente</b-badge></small> </h4>
         </div>
         <div v-else-if="comision.estatus == 'NE'">
@@ -35,12 +36,15 @@
         </div>
 
 
-
-
         <div v-else>
+          <h4 align="center"> {{ titulo }} </h4>
+        </div>
+
+
+        <!-- <div v-else>
           {{comision}}
           <h4 align="center"> ELSE </h4>
-        </div>
+        </div> -->
 
         <!-- <h4 align="center"> {{ titulo }} </h4>
         <b-badge variant="primary">Pendiente</b-badge> -->
@@ -51,7 +55,7 @@
 
         <b-row class="mt-4">
           <b-col>
-            <div v-if="comision == null">
+            <div v-if="comision == null || comision.folio == null">
               <h6 align="right"> Folio de comisión: (pendiente) </h6>
             </div>
             <div v-else>
