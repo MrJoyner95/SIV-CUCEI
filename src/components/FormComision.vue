@@ -1034,6 +1034,9 @@ export default {
         // Crea, define y envia peticion HTTP:
         const request = require('request');
 
+        // url: 'http://localhost:3300/api/comisiones/CrearComision',
+        // url: 'http://localhost:9000/comision',
+
         request(
           {
             url: 'http://localhost:9000/comision',
