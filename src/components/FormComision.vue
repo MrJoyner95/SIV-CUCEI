@@ -283,14 +283,14 @@
             >
               <b-form-select v-model="comision.tipo" :disabled="deshabilitado" required>
                 <option :value="null" disabled>Seleccione un tipo</option>
-                <option value="nacional">Nacional</option>
-                <option value="extranjero">Extranjero</option>
+                <option value="1">Nacional</option>
+                <option value="0">Extranjero</option>
               </b-form-select>
             </b-form-group>
           </b-col>
         </b-row>
 
-        <b-row class="mt-2">
+        <!-- <b-row class="mt-2">
           <b-col cols="8">
             <b-form-group
               label-cols-sm="4"
@@ -314,7 +314,69 @@
               </b-form-select>
             </b-form-group>
           </b-col>
-        </b-row>
+        </b-row> -->
+
+
+
+
+
+
+
+
+        <!-- Destinos de la comision -->
+          <b-row class="mt-2">
+            <b-col cols="8">
+              <b-form-group
+                label-cols-sm="4"
+                label="Destino de la comisión:"
+                label-for="destinoComision-input"
+              >
+
+                <!-- Destinos nacionales -->
+                <template v-if="comision.tipo == 1">
+                  <b-form-select 
+                    v-model="comision.destino" 
+                    :options="listaDestinosNacionales"
+                    class="mb-3" 
+                    :disabled="deshabilitado" 
+                    required
+                  >
+                    <option :value="null" :disabled="true">Seleccione un municipio</option>
+                  </b-form-select>
+                </template>
+
+                <!-- Destinos internacionales -->
+                <template v-else-if="comision.tipo == 0">
+                  <b-form-select 
+                    v-model="comision.destino" 
+                    :options="listaDestinosInternacionales"
+                    class="mb-3" 
+                    :disabled="deshabilitado" 
+                    required
+                  >
+                    <option :value="null" :disabled="true">Seleccione un país</option>
+                  </b-form-select>
+                </template>
+
+                <!-- Sin destinos -->
+                <template v-else>
+                  <b-form-select 
+                    v-model="comision.destino" 
+                    class="mb-3" 
+                    :disabled="true" 
+                    required
+                  >
+                  </b-form-select>
+                </template>
+                
+              </b-form-group>
+            </b-col>
+          </b-row>
+
+
+
+
+
 
         <b-row>
           <b-col cols="8">
@@ -846,6 +908,8 @@ export default {
     ...mapState({
       comisionActiva: "comisionActiva",
       trabajador: "trabajador",
+      destinosInternacionales: "destinosInternacionales",
+      destinosNacionales: "destinosNacionales"
     })
   },
 
@@ -922,6 +986,28 @@ export default {
       // Modals Dia:
       estadoModalAgregarDia: null,
       estadoModalEditarDia: null,
+
+      // Opciones de paises y estados:
+      listaDestinosInternacionales: [
+        {
+          label: "America",
+          options: [
+            { value: "USA", text: "Estados Unidos de America", disabled: false },
+            { value: "CND", text: "Canada", disabled: false }
+          ]
+        }
+      ],
+
+      listaDestinosNacionales: [
+        {
+          label: "Zapopan",
+          options: [
+            { value: "ZAP", text: "Zapopan", disabled: false },
+            { value: "GDL", text: "Guadalajara", disabled: false }
+          ]
+        }
+      ],
+
     }
   },
 
@@ -940,6 +1026,11 @@ export default {
     // if(this.comisionActiva != null){
     //   this.comision = this.comisionActiva;
     // }
+
+
+    // console.log(this.destinosNacionales);
+    // console.log(this.destinosInternacionales);
+
   },
 
   methods:{

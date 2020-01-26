@@ -9,6 +9,11 @@ export default new Vuex.Store({
     correo: 'null',
     // Profesor:
 
+    // ++++++++++++++++++++++++++++++++ Variables Globales ++++++++++++++++++++++++++++++++
+    _Servidor: "http://localhost:9000",
+
+
+
     // ++++++++++++++++++++++++++++++++ Login ++++++++++++++++++++++++++++++++
     trabajador: null,
     // trabajador: {
@@ -43,6 +48,12 @@ export default new Vuex.Store({
     // },
 
     historialComisiones: null,
+
+
+
+    // ++++++++++++++++++++++++++++++++ Viaticos ++++++++++++++++++++++++++++++++
+    destinosInternacionales: null,
+    destinosNacionales: null,
 
 
 
@@ -111,6 +122,17 @@ export default new Vuex.Store({
 
 
 
+    // ++++++++++++++++++++++++++++++++ Viaticos ++++++++++++++++++++++++++++++++
+    EstablecerDestinosInternacionales(state, payload){
+      state.destinosInternacionales = payload.destinosInternacionales;
+    },
+
+    EstablecerDestinosNacionales(state, payload){
+      state.destinosNacionales = payload.destinosNacionales;
+    },
+
+
+
     // Rangos Medios y Directivos:
     EstablecerSolicitudesPendientes(state, payload){
       state.solicitudesPendientes = payload.solicitudesPendientes;
@@ -120,7 +142,7 @@ export default new Vuex.Store({
       state.historicoSolicitudes = payload.historicoSolicitudes;
     },
 
-    
+
 
     // Rectora:
     EstablecerSolicitudesSinResolver(state, payload){
